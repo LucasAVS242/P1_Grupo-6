@@ -17,3 +17,14 @@ nav ul li a {
     text-decoration: none;
     color: #fff;
 }
+
+nav :hover {
+    color: #ff6600;
+}
+
+body{
+    font-family: Helvetica,Arial;
+    color: #333;
+    padding-left: 4%;
+    padding-right: 4%;
+}
