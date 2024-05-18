@@ -17,3 +17,7 @@ nav ul li a {
     text-decoration: none;
     color: #fff;
 }
+
+nav :hover {
+    color: #ff6600;
+}
