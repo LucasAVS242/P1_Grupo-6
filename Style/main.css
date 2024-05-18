@@ -28,3 +28,7 @@ body{
     padding-left: 4%;
     padding-right: 4%;
 }
+table, th, td {
+    border: 1px solid;
+    border-collapse: collapse;  
+  }
