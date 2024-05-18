@@ -16,6 +16,43 @@
             <li><a href="#">Contato</a></li>
         </ul>
     </nav>
+
+    <main>
+        <h1>Justificativa de Faltas</h1>
+        <form action="" method="post">
+            <label for="nome">Nome: </label>
+            <input type="text" name="nome" id="nome">
+            <label for="matricula">Mátricula: </label>
+            <input type="text" name="matricula" id="matricula">
+            <br>
+            <p>FUNÇÃO: Professor de Ensino Superior REGIME JURÍDICO: CLT</p>
+            <label for="cursos">CURSO(S) ENVOLVIDO(S) NA AUSÊNCIA: </label>
+            <input type="checkbox" name="cursos" id="cursos">CST-DSM
+            <input type="checkbox" name="cursos" id="cursos">CST-GE
+            <input type="checkbox" name="cursos" id="cursos">CST-GPI
+            <input type="checkbox" name="cursos" id="cursos">CST-GTI
+            <input type="checkbox" name="cursos" id="cursos">HAE
+            <br>
+            <p><label for="data">Falta referente ao dia:</label>
+            <input type="date" name="data" id="data"> ou
+            Período de
+            <input type="number">
+            dias:
+            <input type="text" placeholder="_/_/2024">
+            até
+            <input type="text" placeholder="_/_/2024">
+            </p>
+            <p>*Assinalar um item e anexar o comprovante, devendo ser o original entregue na sede e a cópia simples nas unidades de ampliação
+                (desde que acompanhada do original para conferência)</p>
+            <h4>1 – LICENÇA E FALTA MÉDICA</h2>
+                <ol type="a">
+                    <li><input type="radio" name="faltaMedica" id="faltaMedica">Falta Médica (Atestado médico de 1 dia).</li>
+                    <li><input type="radio" name="faltaMedica" id="faltaMedica">Comparecimento ao Médico no período das <input type="time" name="tempoInicio" id="tempoInicio"> às <input type="time" name="tempoFinal" id="tempoFinal">.</li>
+                    <li><input type="radio" name="faltaMedica" id="faltaMedica">Licença-Saúde (Atestado médico igual ou superior a 2 dias).</li>
+                    <li><input type="radio" name="faltaMedica" id="faltaMedica">Licença-Maternidade. (Atestado médico até 15 dias).</li>
+                </ol>
+        </form>
+    </main>
 </body>
 
 </html>
