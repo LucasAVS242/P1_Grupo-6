@@ -21,3 +21,8 @@ nav ul li a {
 nav :hover {
     color: #ff6600;
 }
+
+body{
+    font-family: Helvetica,Arial,sans-serif;
+    color: #333;
+}
