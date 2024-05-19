@@ -33,3 +33,12 @@ table, th, td {
     border-collapse: collapse;
     text-align: center; 
   }
+
+
+  input{
+    border: none;
+  }
+
+  table{
+    width: 100%;
+  }
