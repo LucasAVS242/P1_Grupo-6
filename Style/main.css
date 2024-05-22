@@ -42,3 +42,10 @@ table, th, td {
   table{
     width: 100%;
   }
+
+  select, option{
+    border: none;
+    background-color: white;
+    
+
+  }
