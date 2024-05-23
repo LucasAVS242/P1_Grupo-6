@@ -6,7 +6,7 @@ class tabela extends HTMLElement {
 
   connectedCallback() {
     this.innerHTML = `
-        <select name="tabela" id="tabela">
+        <select style="width: 100%; text-align: center" name="tabela" id="tabela">
             <option value=""></option>
             <option value="X">X</option>
             <option value="HAE">HAE</option>
