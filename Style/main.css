@@ -1,8 +1,9 @@
 /* Estilos para o menu */
 nav {
-    background-color: #333;
+    background-color: #e74343;
     color: #fff;
     padding: 10px;
+    font-weight: bold;
 }
 nav ul {
     list-style: none;
@@ -19,7 +20,7 @@ nav ul li a {
 }
 
 nav :hover {
-    color: #ff6600;
+    color: #301d1060;
 }
 
 body{
@@ -31,7 +32,8 @@ body{
 table, th, td {
     border: 1px solid;
     border-collapse: collapse;
-    text-align: center; 
+    text-align: center;
+     
   }
 
 
@@ -41,6 +43,7 @@ table, th, td {
 
   table{
     width: 100%;
+    
   }
 
   select, option{
@@ -49,3 +52,15 @@ table, th, td {
     
 
   }
+
+  @media (max-width: 600px) {
+    table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+
+    }
+    
+  }
+
+  
