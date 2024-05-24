@@ -14,6 +14,18 @@
             border: black 2px solid;
             padding: 2%;
         }
+        section{
+            border: black 2px solid;
+            padding: 1%;
+            margin: 2%;
+        }
+
+        .center-block {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+
     </style>
 </head>
 
@@ -27,7 +39,7 @@
         </ul>
     </nav>
 
-    <main>
+    <main id="justificativa">
         <h1>Justificativa de Faltas</h1>
         <form action="" method="post">
             <label for="nome"><strong>Nome:</strong> </label>
@@ -44,7 +56,7 @@
             <input type="checkbox" name="cursos" id="cursos">HAE </strong>
             <br>
             <p><label for="data">Falta referente ao dia:</label>
-            <input type="date" name="data" id="data"> ou
+            <input type="date" name="diaFalta" id="diaFalta"> ou
             Período de
             <input type="number">
             dias:
@@ -103,17 +115,27 @@
                         do Trabalho (Enunciado TST nº 155). (Horas necessárias).</li>
                     <li><input type="radio" name="faltaPrevista" id="faltaPrevista">Atrasos decorrentes de acidente</li>
                 </ol>
-                <p>Itapira, ____/____/_____.</p>
-                <p>Assinatura do Servidor</p>
-                <p>Campos Exclusivos para o Superior Imediato</p>
-                <input type="checkbox" id="defiro" name="defiro"> <label for="defiro">Defiro</label>
-                <input type="checkbox" id="indefiro" name="indefiro"> <label for="indefiro">Indefiro</label>
-                <p>Motivo:</p>
-                <textarea id="motivo" name="motivo" rows="4"></textarea>
-                <p>Luiz Henrique Biazotto</p>
-                <p>Diretor da Fatec Ogari de Castro Pacheco</p>
-                <p>Recebido no Setor Administrativo em: ____/____/______. Por: _____________________________________</p>
-            <input type="submit" value="Enviar">
+
+                <br>
+
+                <p>Itapira, <input type="date" name="data" id="data">.</p>
+                <input class="center-block" type="text" name="assServidor" id="assServidor" size="50">
+                <p style="text-align: center;"><b>Assinatura do Servidor</b></p>
+
+                <section>
+                    <p style="text-align: center;">Campos Exclusivos para o Superior Imediato</p>
+                    <input type="radio" id="defere" name="defere"> <label for="defere">Defiro</label>
+                    <input type="radio" id="defere" name="defere"> <label for="defere">Indefiro</label>
+                    <p><strong>Motivo:</strong></p>
+                    <textarea id="motivo" name="motivo" rows="4" cols="70"></textarea>
+                    <strong><p>Luiz Henrique Biazotto</p>
+                    <p>Diretor da Fatec Ogari de Castro Pacheco</p></strong>
+                </section>
+                
+                <section>
+                <p><strong>Recebido no Setor Administrativo em: <input type="date" name="dataRecebida" id="dataRecebida"> Por: <input type="text"></strong></p>
+            </section>
+            <input class="botao" type="submit" value="Enviar">
         </form>
     </main>
 </body>

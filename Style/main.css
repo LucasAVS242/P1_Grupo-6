@@ -1,7 +1,8 @@
 /* Estilos para o menu */
 nav {
-    background-color: #e74343;
+    background-color: #a90e0b;
     color: #fff;
+    border-radius: 5px;
     padding: 10px;
     font-weight: bold;
 }
@@ -63,4 +64,22 @@ table, th, td {
     
   }
 
-  
+.botao {
+  cursor: pointer;
+  color: #fff;
+  background-color: #a90e0b;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.botao:hover {
+  cursor: pointer;
+  color: #ffffffd5;
+  background-color: #8a0c0a;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+button {
+  border: none;
+}
