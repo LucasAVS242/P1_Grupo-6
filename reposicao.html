@@ -8,7 +8,7 @@
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="stylesheet" type="text/css" href="Style/main.css">
     <script src="Components/tabela.js" type="text/javascript" defer></script>
-    
+
 
 </head>
 
@@ -29,14 +29,20 @@
             <table>
                 <thead>
                     <tr>
-                        <th colspan="2"><img height="110px" width="120px" src="images/cps-logo-sf.png">
-                        <img height="140px" width="160px" src="images/gov-sf.png"></th>
-                        <th><b style="text-decoration: underline;">PLANO - REPOSIÇÃO/SUBSTITUIÇÃO DE AULAS</b><br>
-                        <b>NÚMERO:</b><input type="number"><br>
-                        <b>REPOSIÇÂO MÊS:</b><input type="number"></th>
+                        <th style="width: 50%;"colspan="2"><img height="110px" width="120px"
+                                src="images/cps-logo-sf.png">
+                            <img height="140px" width="160px" src="images/gov-sf.png">
+                        </th>
+                        <th style="text-align: left; padding-left: 1%;">
+                            <h3 style="text-decoration: underline; text-align: center;">PLANO - REPOSIÇÃO/SUBSTITUIÇÃO
+                                DE AULAS</h3><br>
+                            <p  style="text-align: left;">NÚMERO:<input style="width: 7%; border-bottom: solid thin;" type="number" min="1" max="31"  step="1">/<input style="width: 15%;  border-bottom: solid thin;" type="number" min="1950" max="2100"  step="1"></p> 
+                            <p  style="text-align: left;">REPOSIÇÂO MÊS:<input style="border-bottom: thin solid; width: 100px;" type="month"/></p>
+                        </th>
                     </tr>
                     <tr>
-                        <th style="text-align: left; padding-left: 1%;" colspan="3">NOME DO PROFESSOR: <input type="text"></th>
+                        <th style="text-align: left; padding-left: 1%;" colspan="3">NOME DO PROFESSOR: <input
+                                type="text"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -606,22 +612,21 @@
                     </tbody>
                 </table>
                 <b>Observe as exigências legais:</b>máximo 8 horas diárias de trabalho, intervalo de 1 Hora
-                   entre um expediente e outro e 6 horas em cada expediente.
-                   <table>
+                entre um expediente e outro e 6 horas em cada expediente.
+                <table>
                     <tr style="height: 90px;">
                         <td style="width: 30%;">Entrega na Administração<br>
-                        Recebido em: <input type="date"></td>
+                            Recebido em: <input type="date"></td>
                         <td>Por: <input style="border-bottom: solid thin;  width: 70%;" type="text"><br>
-                        Assinatura</td>
+                            Assinatura</td>
                         <td style="vertical-align:bottom;text-align:center;">Carimbo</td>
                     </tr>
-                   </table>
+                </table>
+                <input class="botao" type="submit" value="Enviar">
 
 
 
-
-
-
+               
 
 
 
