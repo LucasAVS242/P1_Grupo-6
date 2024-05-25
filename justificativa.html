@@ -8,25 +8,26 @@
     <link rel="stylesheet" type="text/css" href="Style/main.css">
 
     <style>
-        input{
+        input {
             border-bottom: solid thin;
         }
-        form{
+    
+        form {
             border: black 2px solid;
             padding: 2%;
         }
-        section{
+    
+        section {
             border: black 2px solid;
             padding: 1%;
             margin: 2%;
         }
-
+    
         .center-block {
-  display: block;
-  margin-right: auto;
-  margin-left: auto;
-}
-
+            display: block;
+            margin-right: auto;
+            margin-left: auto;
+        }
     </style>
 </head>
 
@@ -44,7 +45,7 @@
         <h1>Justificativa de Faltas</h1>
         <form action="" method="post">
             <label for="nome"><strong>Nome:</strong> </label>
-            <input type="text" name="nome" id="nome" required>
+            <input type="text" name="nome" id="nome" size="40" required>
             <label for="matricula"><strong>Mátricula:</strong> </label>
             <input type="number" name="matricula" id="matricula" maxlength="5" required>
             <br>
@@ -139,6 +140,16 @@
             <input class="botao" type="submit" value="Enviar">
         </form>
     </main>
+
+    <script>
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+        const day = String(currentDate.getDate()).padStart(2, '0');
+
+        const dateInput = document.getElementById('data');
+        dateInput.value = `${year}-${month}-${day}`;
+    </script>
 </body>
 
 </html>
