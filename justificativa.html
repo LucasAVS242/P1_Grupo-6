@@ -153,9 +153,8 @@
 
                 <br>
 
-                <p>Itapira, <input type="date" name="data" id="data">.</p>
-                <input class="center-block" style="width: 50%;" type="text" name="assServidor" id="assServidor"
-                    size="50">
+                <p>Itapira, <input type="date" name="data" id="data" disabled>.</p>
+                <hr class="center-block" style="width: 50%;">
                 <p style="text-align: center;"><b>Assinatura do Servidor</b></p>
 
                 <section>
@@ -175,10 +174,17 @@
                                 id="dataRecebida"> Por: <input type="text"></strong></p>
                 </section>
                 <input class="botao" type="submit" value="Enviar">
+                <button id="gerarPDF" class="botao">Gerar PDF do documento</button>
+                <input class="botao" type="file" id="documentos">
+
+                
+
         </form>
     </main>
 
     <script>
+
+        // Código para preencher com a data corrente
         const currentDate = new Date();
         const year = currentDate.getFullYear();
         const month = String(currentDate.getMonth() + 1).padStart(2, '0');
@@ -186,6 +192,18 @@
 
         const dateInput = document.getElementById('data');
         dateInput.value = `${year}-${month}-${day}`;
+
+        // Código para gerar PDF
+        var button = document.getElementById("gerarPDF");
+        var makepdf = document.getElementById("justificativa");
+        button.addEventListener("click", function () {
+            var mywindow = window.open("", "PRINT", "height=600,width=600");
+            mywindow.document.write(makepdf.innerHTML);
+            mywindow.document.close();
+            mywindow.focus();
+            mywindow.print();
+            return true;
+        });
     </script>
 </body>
 
