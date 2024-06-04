@@ -21,17 +21,17 @@
             <li><a href="#">Contato</a></li>
         </ul>
     </nav>
-    <main id="reposicao" style="padding-left: 9%; padding-right: 9%; padding-top: 3%;">
+    <main id="reposicao" style="padding-left: 4%; padding-right: 4%; padding-top: 3%;">
 
 
-        <form>
+        <form id="form">
 
             <table>
                 <thead>
                     <tr>
-                        <th style="width: 50%;" colspan="2"><img height="110px" width="120px"
+                        <th style="width: 50%;" colspan="2"><img height="100px" width="110px"
                                 src="images/cps-logo-sf.png">
-                            <img height="140px" width="160px" src="images/gov-sf.png">
+                            <img height="120px" width="140px" src="images/gov-sf.png">
                         </th>
                         <th style="text-align: left; padding-left: 1%;">
                             <h3 style="text-decoration: underline; text-align: center;">PLANO - REPOSIÇÃO/SUBSTITUIÇÃO
@@ -627,27 +627,39 @@
                     </tr>
                 </table>
                 <input class="botao" type="submit" value="Enviar">
-                
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                <button id="gerarPDF" class="botao" onclick="printForm()">Gerar PDF do documento</button>
+      
 
 
         </form>
     </main>
+
+
+
+
+
+
+
+
+
+
+    <script>
+               
+        // Código para gerar PDF
+        function printForm() {
+            const form = document.getElementById('form');
+            const body = document.body;
+            const originalContent = body.innerHTML;
+
+            body.innerHTML = '';
+            body.appendChild(form);
+
+            window.print();
+
+            body.innerHTML = originalContent;
+        }
+    </script>
+    
 </body>
 
 </html>
