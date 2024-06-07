@@ -24,7 +24,7 @@
     <main id="reposicao" style="padding-left: 4%; padding-right: 4%; padding-top: 3%;">
 
 
-        <form id="form">
+        <form name="repo" id="repo">
 
             <table>
                 <thead>
@@ -48,7 +48,7 @@
                         <th style="text-align: left; padding-left: 1%;" colspan="3">NOME DO PROFESSOR: <input
                                 type="text"></th>
                     </tr>
-                </thead>
+             </thead>
                 <tbody>
                     <tr>
                         <th>
@@ -72,7 +72,7 @@
                     </tr>
 
                 </tbody>
-
+            </table>
 
                 <table>
 
@@ -176,7 +176,7 @@
                                 Itapira<br>
                                 <b>(Somente data anterior à aula não ministrada)</b>
                             </td>
-                            <td><input style="border-bottom: solid thin; width: 70%;" type="text"><br>
+                            <td><hr class="center-block" style="width: 70%;">
                                 <b>Assinatura do Professor</b>
                             </td>
                         </tr>
@@ -186,7 +186,7 @@
                                 <input type="checkbox" name="7rep" id="rep">Reprovado <br>
                                 Motivo do Indeferimento: <br>
                                 Itapira,<input type="date">
-                            <td><input style="border-bottom: solid thin;  width: 70%;" type="text"><br>
+                            <td><hr class="center-block" style="width: 70%;">
                                 <b>Assinatura do coordenador</b>
                             </td>
                             </td>
@@ -203,8 +203,8 @@
                             <td style="width: 40%;">Itapira,<input type="date"><br>
                                 <b>(Somente data posterior à aula reposta).</b>
                             </td>
-                            <td style="width: 40%;"><input style="border-bottom: solid thin;  width: 70%;"
-                                    type="text"><br>
+                            <td style="width: 40%;">
+                                <hr class="center-block" style="width: 70%;">
                                 <b>Assinatura do Coordenador</b>
                             </td>
                             <td style="vertical-align:bottom;text-align:center;">Carimbo</td>
@@ -526,26 +526,26 @@
                                 <tabela-component></tabela-component>
                             </td>
                         </tr>
-                        <td>19h - 20h</td>
-                        <td>19h00m - 19h50m</td>
-                        <td>
-                            <tabela-component></tabela-component>
-                        </td>
-                        <td>
-                            <tabela-component></tabela-component>
-                        </td>
-                        <td>
-                            <tabela-component></tabela-component>
-                        </td>
-                        <td>
-                            <tabela-component></tabela-component>
-                        </td>
-                        <td>
-                            <tabela-component></tabela-component>
-                        </td>
-                        <td>
-                            <tabela-component></tabela-component>
-                        </td>
+                            <td>19h - 20h</td>
+                            <td>19h00m - 19h50m</td>
+                            <td>
+                                <tabela-component></tabela-component>
+                            </td>
+                            <td>
+                                <tabela-component></tabela-component>
+                            </td>
+                            <td>
+                                <tabela-component></tabela-component>
+                            </td>
+                            <td>
+                                <tabela-component></tabela-component>
+                            </td>
+                            <td>
+                                <tabela-component></tabela-component>
+                            </td>
+                            <td>
+                                <tabela-component></tabela-component>
+                            </td>
                         </tr>
                         <tr>
                             <td>20h - 21h</td>
@@ -621,7 +621,7 @@
                     <tr style="height: 90px;">
                         <td style="width: 30%;">Entrega na Administração<br>
                             Recebido em: <input type="date"></td>
-                        <td>Por: <input style="border-bottom: solid thin;  width: 70%;" type="text"><br>
+                        <td>Por: <input style="border-bottom: solid thin;  width: 70%;" type="text" disabled><br>
                             Assinatura</td>
                         <td style="vertical-align:bottom;text-align:center;">Carimbo</td>
                     </tr>
@@ -647,7 +647,7 @@
                
         // Código para gerar PDF
         function printForm() {
-            const form = document.getElementById('form');
+            const form = document.getElementById('repo');
             const body = document.body;
             const originalContent = body.innerHTML;
 
