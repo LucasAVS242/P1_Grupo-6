@@ -4,9 +4,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Justificativa de faltas e plano de reposição</title>
+  <title>Área do coordenador</title>
   <link rel="icon" type="image/x-icon" href="images/favicon.ico">
   <link rel="stylesheet" type="text/css" href="Style/main.css" />
+  <script src="https://kit.fontawesome.com/26c14cdb57.js" crossorigin="anonymous"></script>
+
+  <style>
+    thead {
+      color: #fff;
+      background-color: #a90e0b;
+    }
+  </style>
 </head>
 
 <body>
@@ -29,8 +37,11 @@
         <tr>
           <td>Nome</td>
           <td>Matrícula</td>
+          <td>Assunto</td>
           <td>Data de envio</td>
-          <td>Visualizar documentos</td>
+          <td>Documentos</td>
+          <td>Aprovação</td>
+          <td>Observação</td>
         </tr>
       </thead>
     
@@ -38,8 +49,11 @@
         <tr>
           <td>Hans Eli Sebastian Fors</td>
           <td>12345</td>
+          <td>Justificativa de falta</td>
           <td>12/06/2024</td>
-          <td><button class="botao">Visualizar</button></td>
+          <td><button class="botao" title="Visualizar documentos"><i class="fa-solid fa-file-contract"></i></button></td>
+          <td><button class="botao" style="background-color: green;" title="Aprovar"><i class="fa-solid fa-check"></i></button> <button class="botao" style="background-color: red;" title="Rejeitar"><i class="fa-solid fa-x"></i></button></td>
+          <td><button class="botao" title="Adicionar observação"><i class="fa-solid fa-comment"></i></button></td>
         </tr>
       </tbody>
     </table>
