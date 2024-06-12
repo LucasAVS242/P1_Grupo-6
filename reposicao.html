@@ -8,6 +8,11 @@
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="stylesheet" type="text/css" href="Style/main.css">
     <script src="Components/tabela.js" type="text/javascript" defer></script>
+    <style>
+        body{
+           font-size: 14px;
+        }
+    </style>
 
 
 </head>
@@ -21,7 +26,7 @@
             <li><a href="andamento.html">Andamento</a></li>
         </ul>
     </nav>
-    <main id="reposicao" style="padding-left: 4%; padding-right: 4%; padding-top: 3%;">
+    <main id="reposicao" style="padding-left: 12%; padding-right: 12%; padding-top: 3%;">
 
 
         <form name="repo" id="repo">
@@ -29,13 +34,14 @@
             <table>
                 <thead>
                     <tr>
-                        <th style="width: 50%;" colspan="2"><img height="100px" width="110px"
+                        <th style="width: 50%;" colspan="2"><!--<img height="100px" width="110px"
                                 src="images/cps-logo-sf.png">
-                            <img height="120px" width="140px" src="images/gov-sf.png">
+                            <img height="120px" width="140px" src="images/gov-sf.png">-->
+                            <h3 style="text-decoration: underline; text-align: center;">PLANO - REPOSIÇÃO/SUBSTITUIÇÃO
+                                DE AULAS</h3>
                         </th>
                         <th style="text-align: left; padding-left: 1%;">
-                            <h3 style="text-decoration: underline; text-align: center;">PLANO - REPOSIÇÃO/SUBSTITUIÇÃO
-                                DE AULAS</h3><br>
+                            <br>
                             <p style="text-align: left;">NÚMERO:<input style="width: 7%; border-bottom: solid thin;"
                                     type="number" min="1" max="31" step="1">/<input
                                     style="width: 15%;  border-bottom: solid thin;" type="number" min="1950" max="2100"
@@ -126,9 +132,9 @@
                     <tr>
                         <th>Ordem</th>
                         <th>Data da Reposição</th>
-                        <th>Horário de Início e Término</th>
+                        <th  style=" width: 30%;">Horário de Início e Término</th>
                         <th>Disciplina(s)</th>
-                        <th style="font-weight: bold;">*Assinatura de Confirmação de Reposição</th>
+                        <th style=" width: 30%;">*Assinatura de Confirmação de Reposição</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -627,14 +633,14 @@
                     <td style="vertical-align:bottom;text-align:center;">Carimbo</td>
                 </tr>
             </table>
-            <input class="botao" type="submit" value="Enviar">
-            <button id="gerarPDF" class="botao" onclick="printForm()">Gerar PDF do documento</button>
+            
 
 
 
         </form>
     </main>
-
+    <input class="botao" type="submit" value="Enviar">
+            <button id="gerarPDF" class="botao" onclick="printForm()">Gerar PDF do documento</button>
 
 
 
