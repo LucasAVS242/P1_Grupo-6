@@ -2,7 +2,6 @@
 nav {
     background-color: #a90e0b;
     color: #fff;
-    border-radius: 5px;
     padding: 10px;
     font-weight: bold;
 }
@@ -27,9 +26,18 @@ nav :hover {
 body{
     font-family: Helvetica,Arial;
     color: #333;
-    padding-left: 4%;
-    padding-right: 4%;
+    min-height: 100vh;
+    margin: 0;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    
 }
+
+main{
+  padding-left: 4%;
+  padding-right: 4%;
+}
+
 table, th, td {
     border: 1px solid;
     border-collapse: collapse;
@@ -39,7 +47,12 @@ table, th, td {
 
 
   input{
-    border: none;
+    border: 0;
+    outline: 0;
+    border-width: 0; 
+    box-shadow: none;
+    text-align: center;
+    
   }
 
   table{
@@ -96,4 +109,13 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+footer {
+ 
+  text-align: center;
+  background-color: #921210;
+  color: white;
+  padding: 5%;
+  margin-top: 4%;
 }
