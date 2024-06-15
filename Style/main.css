@@ -2,7 +2,6 @@
 nav {
     background-color: #a90e0b;
     color: #fff;
-    border-radius: 5px;
     padding: 10px;
     font-weight: bold;
 }
@@ -27,6 +26,10 @@ nav :hover {
 body{
     font-family: Helvetica,Arial;
     color: #333;
+    min-height: 100vh;
+    margin: 0;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
     
 }
 
@@ -113,4 +116,6 @@ footer {
   text-align: center;
   background-color: #a90e0b;
   color: white;
+  padding: 5%;
+  margin-top: 4%;
 }
