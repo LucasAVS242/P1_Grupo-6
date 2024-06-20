@@ -10,10 +10,9 @@
     <script src="Components/footer.js" type="text/javascript" defer></script>
     <script src="Components/tabela.js" type="text/javascript" defer></script>
     <style>
-        main{
-           font-size: 14px;
+        main {
+            font-size: 14px;
         }
-       
     </style>
 
 
@@ -26,8 +25,9 @@
             <li><a href="justificativa.html">Justificativa de Faltas</a></li>
             <li><a href="reposicao.html">Plano de Reposição</a></li>
             <li><a href="status.html">Status</a></li>
-            <li style="float: right;"><a style="text-decoration-line: underline;" href="status.html">Area do Professor</a></li>
-            <li style="float: right;" ><a href="PagCoord.html">Area do Coordenador</a></li>
+            <li style="float: right;"><a style="text-decoration-line: underline;" href="status.html">Area do
+                    Professor</a></li>
+            <li style="float: right;"><a href="PagCoord.html">Area do Coordenador</a></li>
         </ul>
     </nav>
     <main id="reposicao" style="padding-left: 12%; padding-right: 12%; padding-top: 3%;">
@@ -51,19 +51,19 @@
                 <tbody>
                     <tr>
                         <th>
-                            <p>1) Curso</p><label for="curso" name="curso"></label>
+                            <p>Curso</p><label for="curso" name="curso"></label>
                             <input type="checkbox" name="curso" id="curso">GPI
                             <input type="checkbox" name="curso" id="curso">GTI
                             <input type="checkbox" name="curso" id="curso">GE
                         </th>
                         <th>
-                            <p>2) Turno</p><label for="turno" name="turno"></label>
+                            <p>Turno</p><label for="turno" name="turno"></label>
                             <input type="checkbox" name="turno" id="turno">Manhã
                             <input type="checkbox" name="turno" id="turno">Tarde
                             <input type="checkbox" name="turno" id="turno">Noite
                         </th>
                         <th>
-                            <p>3) Reposição en virtude de:</p> <label for="reposicao" name="reposicao"></label>
+                            <p>Reposição en virtude de:</p> <label for="reposicao" name="reposicao"></label>
                             <input type="checkbox" name="reposicao" id="reposicao">Claro Docente
                             <input type="checkbox" name="reposicao" id="reposicao">Falta
                             <input type="checkbox" name="reposicao" id="reposicao">Substituição
@@ -73,11 +73,11 @@
                 </tbody>
             </table>
 
-            <table>
+            <table style="margin-top: 10px;">
 
                 <thead>
                     <tr>
-                        <th colspan="4"><label for="aulaministrada" name="aulaministrada">4)Dados da(s) aulas não
+                        <th style="background-color: rgba(224, 224, 224, 0.514);" colspan="4"><label for="aulaministrada" name="aulaministrada">Dados da(s) aulas não
                                 ministradas</label></th>
                     </tr>
                     <tr>
@@ -115,17 +115,17 @@
                 </tbody>
             </table>
 
-            <table style="margin-top: 12px;">
+            <table style="margin-top: 10px;">
 
                 <thead>
                     <tr>
-                        <th colspan="4"><label for="aulareposicao" name="aulareposicao">5)Dados da(s) aulas de
+                        <th style="background-color: rgba(224, 224, 224, 0.514);" colspan="4">Dados da(s) aulas de
                                 reposição</label></th>
                     </tr>
                     <tr>
                         <th>Ordem</th>
                         <th>Data da Reposição</th>
-                        <th  style=" width: 40%;">Horário de Início e Término</th>
+                        <th style=" width: 40%;">Horário de Início e Término</th>
                         <th>Disciplina(s)</th>
                     </tr>
                 </thead>
@@ -135,53 +135,42 @@
                         <td><input type="date"></td>
                         <td><input type="time"> as <input type="time"></td>
                         <td><input type="text"></td>
-                       
+
                     </tr>
                     <tr>
                         <td>02</td>
                         <td><input type="date"></td>
                         <td><input type="time"> as <input type="time"></td>
                         <td><input type="text"></td>
-                       
+
                     </tr>
                     <tr>
                         <td>03</td>
                         <td><input type="date"></td>
                         <td><input type="time"> as <input type="time"></td>
                         <td><input type="text"></td>
-                       
+
                     </tr>
                     <tr>
                         <td>04</td>
                         <td><input type="date"></td>
                         <td><input type="time"> as <input type="time"></td>
                         <td><input type="text"></td>
-                        
+
                     </tr>
                 </tbody>
             </table>
 
-
-            <table style="margin-top: 12px;">
-                <tbody>
-                    <tr style="height: 90px;">
-                        <td style="width: 50%;"><b>6)Entregue na Coordenação em: </b><input style="font-weight: bold;" type="date" name="data" id="data" disabled>,
-                            Itapira<br>
-                            <b>(Somente data anterior à aula não ministrada)</b>
-                        </td>
-                        <td><b>7)Parecer do coordenador:</b><input type="checkbox" name="7Auto" id="7auto">Autorizado
-                            <input type="checkbox" name="7rep" id="rep">Reprovado <br>
-                            Itapira,<input type="date">
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <b>8) Represente no quadro:</b>(<b>X</b>) as Aulas, (<b>HAE</b>) Hora Atividade Específica e (<b>R</b>)
-            Reposição proposta
-
-            <table>
+            <table style="margin-top: 10px;">
                 <thead>
+                    <tr>
+                        <td style="background-color: rgba(224, 224, 224, 0.514);" colspan="9">
+                            <b>Represente no quadro:</b>(<b>X</b>) as Aulas, (<b>HAE</b>) Hora Atividade Específica e
+                            (<b>R</b>)
+                            Reposição proposta
+                        </td>
+                    </tr>
+
                     <tr>
                         <th></th>
                         <th><b>HAE-RJI-JORNADA</b></th>
@@ -581,14 +570,30 @@
                 </tbody>
             </table>
             <b>Observe as exigências legais:</b>máximo 8 horas diárias de trabalho, intervalo de 1 Hora
-            entre um expediente e outro e 6 horas em cada expediente.
-            
-            
+            entre um expediente e outro e 6 horas em cada expediente.</b>
+
+            <table>
+                <tbody>
+                    <tr style="height: 90px;">
+                        <td style="width: 70%;"><b>Entregue na Coordenação em: </b><input style="font-weight: bold;"
+                                type="date" name="data" id="data" disabled>,
+                            Itapira<br>
+                            <b>(Somente data anterior à aula não ministrada)</b>
+                        </td>
+                        <td><b>Parecer do coordenador:</b><br><input type="checkbox" name="7Auto" id="7auto">Autorizado
+                            <input type="checkbox" name="7rep" id="rep">Reprovado
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
         </form>
         <input style="margin: 1%;" class="botao" type="submit" value="Enviar">
-            <button id="gerarPDF" class="botao" onclick="printForm()">Gerar PDF do documento</button>
+        <button id="gerarPDF" class="botao" onclick="printForm()">Gerar PDF do documento</button>
     </main>
-   
+
     <footer-component></footer-component>
 
 
@@ -599,7 +604,7 @@
 
     <script>
         // Código para preencher com a data corrente
-            function formatDate(date) {
+        function formatDate(date) {
             const year = date.getFullYear();
             const month = String(date.getMonth() + 1).padStart(2, '0');
             const day = String(date.getDate()).padStart(2, '0');
