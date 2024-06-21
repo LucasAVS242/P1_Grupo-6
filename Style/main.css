@@ -52,6 +52,7 @@ table, th, td {
     border-width: 0; 
     box-shadow: none;
     text-align: center;
+    background: transparent;
     
   }
 
