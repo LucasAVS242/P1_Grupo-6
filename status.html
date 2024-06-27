@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Justificativa de faltas e plano de reposição</title>
+  <title>Status - Área do Professor</title>
   <link rel="icon" type="image/x-icon" href="images/favicon.ico">
   <link rel="stylesheet" type="text/css" href="Style/main.css" />
   <script src="Components/footer.js" type="text/javascript" defer></script>
@@ -29,8 +29,8 @@
         <li><a href="justificativa.html">Justificativa de Faltas</a></li>
         <li><a href="reposicao.html">Plano de Reposição</a></li>
         <li><a href="status.html">Status</a></li>
-        <li style="float: right;"><a style="text-decoration-line: underline;" href="status.html">Area do Professor</a></li>
-        <li style="float: right;" ><a href="PagCoord.html">Area do Coordenador</a></li>
+        <li style="float: right;"><a style="text-decoration-line: underline;" href="status.html">Área do Professor</a></li>
+        <li style="float: right;" ><a href="PagCoord.html">Área do Coordenador</a></li>
     </ul>
 </nav>
 </header>
@@ -60,8 +60,8 @@
           <td>Engenharia de Software</td>
           <td>24/06/2024</td>
           <td><button class="botao" title="Visualizar documentos" onclick=""><i class="fa-solid fa-file-contract"></i></button></td>
-          <td>Pendente</td>
-          <td><button class="botao" title="Adicionar observação" onclick="openModal('observacao')"><i class="fa-solid fa-comment"></i></button></td>
+          <td style="color: #fff; background-color: rgb(209, 198, 47);"><b><i class="fa-solid fa-circle-exclamation"></i> Pendente</b></td>
+          <td><button class="botao" title="Visualizar observação" onclick="openModal('observacao')"><i class="fa-solid fa-comment"></i></button></td>
           
         </tr>
        
@@ -73,8 +73,8 @@
           <td>Engenharia de Software</td>
           <td>06/06/2024</td>
           <td><button class="botao" title="Visualizar documentos" onclick=""><i class="fa-solid fa-file-contract"></i></button></td>
-          <td>Aprovado</td>
-          <td><button class="botao" title="Adicionar observação" onclick="openModal('observacao')"><i class="fa-solid fa-comment"></i></button></td>
+          <td style="color: #fff; background-color: rgb(3, 139, 3);"><b><i class="fa-solid fa-circle-check"></i> Aprovada</b></td>
+          <td><button class="botao" title="Visualizar observação" onclick="openModal('observacao')"><i class="fa-solid fa-comment"></i></button></td>
           
         </tr>
 
@@ -85,8 +85,8 @@
           <td>Engenharia de Software</td>
           <td>04/06/2024</td>
           <td><button class="botao" title="Visualizar documentos" onclick=""><i class="fa-solid fa-file-contract"></i></button></td>
-          <td>Aprovado</td>
-          <td><button class="botao" title="Adicionar observação" onclick="openModal('observacao')"><i class="fa-solid fa-comment"></i></button></td>
+          <td style="color: #fff; background-color: rgb(177, 7, 7);"><b><i class="fa-solid fa-circle-xmark"></i> Rejeitada</b></td>
+          <td><button class="botao" title="Visualizar observação" onclick="openModal('observacao')"><i class="fa-solid fa-comment"></i></button></td>
           
         </tr>
      

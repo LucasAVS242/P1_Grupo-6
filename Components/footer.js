@@ -27,7 +27,7 @@ class footer extends HTMLElement {
 
 
       <div class="item item-5">
-        <h3>Area do Professor</h3>
+        <h3>Área do Professor</h3>
         
           <a href="status.html"><p>Status</p></a>
           <a href="justificativa.html"><p>Justificativa de Faltas</p></a>
