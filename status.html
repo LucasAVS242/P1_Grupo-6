@@ -8,6 +8,8 @@
   <link rel="icon" type="image/x-icon" href="images/favicon.ico">
   <link rel="stylesheet" type="text/css" href="Style/main.css" />
   <script src="Components/footer.js" type="text/javascript" defer></script>
+  <script src="Components/footer.js" type="text/javascript" defer></script>
+  <script src="Components/modal.js" type="text/javascript" defer></script>
   <script src="https://kit.fontawesome.com/26c14cdb57.js" crossorigin="anonymous"></script>
 
   <style>
@@ -41,22 +43,66 @@
       <tr>
         <td style="width: 12%;">Nº da requisição</td>
         <td>Tipo</td>
+        <td>Curso</td>
+        <td>Disciplina</td>
         <td>Data de envio</td>
         <td>Visualizar Documento</td>
         <td>Status</td>
+        <td>Observação</td>
       </tr>
     </thead>
       <tbody>
         <tr>
           <td>01</td>
           <td>Justificativa</td>
+          <td>DSM</td>
+          <td>Engenharia de Software</td>
           <td>04/06/2024</td>
           <td><button class="botao" title="Visualizar documentos"><i class="fa-solid fa-file-contract"></i></button></td>
           <td>Pendente</td>
+          <td><button class="botao" title="Adicionar observação" onclick="openModal('observacao')"><i class="fa-solid fa-comment"></i></button></td>
+          
         </tr>
+        
       </tbody>
   </table>
     
+
+<!-- Modal para confirmar aprovação da requisição -->
+<div id="modalAprovar" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <p>Você tem certeza que deseja aprovar essa requisição?</p>
+    <div class="button-container">
+      <button onclick="aprovarSim()">Sim</button>
+      <button onclick="closeModal()">Não</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para confirmar rejeição da requisição -->
+<div id="modalRejeitar" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <p>Você tem certeza que deseja rejeitar essa requisição?</p>
+    <div class="button-container">
+      <button onclick="rejeitarSim()">Sim</button>
+      <button onclick="closeModal()">Não</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para adicionar uma observação -->
+<div id="modalObservacao" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <p>Observações do Coordenador</p>
+    <textarea name="observacao" id="observacao" cols="40" rows="10"></textarea>
+    <div class="button-container">
+      <button onclick="closeModal()">Fechar</button>
+    </div>
+  </div>
+</div>
 
 
 
