@@ -23,7 +23,7 @@ class footer extends HTMLElement {
       <div class="item item-4">
         <h3>Área do Coordenador</h3>
         
-          <a href="PagCoord.html">Lista de Requisições</a>
+          <a href="PagCoord.html"><p>Lista de Requisições</p></a>
         
       </div>
 
@@ -31,9 +31,9 @@ class footer extends HTMLElement {
       <div class="item item-5">
         <h3>Area do Professor</h3>
         
-          <a href="status.html">Status</a><br>
-          <a href="justificativa.html">Justificativa de Faltas</a><br>
-          <a href="reposicao.html">Plano de Reposição</a>
+          <a href="status.html"><p>Status</p></a>
+          <a href="justificativa.html"><p>Justificativa de Faltas</p></a>
+          <a href="reposicao.html"><p>Plano de Reposição</p></a>
         
       </div>
 
