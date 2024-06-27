@@ -174,13 +174,17 @@ footer {
   text-align: center;
   background-color: #921210;
   color: white;
-  padding: 25px;
   margin-top: 4%;
 }
 
 footer h3{
   text-decoration: underline;
 }
+
+footer img { 
+  width: 100%; 
+  height: auto;
+ }
 
 footer ul li{
   list-style: none;
@@ -189,10 +193,10 @@ footer ul li{
 
 .container {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
 }
 
 .item-1{
-  flex-shrink: 0;
-}
+   flex-basis: 180px;
 
+}

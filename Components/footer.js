@@ -6,27 +6,29 @@ class footer extends HTMLElement {
 
   connectedCallback() {
     this.innerHTML = `
-  <footer>
-
+        <footer>
+    
     <div class="container">
 
-      <div class="item item-1"></div>
+      <div class="item item-1"> <img src="images/logo_fatec_br.png"> </div>
 
-      <div class="item item-2"><a href="index.html">
+      
+
+      <div class="item item-3"><a href="index.html">
           <h3>Inicio</h3>
         </a>
       </div>
 
 
-      <div class="item item-3">
-        <h3>Area do Coordenador</h3>
+      <div class="item item-4">
+        <h3>Área do Coordenador</h3>
         <ul>
-          <a href="PagCoord.html"><li>Status</li></a>
+          <a href="PagCoord.html"><li>Lista de Requisições</li></a>
         </ul>
       </div>
 
 
-      <div class="item item-4">
+      <div class="item item-5">
         <h3>Area do Professor</h3>
         <ul>
           <a href="status.html">
@@ -38,6 +40,8 @@ class footer extends HTMLElement {
               <li>Plano de Reposição</l1></a>
         </ul>
       </div>
+
+      <div class="item item-6"></div>
 
     </div>
 
