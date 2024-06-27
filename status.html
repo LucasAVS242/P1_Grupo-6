@@ -17,6 +17,10 @@
       color: #fff;
       background-color: #a90e0b;
     }
+
+    textarea {
+      resize: none;
+    }
   </style>
   
 </head>
@@ -119,12 +123,12 @@
   </div>
 </div>
 
-<!-- Modal para adicionar uma observação -->
+<!-- Modal para visualizar uma observação -->
 <div id="modalObservacao" class="modal">
   <div class="modal-content">
     <span class="close" onclick="closeModal()">&times;</span>
     <p>Observações do Coordenador</p>
-    <textarea name="observacao" id="observacao" cols="40" rows="10"></textarea>
+    <textarea name="observacao" id="observacao" cols="40" rows="10" readonly></textarea>
     <div class="button-container">
       <button onclick="closeModal()">Fechar</button>
     </div>
