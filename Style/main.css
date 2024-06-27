@@ -1,5 +1,5 @@
 /* Estilos para o menu */
-nav {
+nav,footer {
     background-color: #a90e0b;
     color: #fff;
     padding: 15px;
@@ -21,6 +21,15 @@ nav ul li a {
 
 nav :hover {
     color: #301d1060;
+}
+
+footer a {
+  text-decoration: none;
+  color: #fff;
+}
+
+footer a:hover {
+  color: #301d1060;
 }
 
 body{
@@ -165,7 +174,20 @@ footer {
   text-align: center;
   background-color: #921210;
   color: white;
-  padding: 5%;
+  padding: 35px;
   margin-top: 4%;
 }
 
+footer h3{
+  text-decoration: underline;
+}
+
+
+.container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.item-1{
+  flex-shrink: 0;
+}
