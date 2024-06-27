@@ -10,13 +10,11 @@ class footer extends HTMLElement {
     
     <div class="container">
 
-      <div class="item item-1"> <img src="images/logo_fatec_br.png"> </div>
+      <div class="item item-1"><a href="index.html"><img src="images/logo_fatec_br.png"></a></div>
 
       
 
-      <div class="item item-3"><a href="index.html">
-          <h3>Inicio</h3>
-        </a>
+      <div class="item item-3">
       </div>
 
 
