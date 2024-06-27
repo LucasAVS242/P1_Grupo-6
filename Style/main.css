@@ -186,8 +186,7 @@ footer img {
   height: auto;
  }
 
-footer ul li{
-  list-style: none;
+footer a{
   text-align:center;
 }
 

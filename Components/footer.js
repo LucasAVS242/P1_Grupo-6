@@ -22,23 +22,19 @@ class footer extends HTMLElement {
 
       <div class="item item-4">
         <h3>Área do Coordenador</h3>
-        <ul>
-          <a href="PagCoord.html"><li>Lista de Requisições</li></a>
-        </ul>
+        
+          <a href="PagCoord.html">Lista de Requisições</a>
+        
       </div>
 
 
       <div class="item item-5">
         <h3>Area do Professor</h3>
-        <ul>
-          <a href="status.html">
-            <li>Status</li>
-          </a>
-          <l1><a href="justificativa.html">
-              <li>Justificativa de Faltas</l1></a>
-          <l1><a href="reposicao.html">
-              <li>Plano de Reposição</l1></a>
-        </ul>
+        
+          <a href="status.html">Status</a><br>
+          <a href="justificativa.html">Justificativa de Faltas</a><br>
+          <a href="reposicao.html">Plano de Reposição</a>
+        
       </div>
 
       <div class="item item-6"></div>
