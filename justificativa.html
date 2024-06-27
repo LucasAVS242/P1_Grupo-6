@@ -7,6 +7,7 @@
     <title>Formulário de justificativa de faltas</title>
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <script src="Components/footer.js" type="text/javascript" defer></script>
+    <script src="Components/validacao.js" type="text/javascript" defer></script>
     <link rel="stylesheet" type="text/css" href="Style/main.css">
 
     <style>
@@ -52,11 +53,12 @@
 
     <main class="center-block" id="justificativa">
         <h1>Justificativa de Faltas</h1>
-        <form id="form" action="" method="post">
+        <form id="form" action="" method="post" onsubmit=" return validarForm()">
             <label for="nome"><strong>Nome:</strong> </label>
-            <input type="text" name="nome" id="nome" size="40" required>
+            <input type="text" name="nome" id="nome" size="40" onblur="validarNome()" required>
+            <span id="error-message" style="color: red;"></span>
             <label for="matricula"><strong>Mátricula:</strong> </label>
-            <input type="number" name="matricula" id="matricula" maxlength="5" required>
+            <input type="text" name="matricula" id="matricula" maxlength="5" onblur="validarMatricula()" required>
             <br>
             <p><strong>FUNÇÃO:</strong> Professor de Ensino Superior <strong>REGIME JURÍDICO:</strong> CLT</p>
             <strong><label for="cursos">CURSO(S) ENVOLVIDO(S) NA AUSÊNCIA: </label>
