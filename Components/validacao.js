@@ -41,6 +41,7 @@ function validarMatricula() {
 // Validação do formulário
 function validarForm() {
     erro = false
+    erroMatricula = false
     if (nome.value.trim() === "") { 
         nome.style.background = "yellow"; 
         erro = true;
@@ -50,15 +51,41 @@ function validarForm() {
     } 
     else {
         if (isNaN(matricula.value) === true) { 
-            erro = true;
+            erroMatricula = true;
         } else {
             var nQtd = matricula.value; 
             if (!/^\d{5}$/.test(nQtd)) { 
-                erro = true;
+                erroMatricula = true;
             } 
         } 
     }
-    if (erro == true) {
+
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const mensagemErro = document.getElementById('mensagemErro');
+    let isChecked = false;
+
+    checkboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+            isChecked = true;
+        }
+    });
+
+    if (!isChecked) {
+        mensagemErro.textContent = "Por favor selecione pelo menos 1 curso.";
+        erro = true;
+    }
+    else {
+        mensagemErro.textContent = "";
+        erro = false;
+    }
+
+    var MotivoFalta = document.querySelector('input[name="motivoFalta"]:checked');
+    if (MotivoFalta == null) {
+        alert("Selecione o motivo da falta!")
+        return false;
+    }
+    
+    if (erro == true || erroMatricula == true) {
         alert("Não foi possível enviar o formulário! Reveja se os campos foram preenchidos corretamente.")
         return false;
     }

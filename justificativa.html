@@ -56,7 +56,6 @@
         <form id="form" action="" method="post" onsubmit=" return validarForm()">
             <label for="nome"><strong>Nome:</strong> </label>
             <input type="text" name="nome" id="nome" size="40" onblur="validarNome()" required>
-            <span id="error-message" style="color: red;"></span>
             <label for="matricula"><strong>Mátricula:</strong> </label>
             <input type="text" name="matricula" id="matricula" maxlength="5" onblur="validarMatricula()" required>
             <br>
@@ -67,94 +66,95 @@
                 <input type="checkbox" name="cursos" id="cursos">CST-GPI
                 <input type="checkbox" name="cursos" id="cursos">CST-GTI
                 <input type="checkbox" name="cursos" id="cursos">HAE </strong>
+                <span id="mensagemErro" style="color: red; padding-left: 1%;"></span>
             <br>
             <p><label for="data">Falta referente ao dia:</label>
                 <input type="date" name="diaFalta" id="diaFalta"> ou
                 Período de
-                <input type="number">
+                <input type="number" name="qtdDias" id="qtdDias">
                 dias:
-                <input type="date">
+                <input type="date" name="faltaInicio" id="faltaInicio">
                 até
-                <input type="date">
+                <input type="date" name="faltaFim" id="faltaFim">
             </p>
             <p>*Assinalar um item e anexar o comprovante, devendo ser o original entregue na sede e a cópia simples nas
                 unidades de ampliação
                 (desde que acompanhada do original para conferência)</p>
             <h4>1 – LICENÇA E FALTA MÉDICA</h2>
                 <ol type="a">
-                    <li><input type="radio" name="faltaMedica" id="faltaMedica">Falta Médica (Atestado médico de 1 dia).
+                    <li><input type="radio" name="motivoFalta" id="motivoFalta">Falta Médica (Atestado médico de 1 dia).
                     </li>
-                    <li><input type="radio" name="faltaMedica" id="faltaMedica">Comparecimento ao Médico no período das
-                        <input type="time" name="tempoInicio" id="tempoInicio"> às <input type="time" name="tempoFinal"
+                    <li><input type="radio" name="motivoFalta" id="motivoFalta">Comparecimento ao Médico no período das
+                        <input type="time" name="motivoFalta" id="motivoFalta"> às <input type="time" name="tempoFinal"
                             id="tempoFinal">.
                     </li>
-                    <li><input type="radio" name="faltaMedica" id="faltaMedica">Licença-Saúde (Atestado médico igual ou
+                    <li><input type="radio" name="motivoFalta" id="motivoFalta">Licença-Saúde (Atestado médico igual ou
                         superior a 2 dias).</li>
-                    <li><input type="radio" name="faltaMedica" id="faltaMedica">Licença-Maternidade. (Atestado médico
+                    <li><input type="radio" name="motivoFalta" id="motivoFalta">Licença-Maternidade. (Atestado médico
                         até 15 dias).</li>
                 </ol>
                 <h4>2 – FALTA INJUSTIFICADA (Com desconto do Descanso Semanal Remunerado – DSR) (Preenchimento Exclusivo
                     do Superior Imediato)</h4>
                 <ol type="a">
-                    <li><input type="radio" name="faltaInjustificada" id="faltaInjustificada">Falta</li>
-                    <li><input type="radio" name="faltaInjustificada" id="faltaInjustificada">Atraso ou Saída
+                    <li><input type="radio" name="motivoFalta" id="motivoFalta">Falta</li>
+                    <li><input type="radio" name="motivoFalta" id="motivoFalta">Atraso ou Saída
                         Antecipada, das <input type="time" name="tempoInicio" id="tempoInicio"> às <input type="time"
                             name="tempoFinal" id="tempoFinal">.</li>
                 </ol>
                 <h4>3 – FALTAS JUSTIFICADAS (Se deferido, não implicam em desconto do Descanso Semanal Remunerado – DSR)
                 </h4>
                 <ol type="a">
-                    <li><input type="radio" name="faltaJustificada" id="faltaJustificada">Falta por motivo de: <input
+                    <li><input type="radio" name="motivoFalta" id="motivoFalta">Falta por motivo de: <input
                             type="text"></li>
-                    <li><input type="radio" name="faltaJustificada" id="faltaJustificada">Atraso ou Saída Antecipada,
+                    <li><input type="radio" name="motivoFalta" id="motivoFalta">Atraso ou Saída Antecipada,
                         das <input type="time" name="tempoInicio" id="tempoInicio"> às <input type="time"
                             name="tempoFinal" id="tempoFinal">, por motivo de <input type="text"></li>
                 </ol>
                 <h4>4 – FALTAS PREVISTAS NA LEGISLAÇÃO TRABALHISTA</h4>
                 <ol type="a">
-                    <li><input type="radio" name="faltaPrevista" id="faltaPrevista">Falecimento de cônjuge, pai, mãe,
+                    <li><input type="radio" name="motivoFalta" id="motivoFalta">Falecimento de cônjuge, pai, mãe,
                         filho. (9
                         dias consecutivos).</li>
-                    <li><input type="radio" name="faltaPrevista" id="faltaPrevista">Falecimento ascendente (exceto pai e
+                    <li><input type="radio" name="motivoFalta" id="motivoFalta">Falecimento ascendente (exceto pai e
                         mãe),
                         descendente (exceto filho), irmão ou pessoa declarada na CTPS, que viva sob sua
                         dependência econômica. (2 dias consecutivos).</li>
-                    <li><input type="radio" name="faltaPrevista" id="faltaPrevista">Casamento. (9 dias consecutivos).
+                    <li><input type="radio" name="motivoFalta" id="motivoFalta">Casamento. (9 dias consecutivos).
                     </li>
-                    <li><input type="radio" name="faltaPrevista" id="faltaPrevista"> Nascimento de filho, no decorrer da
+                    <li><input type="radio" name="motivoFalta" id="motivoFalta"> Nascimento de filho, no decorrer da
                         primeira
                         semana. (5 dias).
                     </li>
-                    <li><input type="radio" name="faltaPrevista" id="faltaPrevista">Acompanhar esposa ou companheira no
+                    <li><input type="radio" name="motivoFalta" id="motivoFalta">Acompanhar esposa ou companheira no
                         período de
                         gravidez, em consultas médicas e exames complementares. (Até 2 dias)</li>
-                    <li><input type="radio" name="faltaPrevista" id="faltaPrevista">Acompanhar filho de até 6 anos em
+                    <li><input type="radio" name="motivoFalta" id="motivoFalta">Acompanhar filho de até 6 anos em
                         consulta
                         médica. (1 dia por ano).</li>
-                    <li><input type="radio" name="faltaPrevista" id="faltaPrevista">Doação voluntária de sangue. (1 dia
+                    <li><input type="radio" name="motivoFalta" id="motivoFalta">Doação voluntária de sangue. (1 dia
                         em cada 12
                         meses de trabalho).</li>
-                    <li><input type="radio" name="faltaPrevista" id="faltaPrevista">Alistamento como eleitor. (Até 2
+                    <li><input type="radio" name="motivoFalta" id="motivoFalta">Alistamento como eleitor. (Até 2
                         dias
                         consecutivos ou não).</li>
-                    <li><input type="radio" name="faltaPrevista" id="faltaPrevista"> Convocação para depoimento
+                    <li><input type="radio" name="motivoFalta" id="motivoFalta"> Convocação para depoimento
                         judicial.</li>
-                    <li><input type="radio" name="faltaPrevista" id="faltaPrevista">Comparecimento como jurado no
+                    <li><input type="radio" name="motivoFalta" id="motivoFalta">Comparecimento como jurado no
                         Tribunal do Júri.
                     </li>
-                    <li><input type="radio" name="faltaPrevista" id="faltaPrevista">Convocação para serviço eleitoral.
+                    <li><input type="radio" name="motivoFalta" id="motivoFalta">Convocação para serviço eleitoral.
                     </li>
-                    <li><input type="radio" name="faltaPrevista" id="faltaPrevista">Dispensa dos dias devido à nomeação
+                    <li><input type="radio" name="motivoFalta" id="motivoFalta">Dispensa dos dias devido à nomeação
                         para compor
                         as mesas receptoras ou juntas eleitorais nas eleições ou requisitado para
                         auxiliar seus trabalhos (Lei nº 9.504/97).</li>
-                    <li><input type="radio" name="faltaPrevista" id="faltaPrevista">Realização de Prova de Vestibular
+                    <li><input type="radio" name="motivoFalta" id="motivoFalta">Realização de Prova de Vestibular
                         para ingresso
                         em estabelecimento de ensino superior</li>
-                    <li><input type="radio" name="faltaPrevista" id="faltaPrevista">Comparecimento necessário como parte
+                    <li><input type="radio" name="motivoFalta" id="motivoFalta">Comparecimento necessário como parte
                         na Justiça
                         do Trabalho (Enunciado TST nº 155). (Horas necessárias).</li>
-                    <li><input type="radio" name="faltaPrevista" id="faltaPrevista">Atrasos decorrentes de acidente</li>
+                    <li><input type="radio" name="motivoFalta" id="motivoFalta">Atrasos decorrentes de acidente</li>
                 </ol>
 
                 <br>
