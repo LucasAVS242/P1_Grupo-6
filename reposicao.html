@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="Style/main.css">
     <script src="Components/footer.js" type="text/javascript" defer></script>
     <script src="Components/tabela.js" type="text/javascript" defer></script>
+    <script src="Components/validacao.js" type="text/javascript" defer></script>
     
 
 
@@ -41,7 +42,7 @@
                     </tr>
                     <tr>
                         <th style="text-align: left; padding-left: 1%;" colspan="3">NOME DO PROFESSOR: <input
-                                type="text"></th>
+                                type="text" name="nome" id="nome" onblur="validarNome()"></th>
                     </tr>
                 </thead>
                 <tbody>
