@@ -8,7 +8,7 @@ class footer extends HTMLElement {
     this.innerHTML = `
         <footer>
     
-    <div class="container">
+    <div class="container-footer">
 
       <div class="item item-1"><a href="index.html"><img src="images/logo_fatec_br.png"></a></div>
 

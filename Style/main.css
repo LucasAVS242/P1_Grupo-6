@@ -47,14 +47,6 @@ main{
   padding-right: 4%;
 }
 
-table, th, td {
-    border: 1px solid;
-    border-collapse: collapse;
-    text-align: center;
-     
-  }
-
-
   input{
     border: 0;
     outline: 0;
@@ -62,11 +54,6 @@ table, th, td {
     box-shadow: none;
     text-align: center;
     background: transparent;
-    
-  }
-
-  table{
-    width: 100%;
     
   }
 
@@ -191,7 +178,7 @@ footer a{
   
 }
 
-.container {
+.container-footer {
   display: flex;
   justify-content: space-between;
 }
@@ -200,4 +187,19 @@ footer a{
    flex-basis: 200px;
    padding: 1%;
 
+}
+
+.form-check{
+  border-style:solid;
+  border-color: #a90e0b;
+  border-width: 10%;
+
+
+  
+}
+
+legend{
+  background-color: #a90e0b;
+  color: white;
+  font-weight: bolder;
 }
