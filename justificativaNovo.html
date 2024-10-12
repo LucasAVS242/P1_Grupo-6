@@ -158,22 +158,20 @@
 
 
             <script>
+                // Mostra as opções baseado no motivo da falta
                 document.getElementById('motivo').addEventListener('change', function () {
-                    var selectedValue = this.value; // Get the selected option value
-                    var divs = document.querySelectorAll('.motivoDiv'); // Select all divs with class 'motivoDiv'
+                    var selectedValue = this.value;
+                    var divs = document.querySelectorAll('.motivoDiv');
 
-                    // Hide all divs first
                     divs.forEach(function (div) {
                         div.hidden = true;
                     });
 
-                    // Show the div corresponding to the selected value
                     var divToShow = document.getElementById(selectedValue);
                     if (divToShow) {
-                        divToShow.hidden = false; // Show the div
+                        divToShow.hidden = false;
                     }
                 });
-
             </script>
 
             <br>
