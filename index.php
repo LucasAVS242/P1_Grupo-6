@@ -1,3 +1,8 @@
+<?php
+session_start();
+?>
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -26,9 +31,12 @@
   <header>
     <nav>
       <ul>
-        <li><a href="index.html">Início</a></li>
+        <li><a href="index.php">Início</a></li>
+        <li style="float: right;"><a href="auth/logout.php">Sair</a></li>
+
         <li style="float: right;"><a href="status.html">Área do Professor</a></li>
         <li style="float: right;"><a href="PagCoord.html">Área do Coordenador</a></li>
+        
 
       </ul>
     </nav>

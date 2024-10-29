@@ -1,34 +1,41 @@
 <?php
-include 'conexao.php';
+include '../conexao.php';
+session_start();
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $motivo = $_POST['motivoFalta'];
-    $arquivo = $_FILES['arquivo'];
-    $data_envio = date('Y-m-d');
-    $cursos = $_POST['cursos'];
-
+function fazerUpload($arquivo)
+{
     if ($arquivo['error'] === UPLOAD_ERR_OK) {
         $nomeArquivo = uniqid() . "-" . $arquivo['name'];
-        move_uploaded_file($arquivo['tmp_name'], "uploads/$nomeArquivo");
-
-
-        if ($_POST['diaFalta'] == null) {
-            $faltaInicio = $_POST['faltaInicio'];
-            $faltaFim = $_POST['faltaFim'];
-            $qtde_dias = $_POST['qtdDias'];
-            $stmt = $conn->prepare("INSERT INTO tb_formsJustificativa (id_usuario, data_envio, motivo, qtde_dias, data_inicio, data_final, nome_arquivo, status) VALUES (?, ?,?,?, ?, ?, ?, 'PENDENTE')");
-            $stmt->execute([$_SESSION['id_usuario'], $data_envio, $motivo, $qtde_dias, $faltaInicio, $faltaFim, $nomeArquivo]);
-        } else {
-            $falta = $_POST['diaFalta'];
-            $stmt = $conn->prepare("INSERT INTO tb_formsJustificativa (id_usuario, data_envio, motivo, qtde_dias, data_inicio, data_final, nome_arquivo, status) VALUES (?, ?,?, ?, ?, ?, ?, 'PENDENTE')");
-            $stmt->execute([$_SESSION['id_usuario'], $data_envio, $motivo, 1, $falta, $falta, $nomeArquivo]);
-        }
-        $ultimoid = $conn->lastInsertId();
-        foreach ($cursos as $curso) {
-            $stmt = $conn->prepare("INSERT INTO tb_cursosFalta(id_curso, id_formJustificativa) VALUES (?, ?)");
-            $stmt->execute([$curso, $ultimoid]);
+        if (move_uploaded_file($arquivo['tmp_name'], "../uploads/$nomeArquivo")) {
+            return $nomeArquivo;
         }
     }
+}
+
+function setFormJustificativa($conn, $curso, $data_envio, $motivo, $faltaInicio, $faltaFim, $nomeArquivo)
+{
+    $stmt = $conn->prepare("INSERT INTO tb_formsJustificativa (id_usuario, id_curso, data_envio, motivo, data_inicio, data_final, nome_arquivo, status, observacoes_coordenador) VALUES (?, ?, ?, ?, ?, ?, ?, 'PENDENTE', ' ')");
+    $stmt->execute([$_SESSION['id_usuario'], $curso, $data_envio, $motivo, $faltaInicio, $faltaFim, $nomeArquivo]);
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $selectFaltaMedica = $_POST['selectFaltaMedica'];
+    $selectFaltaLT = $_POST['selectFaltaLT'];
+
+    if (!$selectFaltaMedica) {
+        $motivo = $selectFaltaLT;
+    } else {
+        $motivo = $selectFaltaMedica;
+    }
+
+    $arquivo = $_FILES['arquivo'];
+    $data_envio = date('Y-m-d');
+    $curso = $_POST['cursos'];
+    $faltaInicio = $_POST['faltaInicio'];
+    $faltaFim = $_POST['faltaFim'];
+    $nomeArquivo = fazerUpload($arquivo);
+
+    setFormJustificativa($conn, $curso, $data_envio, $motivo, $faltaInicio, $faltaFim, $nomeArquivo);
 }
 ?>
 
@@ -40,15 +47,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulário de justificativa de faltas - Área do Professor</title>
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-    <script src="Components/footer.js" type="text/javascript" defer></script>
-    <script src="Components/validacao.js" type="text/javascript" defer></script>
-    <link rel="stylesheet" type="text/css" href="Style/main.css">
+    <script src="../Components/footer.js" type="text/javascript" defer></script>
+    <script src="../Components/validacao.js" type="text/javascript" defer></script>
+    <link rel="stylesheet" type="text/css" href="../Style/main.css">
 
     <style>
         input {
@@ -102,10 +109,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <nav>
         <ul>
-            <li><a href="index.html">Início</a></li>
-            <li><a href="justificativa.html">Justificativa de Faltas</a></li>
-            <li><a href="reposicao.html">Plano de Reposição</a></li>
-            <li><a href="status.html">Status</a></li>
+            <li><a href="../index.php">Início</a></li>
+            <li><a href="justificativa.php">Justificativa de Faltas</a></li>
+            <li><a href="reposicao.php">Plano de Reposição</a></li>
+            <li><a href="status.php">Status</a></li>
             <li style="float: right;"><a style="text-decoration-line: underline;" href="status.html">Área do
                     Professor</a></li>
             <li style="float: right;"><a href="PagCoord.html">Área do Coordenador</a></li>
@@ -117,32 +124,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="row justify-content-center">
                 <div class="col-md-10">
                     <h1 style="text-align: center;">Justificativa de Faltas</h1>
-                    <form id="form" method="POST" enctype="multipart/form-data" onsubmit="validarSelecao(event)">
+                    <form id="form" method="post" enctype="multipart/form-data" onsubmit="validarSelecao(event)">
                         <div class="mb-3">
 
-                            <label><strong>Nome:</strong> </label>
+                            <p></p><label><strong>Nome:</strong> </label>
                             <?= $_SESSION['nome'] ?>
                             <label><strong>Mátricula:</strong> </label>
-                            <?= $_SESSION['matricula'] ?>
-                            <br>
+                            <?= $_SESSION['matricula'] ?></p>
+                            
                             <p><strong>FUNÇÃO:</strong> Professor de Ensino Superior <strong>REGIME JURÍDICO:</strong> CLT</p>
                             <strong><label>CURSO(S) ENVOLVIDO(S) NA AUSÊNCIA: </label>
-                                <input class="form-check-input" type="checkbox" name="cursos[]" id="cst-dsm" value="1"> CST-DSM
-                                <input class="form-check-input" type="checkbox" name="cursos[]" id="cst-ge" value="2"> CST-GE
-                                <input class="form-check-input" type="checkbox" name="cursos[]" id="cst-gpi" value="3"> CST-GPI
-                                <input class="form-check-input" type="checkbox" name="cursos[]" id="cst-gti" value="4"> CST-GTI
-                                <input class="form-check-input" type="checkbox" name="cursos[]" id="hae" value="HAE"> HAE </strong>
-                            <span id="mensagemErro" style="color: red; padding-left: 1%;"></span>
+                                <input class="form-check-input" type="checkbox" name="cursos" id="cst-dsm" value="1" onclick="onlyOne(this)"> CST-DSM
+                                <input class=" form-check-input" type="checkbox" name="cursos" id="cst-ge" value="2" onclick="onlyOne(this)"> CST-GE
+                                <input class=" form-check-input" type="checkbox" name="cursos" id="cst-gpi" value="3" onclick="onlyOne(this)"> CST-GPI
+                                <input class=" form-check-input" type="checkbox" name="cursos" id="cst-gti" value="4" onclick="onlyOne(this)"> CST-GTI
+                                <!-- <input class=" form-check-input" type="checkbox" name="cursos" id="hae" value="HAE"> HAE -->
+                            </strong>
+                                <span id="mensagemErro" style="color: red; padding-left: 1%;"></span>
 
                             <br>
 
-                            <p><label for="diaFalta">Falta referente ao dia:</label>
+                            <!-- <p><label for="diaFalta">Falta referente ao dia:</label>
                                 <input type="date" name="diaFalta" id="diaFalta"><br> ou<br>
                                 Período de
                                 <input type="number" name="qtdDias" id="qtdDias">
                                 dias:
                                 <input type="date" name="faltaInicio" id="faltaInicio">
                                 até
+                                <input type="date" name="faltaFim" id="faltaFim">
+                            </p> -->
+
+                            <br>
+
+                            <p>
+                                <label for="faltaInicio">Período:</label>
+                                <input type="date" name="faltaInicio" id="faltaInicio">
+                                <label for="faltaFim">até</label>
                                 <input type="date" name="faltaFim" id="faltaFim">
                             </p>
 
@@ -232,7 +249,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                             <section>
                                 <p>Campo para envio de comprovante</p>
-                                <input class="botao" type="file" name="comprovante" id="arquivo" accept=".pdf" required>
+                                <input class="botao" type="file" name="arquivo" id="comprovante" accept=".pdf" required>
                             </section>
 
                             <br>
@@ -271,6 +288,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             window.print();
 
             body.innerHTML = originalContent;
+        }
+
+        // Código para selecionar apenas um checkbox
+        function onlyOne(checkbox) {
+            var checkboxes = document.getElementsByName(checkbox.name)
+            checkboxes.forEach((item) => {
+                if (item !== checkbox) item.checked = false
+            })
         }
     </script>
 </body>
