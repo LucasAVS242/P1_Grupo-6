@@ -34,7 +34,7 @@ session_start();
         <li><a href="index.php">Início</a></li>
         <li style="float: right;"><a href="auth/logout.php">Sair</a></li>
 
-        <li style="float: right;"><a href="status.html">Área do Professor</a></li>
+        <li style="float: right;"><a href="professor/status.php">Área do Professor</a></li>
         <li style="float: right;"><a href="PagCoord.html">Área do Coordenador</a></li>
         
 

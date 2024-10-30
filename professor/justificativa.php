@@ -2,6 +2,8 @@
 include '../conexao.php';
 session_start();
 
+error_reporting(E_ERROR | E_PARSE);
+
 function fazerUpload($arquivo)
 {
     if ($arquivo['error'] === UPLOAD_ERR_OK) {
