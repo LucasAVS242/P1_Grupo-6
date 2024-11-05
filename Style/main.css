@@ -183,6 +183,12 @@ footer a{
   justify-content: space-between;
 }
 
+.container-repo {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 10%;
+}
+
 .item-1{
    flex-basis: 200px;
    padding: 1%;
@@ -202,4 +208,50 @@ legend{
   background-color: #a90e0b;
   color: white;
   font-weight: bolder;
+
+}
+
+.container-repo1{
+ margin-left: 10%;
+ margin-right: 10%;
+ 
+ 
+}
+
+.item-11, .item-12, .item-13 {
+  border: solid #a90e0b;  
+  font-size:large;
+  border-radius: 0 0 7px 7px;
+  
+}
+
+.container-aulaN{
+  margin-left: 10%;
+  margin-right: 10%;
+  border: solid #a90e0b;  
+  border-radius: 0 0 7px 7px;
+}
+
+.container-aulaN h4{
+
+  background-color: #a90e0b;
+  color: white;
+  font-weight: bolder;
+
+
+}
+
+.container-aulaN table{
+  width: 100%;
+  text-align: center;
+  
+}
+.repo-btn button{
+  
+  background-color: #a90e0b;
+  color: white;
+  font-size: 20px;
+  font-weight: bolder;
+  margin-left: 11%;
+  border-radius: 0 0 7px 7px;
 }
