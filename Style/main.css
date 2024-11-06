@@ -255,3 +255,16 @@ legend{
   margin-left: 11%;
   border-radius: 0 0 7px 7px;
 }
+
+.btn-remover{
+  background:none;
+  color: #a90e0b;
+  
+  font-size:xx-large;
+}
+
+.btn-add{
+  background:none;
+  
+  font-size:xx-large;
+}
