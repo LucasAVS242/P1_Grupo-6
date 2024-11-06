@@ -1,7 +1,13 @@
 <?php
 session_start();
+function exibirBtnLogin($sessao){
+  if (isset($sessao['id_usuario'])){
+    echo "<li style='float: right;'><a href='auth/logout.php'>Sair</a></li>";
+  } else {
+    echo "<li style='float: right;'><a href='auth/login.html'>Login</a></li>";
+  }
+}
 ?>
-
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -32,11 +38,9 @@ session_start();
     <nav>
       <ul>
         <li><a href="index.php">Início</a></li>
-        <li style="float: right;"><a href="auth/logout.php">Sair</a></li>
-
+        <?= exibirBtnLogin($_SESSION) ?>
         <li style="float: right;"><a href="professor/status.php">Área do Professor</a></li>
-        <li style="float: right;"><a href="PagCoord.html">Área do Coordenador</a></li>
-        
+        <li style="float: right;"><a href="coordenador/PagCoord.php">Área do Coordenador</a></li>
 
       </ul>
     </nav>
