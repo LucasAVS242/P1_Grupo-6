@@ -1,44 +1,75 @@
 <?php
-include '../conexao.php';
+require '../conexao.php';
 session_start();
+if(!isset($_SESSION['id_usuario'])){
+    header('Location: ../index.html');
+}
 
-error_reporting(E_ERROR | E_PARSE);
+function getDisciplina($conn, $id_usuario){
+    $disciplinas = $conn -> query("SELECT tb_disciplinas.nome_disciplina, tb_disciplinas.qtde_aulas, tb_disciplinas.id_disciplina, tb_usuarios.id_usuario
+    FROM tb_disciplinas
+    INNER JOIN tb_usuarioDisciplina 
+        ON tb_disciplinas.id_disciplina = tb_usuarioDisciplina.id_disciplina
+    INNER JOIN tb_usuarios 
+        ON tb_usuarios.id_usuario = tb_usuarioDisciplina.id_usuario
+    WHERE tb_usuarios.id_usuario = $id_usuario
+    ") -> fetchAll(PDO::FETCH_ASSOC);
+    return $disciplinas;
+}
 
-function fazerUpload($arquivo)
-{
-    if ($arquivo['error'] === UPLOAD_ERR_OK) {
+function exibirDisciplinas($disciplinas){
+    foreach ($disciplinas as $disciplina){
+        echo "<option value='". $disciplina['id_disciplina']. "'>" . $disciplina['nome_disciplina'] . '</option>';                                    
+    }
+}
+
+function fazerUpload($arquivo){
+    if ($arquivo['error'] === UPLOAD_ERR_OK){
         $nomeArquivo = uniqid() . "-" . $arquivo['name'];
-        if (move_uploaded_file($arquivo['tmp_name'], "../uploads/$nomeArquivo")) {
+        if (move_uploaded_file($arquivo['tmp_name'], "../uploads/$nomeArquivo")){
             return $nomeArquivo;
         }
     }
 }
 
-function setFormJustificativa($conn, $curso, $data_envio, $motivo, $faltaInicio, $faltaFim, $nomeArquivo)
-{
-    $stmt = $conn->prepare("INSERT INTO tb_formsJustificativa (id_usuario, id_curso, data_envio, motivo, data_inicio, data_final, nome_arquivo, status, observacoes_coordenador) VALUES (?, ?, ?, ?, ?, ?, ?, 'PENDENTE', ' ')");
-    $stmt->execute([$_SESSION['id_usuario'], $curso, $data_envio, $motivo, $faltaInicio, $faltaFim, $nomeArquivo]);
+function setFormJustificativa($conn, $curso, $data_envio, $motivo, $nomeArquivo){
+    $stmt = $conn -> prepare("INSERT INTO tb_formsJustificativa (id_usuario, id_curso, data_envio, motivo, nome_arquivo, status, observacoes_coordenador) VALUES (?, ?, ?, ?, ?, 'PENDENTE', ' ')");
+    $stmt -> execute([$_SESSION['id_usuario'], $curso, $data_envio, $motivo, $nomeArquivo]);
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $selectFaltaMedica = $_POST['selectFaltaMedica'];
-    $selectFaltaLT = $_POST['selectFaltaLT'];
-
-    if (!$selectFaltaMedica) {
-        $motivo = $selectFaltaLT;
-    } else {
-        $motivo = $selectFaltaMedica;
+function setAulasNaoMinistradas($data,$conn,$idFormulario,$qtde,$disciplina){
+    for($i = 0; $i < count($data); $i++){
+        if(!empty($data[$i]) && $data[$i] != '0000-00-00' && !empty($qtde[$i])){
+            $stmt = $conn -> prepare("INSERT INTO tb_aulasNaoMinistradas(data, quantidade_aulas, id_disciplina, id_formJustificativa) VALUES (?, ?, ?, ?)");
+            $stmt -> execute([$data[$i], $qtde[$i], $disciplina[$i], $idFormulario]);
+        }
     }
-
-    $arquivo = $_FILES['arquivo'];
-    $data_envio = date('Y-m-d');
-    $curso = $_POST['cursos'];
-    $faltaInicio = $_POST['faltaInicio'];
-    $faltaFim = $_POST['faltaFim'];
-    $nomeArquivo = fazerUpload($arquivo);
-
-    setFormJustificativa($conn, $curso, $data_envio, $motivo, $faltaInicio, $faltaFim, $nomeArquivo);
 }
+
+$disciplinas = getDisciplina($conn, $_SESSION['id_usuario']);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+    
+    if(isset($_POST['selectFaltaMedica'])){
+       $motivo = $_POST['selectFaltaMedica'];
+    } else {
+        $motivo = $_POST['selectFaltaLT'];
+    }
+    $arquivo = $_FILES['comprovante'];
+    $data_envio = date('Y-m-d');
+    $curso = $_POST['curso'];
+    $nomeArquivo = fazerUpload($arquivo);
+    setFormJustificativa($conn, $curso, $data_envio, $motivo,  $nomeArquivo);
+
+    $idFormulario = $conn -> lastInsertId();
+    $data = $_POST['data'];
+    $disciplina = $_POST['disciplina'];
+    $qtde = $_POST['qtde'];
+    setAulasNaoMinistradas($data, $conn, $idFormulario,$qtde,$disciplina);
+        
+    header('Location: reposicao.php?id_formJustificativa=' . $idFormulario);
+    exit;
+    }
 ?>
 
 
@@ -113,11 +144,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <ul>
             <li><a href="../index.php">Início</a></li>
             <li><a href="justificativa.php">Justificativa de Faltas</a></li>
-            <li><a href="reposicao.php">Plano de Reposição</a></li>
             <li><a href="status.php">Status</a></li>
-            <li style="float: right;"><a style="text-decoration-line: underline;" href="status.html">Área do
+            <li style="float: right;"><a href="../auth/logout.php">Sair</a></li>
+            <li style="float: right;"><a style="text-decoration-line: underline;" href="status.php">Área do
                     Professor</a></li>
-            <li style="float: right;"><a href="PagCoord.html">Área do Coordenador</a></li>
+            <li style="float: right;"><a href="../coordenador/PagCoord.php">Área do Coordenador</a></li>
         </ul>
     </nav>
 
@@ -126,44 +157,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="row justify-content-center">
                 <div class="col-md-10">
                     <h1 style="text-align: center;">Justificativa de Faltas</h1>
-                    <form id="form" method="post" enctype="multipart/form-data" onsubmit="validarSelecao(event)">
+                    <form id="form" method="POST" enctype="multipart/form-data" onsubmit="validarSelecao(event)">
                         <div class="mb-3">
 
-                            <p></p><label><strong>Nome:</strong> </label>
+                            <label><strong>Nome:</strong> </label>
                             <?= $_SESSION['nome'] ?>
                             <label><strong>Mátricula:</strong> </label>
-                            <?= $_SESSION['matricula'] ?></p>
-                            
+                            <?= $_SESSION['matricula'] ?>
+                            <br>
                             <p><strong>FUNÇÃO:</strong> Professor de Ensino Superior <strong>REGIME JURÍDICO:</strong> CLT</p>
-                            <strong><label>CURSO(S) ENVOLVIDO(S) NA AUSÊNCIA: </label>
-                                <input class="form-check-input" type="checkbox" name="cursos" id="cst-dsm" value="1" onclick="onlyOne(this)"> CST-DSM
-                                <input class=" form-check-input" type="checkbox" name="cursos" id="cst-ge" value="2" onclick="onlyOne(this)"> CST-GE
-                                <input class=" form-check-input" type="checkbox" name="cursos" id="cst-gpi" value="3" onclick="onlyOne(this)"> CST-GPI
-                                <input class=" form-check-input" type="checkbox" name="cursos" id="cst-gti" value="4" onclick="onlyOne(this)"> CST-GTI
-                                <!-- <input class=" form-check-input" type="checkbox" name="cursos" id="hae" value="HAE"> HAE -->
-                            </strong>
-                                <span id="mensagemErro" style="color: red; padding-left: 1%;"></span>
+                            <strong><label>CURSO(S) ENVOLVIDO(S) NA AUSÊNCIA: </label></strong>
+                                <input class="form-check-input" type="checkbox" name="curso" id="cst-dsm" value="1" onclick="onlyOne(this)"> CST-DSM
+                                <input class="form-check-input" type="checkbox" name="curso" id="cst-ge" value="2" onclick="onlyOne(this)"> CST-GE
+                                <input class="form-check-input" type="checkbox" name="curso" id="cst-gpi" value="3" onclick="onlyOne(this)"> CST-GPI
+                                <input class="form-check-input" type="checkbox" name="curso" id="cst-gti" value="4" onclick="onlyOne(this)"> CST-GTI
+                                <input class="form-check-input" type="checkbox" name="curso" id="hae" value="HAE"> HAE </strong>
+                            <span id="mensagemErro" style="color: red; padding-left: 1%;"></span>
 
-                            <br>
+                            <br><br>
 
-                            <!-- <p><label for="diaFalta">Falta referente ao dia:</label>
-                                <input type="date" name="diaFalta" id="diaFalta"><br> ou<br>
-                                Período de
-                                <input type="number" name="qtdDias" id="qtdDias">
-                                dias:
-                                <input type="date" name="faltaInicio" id="faltaInicio">
-                                até
-                                <input type="date" name="faltaFim" id="faltaFim">
-                            </p> -->
-
-                            <br>
-
-                            <p>
-                                <label for="faltaInicio">Período:</label>
-                                <input type="date" name="faltaInicio" id="faltaInicio">
-                                <label for="faltaFim">até</label>
-                                <input type="date" name="faltaFim" id="faltaFim">
-                            </p>
+                            <h5>Dados da(s) aulas não ministradas</h5>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Ordem</th>
+                                        <th>Data</th>
+                                        <th>Nº de Aulas</th>
+                                        <th>Disciplinas</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="conteinerLinhas">
+                                    <tr>
+                                        <td>#</td>
+                                        <td><input type="date" class="form-control" name="data[]" required></td>
+                                        <td><input type="number" class="form-control" min="1" name='qtde[]' required></td>
+                                        <td>
+                                            <select name='disciplina[]' class="form-control">
+                                                <?= exibirDisciplinas($disciplinas) ?>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <button type="button" class="botao" onclick="adicionarLinha()">Adicionar disciplina</button>
+                            <button type="button" class="botao" onclick="removerUltimaLinha()">Remover Disciplina</button>
+                            <br><br>
 
                             <p>*Selecionar um item e anexar o comprovante.</p>
 
@@ -172,10 +210,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <select style="margin-bottom: 5%;" class="form-select" name="motivo" id="motivo" required>
                                 <option value="" selected>Selecione um motivo</option>
                                 <option value="faltaMedica">Licença e falta médica</option>
-                                <!-- <option value="faltaInjustificada">Falta injustificada</option>
-                                <option value="faltaJustificada">Falta justificada</option> -->
                                 <option value="faltaLT">Falta prevista na legisação trabalhista</option>
                             </select>
+
+                            
 
                             <div id="faltaMedica" class="motivoDiv" hidden>
                                 <h4>Licença e falta médica</h4>
@@ -187,29 +225,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <option value="Licença-Maternidade">Licença-Maternidade (Atestado médico até 15 dias)</option>
                                 </select>
                             </div>
-
-                            <!-- <div id="faltaInjustificada" class="motivoDiv" hidden>
-                                <h4>Falta injustificada</h4>
-                                <select class="form-select" name="faltaInjustificada" id="faltaInjustificada">
-                                    <option value="" disabled selected>Selecione uma opção</option>
-                                    <option value="Falta">Falta</option>
-                                    <option value="Atraso ou Saída Antecipada">Atraso ou Saída Antecipada</option>
-                                </select>
-                            </div>
-
-                            <div id="faltaJustificada" class="motivoDiv" hidden>
-                                <h4>Falta justificada (Se deferido, não implicam em desconto do Descanso Semanal Remunerado – DSR)</h4>
-                                <select class="form-select" name="faltaJustificada" id="faltaJustificada">
-                                    <option value="" disabled selected>Selecione uma opção</option>
-                                    <option value="Falta">Falta por motivo de</option>
-                                    <option value="Atraso ou Saída Antecipada">Atraso ou Saída Antecipada</option>
-                                </select>
-
-                                <br>
-
-                                <label>Motivo</label>
-                                <input class="form-control" type="text" name="motivoPersonalizado" id="motivoPersonalizado">
-                            </div> -->
 
                             <div id="faltaLT" class="motivoDiv" hidden>
                                 <h4>Falta prevista na legislação trabalhista</h4>
@@ -251,14 +266,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                             <section>
                                 <p>Campo para envio de comprovante</p>
-                                <input class="botao" type="file" name="arquivo" id="comprovante" accept=".pdf" required>
+                                <input class="botao" type="file" name="comprovante" id="arquivo" accept=".pdf" required>
                             </section>
 
                             <br>
 
 
                             <button id="gerarPDF" class="botao" type="button" onclick="printForm()">Gerar PDF do documento</button>
-                            <input class="botao" type="submit" value="Enviar">
+                            <input class="botao" type="submit" value="Avançar">
 
                         </div>
                     </form>
@@ -271,6 +286,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <footer-component></footer-component>
 
     <script>
+        
         // Mostra as opções baseado no motivo da falta
         document.getElementById('motivo').addEventListener('change', function() {
             document.querySelectorAll('.motivoDiv').forEach(div => div.hidden = true);
@@ -291,13 +307,61 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             body.innerHTML = originalContent;
         }
-
-        // Código para selecionar apenas um checkbox
+        
         function onlyOne(checkbox) {
             var checkboxes = document.getElementsByName(checkbox.name)
             checkboxes.forEach((item) => {
                 if (item !== checkbox) item.checked = false
             })
+        }
+       
+        document.addEventListener("DOMContentLoaded", () => {
+            // Define a numeração inicial ao carregar a página
+            atualizarNumeracao();
+        })
+
+        function adicionarLinha() {
+            // Cria uma nova linha <tr> com o conteúdo desejado
+            const novaLinha = document.createElement("tr");
+            novaLinha.innerHTML = `
+                <td></td>
+                <td><input type="date" class="form-control" name="data[]" required></td>
+                <td><input type="number" class="form-control" min="1" name="qtde[]" required></td>
+                <td>
+                    <select name="disciplina[]" class="form-control">
+                        <?= exibirDisciplinas($disciplinas) ?>
+                    </select>
+                </td>
+            `;
+
+            // Adiciona a nova linha ao container
+            const conteinerLinhas = document.getElementById("conteinerLinhas");
+            conteinerLinhas.appendChild(novaLinha);
+
+            // Atualiza os números das linhas
+            atualizarNumeracao();
+        }
+
+        // Função para remover a última linha
+        function removerUltimaLinha() {
+            const conteinerLinhas = document.getElementById("conteinerLinhas");
+            const linhas = conteinerLinhas.querySelectorAll("tr");
+
+            // Verifica se há mais de uma linha antes de tentar remover
+            if (linhas.length > 1) { // Mantém a linha inicial
+                conteinerLinhas.removeChild(linhas[linhas.length - 1]); // Remove a última linha
+                atualizarNumeracao(); // Atualiza a numeração após a remoção
+            } else {
+                alert("Pelo menos uma disciplina tem que ser preenchida!"); // Mensagem caso não haja mais linhas
+            }
+        }
+
+        // Função para atualizar a numeração da primeira coluna
+        function atualizarNumeracao() {
+            const linhas = document.querySelectorAll("#conteinerLinhas tr");
+            linhas.forEach((linha, index) => {
+                linha.cells[0].innerText = (index + 1).toString().padStart(2, '0');
+            });
         }
     </script>
 </body>

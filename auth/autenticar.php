@@ -2,11 +2,11 @@
 session_start();
 require '../conexao.php';
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    $login = $_POST['login'];
+    $login = $_POST['email'];
     $senha = $_POST['senha'];
 
-    $stmt = $conn -> prepare("SELECT id_usuario, login, senha, tipo_usuario, nome, matricula FROM tb_usuarios WHERE login = :login");
-    $stmt -> bindParam(':login', $login);
+    $stmt = $conn -> prepare("SELECT id_usuario, usuario, senha, tipo_usuario, nome, matricula FROM tb_usuarios WHERE usuario = :usuario");
+    $stmt -> bindParam(':usuario', $login);
     $stmt -> execute();
     $usuario = $stmt -> fetch(PDO::FETCH_ASSOC);
 
@@ -25,7 +25,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         header('Location: ../index.php');
         exit;
     } else {
-        $_SESSION['erro_login'] = 'Matricula ou senha inválidas';
+        $_SESSION['erro_login'] = 'Email ou senha inválidas';
         header('Location: login.html');
         exit;
     }
