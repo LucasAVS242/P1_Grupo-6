@@ -22,7 +22,7 @@ function setFormReposicao($conn,$turno,$motivo,$curso,$id_usuario, $data_envio){
 function setAulasNaoMinistradas($data,$conn,$idFormulario,$qtde,$disciplina){
     for($i = 0; $i < count($data); $i++){
         if(!empty($data[$i]) && $data[$i] != '0000-00-00' && !empty($qtde[$i])){
-            $stmt = $conn -> prepare("INSERT INTO tb_aulasNaoMinistradas(data, quantidade_aulas, id_disciplina, id_formReposicao) VALUES (?, ?, ?, ?)");
+            $stmt = $conn -> prepare("INSERT INTO tb_aulasnaoministradas(data, quantidade_aulas, id_disciplina, id_formReposicao) VALUES (?, ?, ?, ?)");
             $stmt -> execute([$data[$i], $qtde[$i], $disciplina[$i], $idFormulario]);
         }
     }
@@ -33,7 +33,7 @@ function setAulasReposicao($conn, $dataRepo, $horaInicio, $horaFinal, $disciplin
         if(!empty($dataRepo[$i]) && $dataRepo[$i] != '0000-00-00' 
         && !empty($horaInicio[$i]) && $horaInicio[$i] != '00:00:00' 
         && !empty($horaFinal[$i]) && $horaFinal[$i] != '00:00:00'){
-            $stmt = $conn -> prepare("INSERT INTO tb_aulasReposicao(data, horario_inicio, horario_final, id_disciplina, id_formReposicao) VALUES (?,?,?,?,?)");
+            $stmt = $conn -> prepare("INSERT INTO tb_aulasreposicao(data, horario_inicio, horario_final, id_disciplina, id_formReposicao) VALUES (?,?,?,?,?)");
             $stmt -> execute([$dataRepo[$i], $horaInicio[$i], $horaFinal[$i], $disciplinaRepo[$i], $idFormulario]);
         }
     }   
@@ -73,6 +73,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 
 ?>
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -80,236 +82,228 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulário de reposição de aulas - Área do Professor</title>
-    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../Style/main.css">
+    
     <script src="../Components/footer.js" type="text/javascript" defer></script>
-    <script src="../Components/tabela.js" type="text/javascript" defer></script>
     <script src="../Components/validacao.js" type="text/javascript" defer></script>
-</head>
 
+
+
+</head>
 <body>
-<header>
+<body>
     <nav>
         <ul>
-            <li><a href="../index.php">Início</a></li>
-            <li><a href="justificativa.php">Justificativa de Faltas</a></li>
-            <li><a href="reposicao.php">Plano de Reposição</a></li>
-            <li><a href="status.php">Status</a></li>
-            <li style="float: right;"><a href="../auth/logout.php">Sair</a></li>
-            <li style="float: right;"><a style="text-decoration-line: underline;" href="status.php">Área do Professor</a></li>
-            <li style="float: right;" ><a href="../coordenador/PagCoord.php">Área do Coordenador</a></li>
+            <li><a href="../index.html">Início</a></li>
+            <li><a href="../justificativa.html">Justificativa de Faltas</a></li>
+            <li><a href="../reposicao.html">Plano de Reposição</a></li>
+            <li><a href="../status.html">Status</a></li>
+            <li style="float: right;"><a style="text-decoration-line: underline;" href="status.html">Área do
+                    Professor</a></li>
+            <li style="float: right;"><a href="PagCoord.html">Área do Coordenador</a></li>
         </ul>
     </nav>
-</header>
-    <main id="reposicao" style="padding-left: 12%; padding-right: 12%; padding-top: 3%;">
+     <br>
+    <h2 class="text-center text-decoration-underline">PLANO - REPOSIÇÃO/SUBSTITUIÇÃO DE AULAS</h2>
+    <br>
+
+    <form method=post>
+
+        <div class="container-repo1">
+        <div class="repo item-11">
+            <legend>Curso:</legend>
+            <select name="curso" id="curso">
+                <option disabled selected value>Selecione o Curso</option>
+                <option value="GPI">GPI</option>
+                <option value="GTI">GTI</option>
+                <option value="GE">GE</option>  
+              </select>
+        </div>
+        <br>
+        <div class="repo item-12">
+            <legend>Turno:</legend>  
+            <select name="turno" id="turno">
+                   <option disabled selected value>Selecione o Turno</option>
+                   <option value="manha">Manhã</option>
+                   <option value="tarde">Tarde</option>
+                   <option value="noite">Noite</option>
+                 </select>
+        </div>
+        <br>
+        <div class="repo item-13">
+            <legend>Motivo de Reposição:</legend>
+            <select name="Motivo" id="Motivo">
+                <option disabled selected value>Selecione o Motivo</option>
+                <option value="GPI">Claro Docente</option>
+                <option value="GTI">Falta</option>
+                <option value="GE">Substituição</option>
+              </select>
+        </div>
+        <br>
+        </div>
+
+      <div class="container-aulaN">
+    <h4>Dados da(s) aulas não ministradas</h4>
+    <table id="tabelaAulasNaoMinistradas">
+        <thead>
+            <tr>
+                <th>Ordem</th>
+                <th>Data</th>
+                <th>Nº de Aulas</th>
+                <th>Disciplina</th>
+                <th>Ação</th> <!-- Coluna para o botão de remover -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td><input type="date" name="data[]" class="form-control" required></td>
+                <td><input type="number" name="qtde[]" class="form-control" min="1" required></td>
+                <td class="form-control">
+                    <select name="disciplina[]">
+                        <option disabled selected value>Selecione a disciplina</option>
+                        <?= exibirDisciplinas($disciplinas) ?>
+                    </select>
+                </td>
+                <td><button type="button" class="btn-add" onclick="adicionarLinha('AulasNaoMinistradas')">+</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<br>
+
+<div class="container-aulaN">
+    <h4>Dados da(s) aulas de reposição</h4>
+    <table id="tabelaReposicao">
+        <thead>
+            <tr>
+                <th>Ordem</th>
+                <th>Data</th>
+                <th>Horário de Início</th>
+                <th>Horário de Término</th>
+                <th>Disciplina</th>
+                <th>Ação</th> <!-- Coluna para o botão de remover -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td><input type="date" name="dataRepo[]" class="form-control" required></td>
+                <td><input type="time" name="horaInicio[]" class="form-control" required></td>
+                <td><input type="time" name="horaFinal[]" class="form-control" required></td>
+                <td>
+                    <select name="disciplinaRepo[]">
+                        <option disabled selected value>Selecione a disciplina</option>
+                        <?= exibirDisciplinas($disciplinas) ?>
+                    </select>
+                </td>
+                <td><button type="button" class="btn-add" onclick="adicionarLinha('Reposicao')">+</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    const MAX_LINHAS = 4; // Limite máximo de linhas
+
+    // Função para adicionar nova linha em uma tabela específica (Aulas Não Ministradas ou Aulas de Reposição)
+    function adicionarLinha(tipoTabela) {
+        const tabelaId = tipoTabela === 'AulasNaoMinistradas' ? '#tabelaAulasNaoMinistradas' : '#tabelaReposicao';
+        const contadorId = tipoTabela === 'AulasNaoMinistradas' ? 'contadorNM' : 'contadorRepo';
+        const contador = window[contadorId] || 1; // Usar o contador específico da tabela
+
+        // Verifica se o número de linhas já atingiu o limite
+        const linhas = document.querySelectorAll(`${tabelaId} tbody tr`);
+        if (linhas.length >= MAX_LINHAS) {
+            alert(`Você já atingiu o limite de ${MAX_LINHAS} linhas!`);
+            return;
+        }
+
+        // Incrementa o contador específico
+        window[contadorId] = contador + 1;
+
+        // Referência à tabela onde as linhas serão adicionadas
+        const tabela = document.querySelector(`${tabelaId} tbody`);
+
+        // Criação de uma nova linha
+        const novaLinha = tabela.insertRow();
+
+        // Adicionando células (colunas) na nova linha
+        if (tipoTabela === 'AulasNaoMinistradas') {
+            novaLinha.innerHTML = `
+                <td>${window[contadorId]}</td>
+                <td><input type="date" name="data[]" class="form-control" required></td>
+                <td><input type="number" name="qtde[]" class="form-control" min="1" required></td>
+                <td class="form-control">
+                    <select name="disciplina[]">
+                        <option disabled selected value>Selecione a disciplina</option>
+                        <?= exibirDisciplinas($disciplinas) ?>
+                    </select>
+                </td>
+                <td><button type="button" class="btn-remover" onclick="removerLinha(this, '${tipoTabela}')">-</button></td>
+            `;
+        } else {
+            novaLinha.innerHTML = `
+                <td>${window[contadorId]}</td>
+                <td><input type="date" name="dataRepo[]" class="form-control" required></td>
+                <td><input type="time" name="horaInicio[]" class="form-control" required></td>
+                <td><input type="time" name="horaFinal[]" class="form-control" required></td>
+                <td>
+                    <select name="disciplinaRepo[]">
+                        <option disabled selected value>Selecione a disciplina</option>
+                        <?= exibirDisciplinas($disciplinas) ?>
+                    </select>
+                </td>
+                <td><button type="button" class="btn-remover" onclick="removerLinha(this, '${tipoTabela}')">-</button></td>
+            `;
+        }
+
+        // Atualizar a ordem da tabela após adicionar
+        atualizarOrdem(tipoTabela);
+    }
+
+    // Função para remover uma linha
+    function removerLinha(button, tipoTabela) {
+        const tabelaId = tipoTabela === 'AulasNaoMinistradas' ? '#tabelaAulasNaoMinistradas' : '#tabelaReposicao';
+        const linha = button.closest('tr');
+        linha.parentNode.removeChild(linha);
+
+        // Atualizar a ordem das linhas após remoção
+        atualizarOrdem(tipoTabela);
+    }
+
+    // Função para atualizar a ordem das aulas em cada tabela
+    function atualizarOrdem(tipoTabela) {
+        const tabelaId = tipoTabela === 'AulasNaoMinistradas' ? '#tabelaAulasNaoMinistradas' : '#tabelaReposicao';
+        const linhas = document.querySelectorAll(`${tabelaId} tbody tr`);
+
+        linhas.forEach((linha, index) => {
+            linha.cells[0].textContent = index + 1;
+        });
+    }
+</script>
 
 
-        <form name="repo" id="repo" method="post" action="reposicao.php">
 
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width: 50%;" colspan="3">
-                            <h3 style="text-decoration: underline; text-align: center;">PLANO - REPOSIÇÃO/SUBSTITUIÇÃO
-                                DE AULAS</h3>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th style="text-align: left; padding-left: 1%;" colspan="3">NOME DO PROFESSOR: <?= $_SESSION['nome']?></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th>
-                            <p>Curso:</p><label for="curso" name="curso"></label>
-                            <input type="checkbox" name="curso" id="curso" value="1" onclick="onlyOne(this)">DSM
-                            <input type="checkbox" name="curso" id="curso" value="3" onclick="onlyOne(this)">GPI
-                            <input type="checkbox" name="curso" id="curso" value="2" onclick="onlyOne(this)">GTI
-                            <input type="checkbox" name="curso" id="curso" value="4" onclick="onlyOne(this)">GE
-                        </th>
-                        <th>
-                            <p>Turno:</p><label for="turno" name="turno"></label>
-                            <input type="checkbox" name="turno" id="turno" value="Manhã" onclick="onlyOne(this)">Manhã
-                            <input type="checkbox" name="turno" id="turno" value="Tarde" onclick="onlyOne(this)">Tarde
-                            <input type="checkbox" name="turno" id="turno" value="Noite" onclick="onlyOne(this)">Noite
-                        </th>
-                        <th>
-                            <p>Reposição em virtude de:</p> <label for="reposicao" name="reposicao"></label>
-                            <input type="checkbox" name="reposicao" id="reposicao" value="Claro Docente" onclick="onlyOne(this)">Claro Docente
-                            <input type="checkbox" name="reposicao" id="reposicao" value="Falta" onclick="onlyOne(this)">Falta
-                            <input type="checkbox" name="reposicao" id="reposicao" value="Substituição" onclick="onlyOne(this)">Substituição
-                        </th>
-                    </tr>
+        </div>
+        <div class="repo-btn">
+        <button type="submit">Enviar</button>
+        </div>
 
-                </tbody>
-            </table>
 
-            <table style="margin-top: 10px; text-align:center; width:100%;">
+    </form>
 
-                <thead>
-                    <tr>
-                        <th style="background-color: rgba(224, 224, 224, 0.514);" colspan="4"><label for="aulaministrada" name="aulaministrada">Dados da(s) aulas não
-                                ministradas</label></th>
-                    </tr>
-                    <tr>
-                        <th>Ordem</th>
-                        <th>Data das Aulas Não Ministradas</th>
-                        <th>Nº de Aulas</th>
-                        <th>Nome das Disciplinas</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>01</td>
-                        <td><input type="date" name="data[]"></td>
-                        <td><input type="number" name="qtde[]"></td>
-                        <td>
-                            <select name='disciplina[]'>
-                                <?= exibirDisciplinas($disciplinas) ?>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>02</td>
-                        <td><input type="date" name="data[]"></td>
-                        <td><input type="number" name="qtde[]"></td>
-                        <td>
-                            <select name='disciplina[]'>
-                                <?= exibirDisciplinas($disciplinas) ?>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>03</td>
-                        <td><input type="date" name="data[]"></td>
-                        <td><input type="number" name="qtde[]"></td>
-                        <td>
-                            <select name='disciplina[]'>
-                                <?= exibirDisciplinas($disciplinas) ?>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>04</td>
-                        <td><input type="date" name="data[]"></td>
-                        <td><input type="number" name="qtde[]"></td>
-                        <td>
-                            <select name='disciplina[]'>
-                                <?= exibirDisciplinas($disciplinas) ?>
-                            </select>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <table style="margin-top: 10px; text-align:center; width:100%;">
-
-                <thead>
-                    <tr>
-                        <th style="background-color: rgba(224, 224, 224, 0.514);" colspan="4">Dados da(s) aulas de
-                                reposição</label></th>
-                    </tr>
-                    <tr>
-                        <th>Ordem</th>
-                        <th>Data da Reposição</th>
-                        <th style=" width: 40%;">Horário de Início e Término</th>
-                        <th>Disciplina(s)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>01</td>
-                        <td><input name="dataRepo[]" type="date"></td>
-                        <td><input name="horaInicio[]" type="time"> as <input name="horaFinal[]" type="time"></td>
-                        <td>
-                            <select name="disciplinaRepo[]">
-                                <?= exibirDisciplinas($disciplinas) ?>
-                            </select>
-                        </td>
-
-                    </tr>
-                    <tr>
-                        <td>02</td>
-                        <td><input type="date" name="dataRepo[]"></td>
-                        <td><input type="time" name="horaInicio[]"> as <input type="time" name="horaFinal[]"></td>
-                        <td>
-                            <select name="disciplinaRepo[]">
-                                <?= exibirDisciplinas($disciplinas) ?>
-                            </select>
-                        </td>
-
-                    </tr>
-                    <tr>
-                        <td>03</td>
-                        <td><input type="date" name="dataRepo[]"></td>
-                        <td><input type="time" name="horaInicio[]"> as <input type="time" name="horaFinal[]"></td>
-                        <td>
-                            <select name="disciplinaRepo[]">
-                                <?= exibirDisciplinas($disciplinas) ?>
-                            </select>
-                        </td>
-
-                    </tr>
-                    <tr>
-                        <td>04</td>
-                        <td><input type="date" name="dataRepo[]"></td>
-                        <td><input type="time" name="horaInicio[]"> as <input type="time" name="horaFinal[]"></td>
-                        <td>
-                            <select name="disciplinaRepo[]">
-                                <?= exibirDisciplinas($disciplinas) ?>
-                            </select>
-                        </td>
-
-                    </tr>
-                </tbody>
-            </table>
-
-            <input style="margin: 1%;" class="botao" type="submit" value="Enviar">
-
-            <button id="gerarPDF" class="botao" onclick="printForm()">Gerar PDF do documento</button>
-
-        </form>
         
-    </main>
+
+
+
+
 
     <footer-component></footer-component>
-
-    <script>
-        // Código para preencher com a data corrente
-        function formatDate(date) {
-            const year = date.getFullYear();
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const day = String(date.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
-        }
-
-        const today = new Date();
-
-        const formattedDate = formatDate(today);
-
-        document.getElementById('data').value = formattedDate;
-        document.getElementById('dataRecebida').value = formattedDate;
-
-        // Código para gerar PDF
-        function printForm() {
-            const form = document.getElementById('repo');
-            const body = document.body;
-            const originalContent = body.innerHTML;
-
-            body.innerHTML = '';
-            body.appendChild(form);
-
-            window.print();
-
-            body.innerHTML = originalContent;
-        }
-        // Código para selecionar apenas um checkbox
-        function onlyOne(checkbox) {
-    var checkboxes = document.getElementsByName(checkbox.name)
-    checkboxes.forEach((item) => {
-        if (item !== checkbox) item.checked = false
-        })
-    }
-    </script>
 </body>
-</html>
+
+    
