@@ -22,16 +22,6 @@ function closeModal() {
   modalObservacao.style.display = "none";
 }
 
-function aprovarSim() {
-  alert("Requisição aprovada com sucesso!");
-  closeModal();
-}
-
-function rejeitarSim() {
-  alert("Requisição rejeitada com sucesso!");
-  closeModal();
-}
-
 function adicionarObservacao() {
   alert("Observação adicionada com sucesso!");
   closeModal();
