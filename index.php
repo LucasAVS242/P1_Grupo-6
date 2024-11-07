@@ -1,10 +1,15 @@
 <?php
 session_start();
-function exibirBtnLogin($sessao){
-  if (isset($sessao['id_usuario'])){
-    echo "<li style='float: right;'><a href='auth/logout.php'>Sair</a></li>";
+function exibirBtnLogin($sessao)
+{
+  if (isset($sessao['id_usuario'])) {
+    echo "<div class='d-lg-flex col-lg-3 justify-content-lg-end'>
+            <a href='auth/logout.php'><button class='btn btn-primary' style='background-color: #005C6D; border: none;'>Sair</button></a>
+          </div>";
   } else {
-    echo "<li style='float: right;'><a href='auth/login.html'>Login</a></li>";
+    echo "<div class='d-lg-flex col-lg-3 justify-content-lg-end'>
+            <a href='auth/login.html'><button class='btn btn-primary'style='background-color: #00C1CF; border: none;'>Login</button></a>
+          </div>";
   }
 }
 ?>
@@ -17,6 +22,11 @@ function exibirBtnLogin($sessao){
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Justificativa de faltas e plano de reposição</title>
   <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
   <link rel="stylesheet" type="text/css" href="Style/main.css" />
   <script src="Components/footer.js" type="text/javascript" defer></script>
 
@@ -35,20 +45,46 @@ function exibirBtnLogin($sessao){
 
 <body>
   <header>
-    <nav>
-      <ul>
-        <li><a href="index.php">Início</a></li>
-        <?= exibirBtnLogin($_SESSION) ?>
-        <li style="float: right;"><a href="professor/status.php">Área do Professor</a></li>
-        <li style="float: right;"><a href="coordenador/PagCoord.php">Área do Coordenador</a></li>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-      </ul>
+        <div class="collapse navbar-collapse d-lg-flex">
+          <span class="navbar-text col-lg-3 me-0">
+            <?php if (isset($_SESSION["nome"])): ?>
+             <?= $_SESSION['tipo_usuario'] ?>: <?= $_SESSION['nome'] ?>
+            <?php endif; ?>
+          </span>
+          <ul class="navbar-nav col-lg-6 justify-content-lg-center">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="index.php">Início</a>
+            </li>
+            <?php if (isset($_SESSION["nome"]) && $_SESSION['tipo_usuario'] === 'PROFESSOR'): ?>
+              <li class="nav-item">
+                <a class="nav-link" href="professor/justificativa.php">Justificativa de Faltas</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="professor/status.php">Status</a>
+              </li>
+            <?php endif; ?>
+
+            <?php if (isset($_SESSION["nome"]) && $_SESSION['tipo_usuario'] === 'COORDENADOR'): ?>
+              <li class="nav-item">
+							  <a class="nav-link" href="coordenador/PagCoord.php">Lista de requisições</a>
+						  </li>
+            <?php endif; ?>
+          </ul>
+          <?= exibirBtnLogin($_SESSION) ?>
+        </div>
+      </div>
     </nav>
   </header>
 
   <main>
     <img src="images/fatec.png" alt="Fatec">
-    
+
 
     <div>
       <h2>Sistema de Justificativa de Faltas e Plano de Reposição de Aulas</h2>

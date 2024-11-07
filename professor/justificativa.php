@@ -1,57 +1,62 @@
 <?php
 require '../conexao.php';
 session_start();
-if(!isset($_SESSION['id_usuario'])){
+if (!isset($_SESSION['id_usuario'])) {
     header('Location: ../index.html');
 }
 
-function getDisciplina($conn, $id_usuario){
-    $disciplinas = $conn -> query("SELECT tb_disciplinas.nome_disciplina, tb_disciplinas.qtde_aulas, tb_disciplinas.id_disciplina, tb_usuarios.id_usuario
+function getDisciplina($conn, $id_usuario)
+{
+    $disciplinas = $conn->query("SELECT tb_disciplinas.nome_disciplina, tb_disciplinas.qtde_aulas, tb_disciplinas.id_disciplina, tb_usuarios.id_usuario
     FROM tb_disciplinas
     INNER JOIN tb_usuarioDisciplina 
         ON tb_disciplinas.id_disciplina = tb_usuarioDisciplina.id_disciplina
     INNER JOIN tb_usuarios 
         ON tb_usuarios.id_usuario = tb_usuarioDisciplina.id_usuario
     WHERE tb_usuarios.id_usuario = $id_usuario
-    ") -> fetchAll(PDO::FETCH_ASSOC);
+    ")->fetchAll(PDO::FETCH_ASSOC);
     return $disciplinas;
 }
 
-function exibirDisciplinas($disciplinas){
-    foreach ($disciplinas as $disciplina){
-        echo "<option value='". $disciplina['id_disciplina']. "'>" . $disciplina['nome_disciplina'] . '</option>';                                    
+function exibirDisciplinas($disciplinas)
+{
+    foreach ($disciplinas as $disciplina) {
+        echo "<option value='" . $disciplina['id_disciplina'] . "'>" . $disciplina['nome_disciplina'] . '</option>';
     }
 }
 
-function fazerUpload($arquivo){
-    if ($arquivo['error'] === UPLOAD_ERR_OK){
+function fazerUpload($arquivo)
+{
+    if ($arquivo['error'] === UPLOAD_ERR_OK) {
         $nomeArquivo = uniqid() . "-" . $arquivo['name'];
-        if (move_uploaded_file($arquivo['tmp_name'], "../uploads/$nomeArquivo")){
+        if (move_uploaded_file($arquivo['tmp_name'], "../uploads/$nomeArquivo")) {
             return $nomeArquivo;
         }
     }
 }
 
-function setFormJustificativa($conn, $curso, $data_envio, $motivo, $nomeArquivo){
-    $stmt = $conn -> prepare("INSERT INTO tb_formsJustificativa (id_usuario, id_curso, data_envio, motivo, nome_arquivo, status, observacoes_coordenador) VALUES (?, ?, ?, ?, ?, 'PENDENTE', ' ')");
-    $stmt -> execute([$_SESSION['id_usuario'], $curso, $data_envio, $motivo, $nomeArquivo]);
+function setFormJustificativa($conn, $curso, $data_envio, $motivo, $nomeArquivo)
+{
+    $stmt = $conn->prepare("INSERT INTO tb_formsJustificativa (id_usuario, id_curso, data_envio, motivo, nome_arquivo, status, observacoes_coordenador) VALUES (?, ?, ?, ?, ?, 'PENDENTE', ' ')");
+    $stmt->execute([$_SESSION['id_usuario'], $curso, $data_envio, $motivo, $nomeArquivo]);
 }
 
-function setAulasNaoMinistradas($data,$conn,$idFormulario,$qtde,$disciplina){
-    for($i = 0; $i < count($data); $i++){
-        if(!empty($data[$i]) && $data[$i] != '0000-00-00' && !empty($qtde[$i])){
-            $stmt = $conn -> prepare("INSERT INTO tb_aulasNaoMinistradas(data, quantidade_aulas, id_disciplina, id_formJustificativa) VALUES (?, ?, ?, ?)");
-            $stmt -> execute([$data[$i], $qtde[$i], $disciplina[$i], $idFormulario]);
+function setAulasNaoMinistradas($data, $conn, $idFormulario, $qtde, $disciplina)
+{
+    for ($i = 0; $i < count($data); $i++) {
+        if (!empty($data[$i]) && $data[$i] != '0000-00-00' && !empty($qtde[$i])) {
+            $stmt = $conn->prepare("INSERT INTO tb_aulasNaoMinistradas(data, quantidade_aulas, id_disciplina, id_formJustificativa) VALUES (?, ?, ?, ?)");
+            $stmt->execute([$data[$i], $qtde[$i], $disciplina[$i], $idFormulario]);
         }
     }
 }
 
 $disciplinas = getDisciplina($conn, $_SESSION['id_usuario']);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-    
-    if(isset($_POST['selectFaltaMedica'])){
-       $motivo = $_POST['selectFaltaMedica'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    if (isset($_POST['selectFaltaMedica'])) {
+        $motivo = $_POST['selectFaltaMedica'];
     } else {
         $motivo = $_POST['selectFaltaLT'];
     }
@@ -61,15 +66,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     $nomeArquivo = fazerUpload($arquivo);
     setFormJustificativa($conn, $curso, $data_envio, $motivo,  $nomeArquivo);
 
-    $idFormulario = $conn -> lastInsertId();
+    $idFormulario = $conn->lastInsertId();
     $data = $_POST['data'];
     $disciplina = $_POST['disciplina'];
     $qtde = $_POST['qtde'];
-    setAulasNaoMinistradas($data, $conn, $idFormulario,$qtde,$disciplina);
-        
+    setAulasNaoMinistradas($data, $conn, $idFormulario, $qtde, $disciplina);
+
     header('Location: reposicao.php?id_formJustificativa=' . $idFormulario);
     exit;
-    }
+}
 ?>
 
 
@@ -140,20 +145,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 </head>
 
 <body>
-    <nav>
-        <ul>
-            <li><a href="../index.php">Início</a></li>
-            <li><a href="justificativa.php">Justificativa de Faltas</a></li>
-            <li><a href="status.php">Status</a></li>
-            <li style="float: right;"><a href="../auth/logout.php">Sair</a></li>
-            <li style="float: right;"><a style="text-decoration-line: underline;" href="status.php">Área do
-                    Professor</a></li>
-            <li style="float: right;"><a href="../coordenador/PagCoord.php">Área do Coordenador</a></li>
-        </ul>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse d-lg-flex">
+                <span class="navbar-text col-lg-3 me-0">
+                    <?= $_SESSION['tipo_usuario'] ?>: <?= $_SESSION['nome'] ?>
+                </span>
+                <ul class="navbar-nav col-lg-6 justify-content-lg-center">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="../index.php">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="justificativa.php">Justificativa de Faltas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="status.php">Status</a>
+                    </li>
+                </ul>
+                <div class='d-lg-flex col-lg-3 justify-content-lg-end'>
+                    <a href='../auth/logout.php'><button class='btn btn-primary' style='background-color: #005C6D; border: none;'>Sair</button></a>
+                </div>
+            </div>
+        </div>
     </nav>
 
     <main id="justificativa">
-        <div class="container mt-5">
+        <div class="container mt-4">
             <div class="row justify-content-center">
                 <div class="col-md-10">
                     <h1 style="text-align: center;">Justificativa de Faltas</h1>
@@ -167,11 +188,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                             <br>
                             <p><strong>FUNÇÃO:</strong> Professor de Ensino Superior <strong>REGIME JURÍDICO:</strong> CLT</p>
                             <strong><label>CURSO(S) ENVOLVIDO(S) NA AUSÊNCIA: </label></strong>
-                                <input class="form-check-input" type="checkbox" name="curso" id="cst-dsm" value="1" onclick="onlyOne(this)"> CST-DSM
-                                <input class="form-check-input" type="checkbox" name="curso" id="cst-ge" value="2" onclick="onlyOne(this)"> CST-GE
-                                <input class="form-check-input" type="checkbox" name="curso" id="cst-gpi" value="3" onclick="onlyOne(this)"> CST-GPI
-                                <input class="form-check-input" type="checkbox" name="curso" id="cst-gti" value="4" onclick="onlyOne(this)"> CST-GTI
-                                <input class="form-check-input" type="checkbox" name="curso" id="hae" value="HAE"> HAE </strong>
+                            <input class="form-check-input" type="checkbox" name="curso" id="cst-dsm" value="1" onclick="onlyOne(this)"> CST-DSM
+                            <input class="form-check-input" type="checkbox" name="curso" id="cst-ge" value="2" onclick="onlyOne(this)"> CST-GE
+                            <input class="form-check-input" type="checkbox" name="curso" id="cst-gpi" value="3" onclick="onlyOne(this)"> CST-GPI
+                            <input class="form-check-input" type="checkbox" name="curso" id="cst-gti" value="4" onclick="onlyOne(this)"> CST-GTI
+                            <input class="form-check-input" type="checkbox" name="curso" id="hae" value="HAE"> HAE </strong>
                             <span id="mensagemErro" style="color: red; padding-left: 1%;"></span>
 
                             <br><br>
@@ -213,7 +234,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
                                 <option value="faltaLT">Falta prevista na legisação trabalhista</option>
                             </select>
 
-                            
+
 
                             <div id="faltaMedica" class="motivoDiv" hidden>
                                 <h4>Licença e falta médica</h4>
@@ -286,7 +307,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     <footer-component></footer-component>
 
     <script>
-        
         // Mostra as opções baseado no motivo da falta
         document.getElementById('motivo').addEventListener('change', function() {
             document.querySelectorAll('.motivoDiv').forEach(div => div.hidden = true);
@@ -307,14 +327,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
             body.innerHTML = originalContent;
         }
-        
+
         function onlyOne(checkbox) {
             var checkboxes = document.getElementsByName(checkbox.name)
             checkboxes.forEach((item) => {
                 if (item !== checkbox) item.checked = false
             })
         }
-       
+
         document.addEventListener("DOMContentLoaded", () => {
             // Define a numeração inicial ao carregar a página
             atualizarNumeracao();

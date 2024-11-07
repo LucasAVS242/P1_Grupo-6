@@ -5,7 +5,7 @@ nav,footer {
     padding: 15px;
     font-weight: bold;
 }
-nav ul {
+/* nav ul {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -13,14 +13,18 @@ nav ul {
 nav ul li {
     display: inline-block;
     margin-right: 20px;
-}
-nav ul li a {
+} */
+nav span, ul li a {
     text-decoration: none;
-    color: #fff;
+    color: #fff !important;
 }
 
 nav :hover {
-    color: #301d1060;
+    color: #301d1060 !important;
+}
+
+.bg-body-tertiary {
+  background-color: #a90e0b !important;
 }
 
 footer a {
@@ -94,53 +98,6 @@ button {
   border: none;
 }
 
-/* Estilos para o modal */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal-content {
-  background-color: #fefefe;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  border-radius: 25px;
-  width: 80%;
-  max-width: 400px;
-  text-align: center;
-}
-
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.button-container {
-  margin-top: 20px;
-}
-
-.button-container button {
-  margin: 0 10px;
-  padding: 10px 20px;
-  cursor: pointer;
-}
 
 /* Remove flechas do input type number */
 

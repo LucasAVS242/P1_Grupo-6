@@ -83,7 +83,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulário de reposição de aulas - Área do Professor</title>
     
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../Style/main.css">
     
@@ -93,21 +93,39 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 
 </head>
+
 <body>
-<body>
-    <nav>
-        <ul>
-            <li><a href="../index.html">Início</a></li>
-            <li><a href="../justificativa.html">Justificativa de Faltas</a></li>
-            <li><a href="../reposicao.html">Plano de Reposição</a></li>
-            <li><a href="../status.html">Status</a></li>
-            <li style="float: right;"><a style="text-decoration-line: underline;" href="status.html">Área do
-                    Professor</a></li>
-            <li style="float: right;"><a href="PagCoord.html">Área do Coordenador</a></li>
-        </ul>
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse d-lg-flex">
+                <span class="navbar-text col-lg-3 me-0">
+                    <?= $_SESSION['tipo_usuario'] ?>: <?= $_SESSION['nome'] ?>
+                </span>
+                <ul class="navbar-nav col-lg-6 justify-content-lg-center">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="../index.php">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="justificativa.php">Justificativa de Faltas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="status.php">Status</a>
+                    </li>
+                </ul>
+                <div class='d-lg-flex col-lg-3 justify-content-lg-end'>
+                    <a href='../auth/logout.php'><button class='btn btn-primary' style='background-color: #005C6D; border: none;'>Sair</button></a>
+                </div>
+            </div>
+        </div>
     </nav>
-     <br>
-    <h2 class="text-center text-decoration-underline">PLANO - REPOSIÇÃO/SUBSTITUIÇÃO DE AULAS</h2>
+    
+    <br>
+    <h2 class="text-center text-decoration-underline mt-4">PLANO - REPOSIÇÃO/SUBSTITUIÇÃO DE AULAS</h2>
     <br>
 
     <form method=post>
@@ -306,4 +324,4 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     <footer-component></footer-component>
 </body>
 
-    
+</html>

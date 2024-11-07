@@ -67,6 +67,11 @@ usort($formularios, function ($a, $b) {
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Área do Coordenador</title>
 	<link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+		crossorigin="anonymous"></script>
 	<link rel="stylesheet" type="text/css" href="../Style/main.css" />
 	<script src="../Components/footer.js" type="text/javascript" defer></script>
 	<script src="../Components/modal.js" type="text/javascript" defer></script>
@@ -82,20 +87,34 @@ usort($formularios, function ($a, $b) {
 
 <body>
 	<header>
-		<nav>
-			<ul>
-				<li><a href="../index.php">Início</a></li>
-				<li style="float: right;"><a href="../auth/logout.php">Sair</a></li>
-				<li style="float: right;"><a href="../professor/status.php">Área do Professor</a></li>
-				<li style="float: right;"><a style="text-decoration-line: underline;" href="PagCoord.php">Área do
-						Coordenador</a></li>
+		<nav class="navbar navbar-expand-lg bg-body-tertiary">
+			<div class="container-fluid">
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
 
-			</ul>
+				<div class="collapse navbar-collapse d-lg-flex">
+					<span class="navbar-text col-lg-3 me-0">
+						<?= $_SESSION['tipo_usuario'] ?>: <?= $_SESSION['nome'] ?>
+					</span>
+					<ul class="navbar-nav col-lg-6 justify-content-lg-center">
+						<li class="nav-item">
+							<a class="nav-link active" aria-current="page" href="../index.php">Início</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="PagCoord.php">Lista de requisições</a>
+						</li>
+					</ul>
+					<div class='d-lg-flex col-lg-3 justify-content-lg-end'>
+						<a href='../auth/logout.php'><button class='btn btn-primary' style='background-color: #005C6D; border: none;'>Sair</button></a>
+					</div>
+				</div>
+			</div>
 		</nav>
 	</header>
 
 	<main>
-		<h1><i class="fa-solid fa-user-gear"></i>&nbsp;Área do Coordenador</h1>
+		<h1 class="mt-4"><i class="fa-solid fa-user-gear"></i>&nbsp;Área do Coordenador</h1>
 		<h2>Lista de professores aguardando aprovação</h2>
 
 		<table style="text-align:center; width:100%;">
@@ -127,10 +146,10 @@ usort($formularios, function ($a, $b) {
 						<td><a href="<?= exibirFormulario($formulario) ?>" target="_blank"><button class="botao"
 									title="Visualizar documentos"><i class="fa-solid fa-file-contract"></i></button></a>
 						</td>
-						<td><button class="botao" style="background-color: green" title="Aprovar" onclick="openModal('aprovar')"><i class="fa-solid fa-check"></i></button>
-							<button class="botao" style="background-color: red;" title="Rejeitar" onclick="openModal('rejeitar')"><i class="fa-solid fa-x"></i></button>
+						<td><button class="botao" style="background-color: green" title="Aprovar" data-bs-toggle="modal" data-bs-target="#modalAprovar"><i class="fa-solid fa-check"></i></button>
+							<button class="botao" style="background-color: red;" title="Rejeitar" data-bs-toggle="modal" data-bs-target="#modalRejeitar"><i class="fa-solid fa-x"></i></button>
 						</td>
-						<td><button class="botao" title="Adicionar observação" onclick="openModal('observacao')"><i
+						<td><button class="botao" title="Adicionar observação" data-bs-toggle="modal" data-bs-target="#modalObservacao"><i
 									class="fa-solid fa-comment"></i></button></td>
 					</tr>
 				<?php endforeach ?>
@@ -139,37 +158,56 @@ usort($formularios, function ($a, $b) {
 		</table>
 
 		<!-- Modal para confirmar aprovação da requisição -->
-		<div id="modalAprovar" class="modal">
-			<div class="modal-content">
-				<span class="close" onclick="closeModal()">&times;</span>
-				<p>Você tem certeza que deseja aprovar essa requisição?</p>
-				<div class="button-container">
-					<button onclick="aprovarSim()">Sim</button>
-					<button onclick="closeModal()">Não</button>
+		<div class="modal fade" id="modalAprovar" tabindex="-1" aria-labelledby="modalAprovarLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title w-100 text-center" id="modalAprovarLabel">Você tem certeza que deseja <strong>aprovar</strong> essa requisição?</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body text-center">
+						<button class="btn btn-primary" onclick="aprovarSim()">Sim</button>
+						<button class="btn btn-danger" data-bs-dismiss="modal">Não</button>
+					</div>
+					<div class="modal-footer">
+					</div>
 				</div>
 			</div>
 		</div>
 
 		<!-- Modal para confirmar rejeição da requisição -->
-		<div id="modalRejeitar" class="modal">
-			<div class="modal-content">
-				<span class="close" onclick="closeModal()">&times;</span>
-				<p>Você tem certeza que deseja rejeitar essa requisição?</p>
-				<div class="button-container">
-					<button onclick="rejeitarSim()">Sim</button>
-					<button onclick="closeModal()">Não</button>
+		<div class="modal fade" id="modalRejeitar" tabindex="-1" aria-labelledby="modalRejeitarLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title w-100 text-center" id="modalRejeitarLabel">Você tem certeza que deseja <strong>rejeitar</strong> essa requisição?</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body text-center">
+						<button class="btn btn-primary" onclick="rejeitarSim()">Sim</button>
+						<button class="btn btn-danger" data-bs-dismiss="modal">Não</button>
+					</div>
+					<div class="modal-footer">
+					</div>
 				</div>
 			</div>
 		</div>
 
-		<!-- Modal para visualizar uma observação -->
-		<div id="modalObservacao" class="modal">
-			<div class="modal-content">
-				<span class="close" onclick="closeModal()">&times;</span>
-				<p>Observações do Coordenador</p>
-				<textarea name="observacao" id="observacao" cols="40" rows="10" readonly></textarea>
-				<div class="button-container">
-					<button onclick="closeModal()">Fechar</button>
+		<!-- Modal para adicionar uma observação -->
+		<div class="modal fade" id="modalObservacao" tabindex="-1" aria-labelledby="modalObservacaoLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title w-100 text-center" id="modalObservacaoLabel">Adicionar observação</h1>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body text-center">
+						<textarea name="observacao" id="observacao" cols="40" rows="10"></textarea>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+						<button type="button" class="btn btn-primary">Enviar</button>
+					</div>
 				</div>
 			</div>
 		</div>
