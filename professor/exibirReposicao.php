@@ -6,7 +6,7 @@ function getDados($conn, $idFormulario){
 		tb_formsReposicao.id_formReposicao,
         tb_usuarios.nome,
         tb_formsReposicao.turno, 
-        tb_cursos.sigla, 
+        tb_cursos.nome_curso, 
         tb_formsReposicao.motivo_reposicao
     FROM tb_formsReposicao
     INNER JOIN tb_formsJustificativa
@@ -122,7 +122,7 @@ $aulasReposicao = getAulasReposicao($conn, $id_formReposicao);
         <fieldset class="form-group">  
             <div class="form-check"> 
                 <legend>Curso:</legend>
-                <p><?= $dados['sigla'] ?></p>
+                <p><?= $dados['nome_curso'] ?></p>
             </div>
         </fieldset>
         <fieldset class="form-group">

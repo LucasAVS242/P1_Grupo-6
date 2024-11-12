@@ -2,6 +2,8 @@
 require '../conexao.php';
 session_start();
 $id_formJustificativa = $_GET['id_formJustificativa'];
+$id_formReposicao = $conn -> query("SELECT id_formReposicao FROM tb_formsReposicao WHERE id_formJustificativa = $id_formJustificativa") -> fetch(PDO::FETCH_ASSOC);
+
 function getDados($conn, $idFormulario){
     $dados = $conn -> query("SELECT 
         tb_formsJustificativa.motivo,

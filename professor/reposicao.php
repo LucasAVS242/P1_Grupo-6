@@ -2,31 +2,30 @@
 require '../conexao.php';
 session_start();
 //mudando o codigo para ficar mais limpo
-function getDisciplina($conn, $id_usuario){
-    $disciplinas = $conn -> query("SELECT tb_disciplinas.nome_disciplina, tb_disciplinas.qtde_aulas, tb_disciplinas.id_disciplina, tb_usuarios.id_usuario
+function getAulasNaoMinistradas($conn, $idFormulario){
+    $aulas = $conn -> query("SELECT tb_disciplinas.nome_disciplina,
+        tb_disciplinas.id_disciplina,
+        tb_aulasNaoMinistradas.quantidade_aulas, 
+        tb_aulasNaoMinistradas.data
     FROM tb_disciplinas
-    INNER JOIN tb_usuarioDisciplina 
-        ON tb_disciplinas.id_disciplina = tb_usuarioDisciplina.id_disciplina
-    INNER JOIN tb_usuarios 
-        ON tb_usuarios.id_usuario = tb_usuarioDisciplina.id_usuario
-    WHERE tb_usuarios.id_usuario = $id_usuario
-    ") -> fetchAll(PDO::FETCH_ASSOC);
-    return $disciplinas;
+    INNER JOIN tb_aulasNaoMinistradas
+        ON tb_aulasNaoMinistradas.id_disciplina = tb_disciplinas.id_disciplina
+    WHERE tb_aulasnaoministradas.id_formJustificativa = $idFormulario;
+        ") -> fetchAll(PDO::FETCH_ASSOC);
+    return $aulas;
 }
 
-function setFormReposicao($conn,$turno,$motivo,$curso,$id_usuario, $data_envio){
-    $stmt = $conn -> prepare("INSERT INTO tb_formsReposicao(turno, motivo_reposicao, id_curso, id_usuario, status, data_envio) VALUES (?,?,?,?, 'PENDENTE', ?)");
-    $stmt -> execute([$turno, $motivo, $curso, $id_usuario, $data_envio]);
-}
-
-function setAulasNaoMinistradas($data,$conn,$idFormulario,$qtde,$disciplina){
-    for($i = 0; $i < count($data); $i++){
-        if(!empty($data[$i]) && $data[$i] != '0000-00-00' && !empty($qtde[$i])){
-            $stmt = $conn -> prepare("INSERT INTO tb_aulasnaoministradas(data, quantidade_aulas, id_disciplina, id_formReposicao) VALUES (?, ?, ?, ?)");
-            $stmt -> execute([$data[$i], $qtde[$i], $disciplina[$i], $idFormulario]);
-        }
+function exibirDisciplinas($disciplinas){
+    foreach ($disciplinas as $disciplina){
+        echo "<option value='". $disciplina['id_disciplina']. "'>" . $disciplina['nome_disciplina'] . '</option>';                                    
     }
 }
+
+function setFormReposicao($conn,$turno,$motivo, $id_formJustificativa){
+    $stmt = $conn -> prepare("INSERT INTO tb_formsReposicao(turno, motivo_reposicao, id_formJustificativa) VALUES (?,?,?)");
+    $stmt -> execute([$turno, $motivo, $id_formJustificativa]);
+}
+
 
 function setAulasReposicao($conn, $dataRepo, $horaInicio, $horaFinal, $disciplinaRepo ,$idFormulario){
     for($i = 0; $i < count($dataRepo); $i++){
@@ -39,35 +38,32 @@ function setAulasReposicao($conn, $dataRepo, $horaInicio, $horaFinal, $disciplin
     }   
 }
 
-function exibirDisciplinas($disciplinas){
-    foreach ($disciplinas as $disciplina){
-        echo "<option value='". $disciplina['id_disciplina']. "'>" . $disciplina['nome_disciplina'] . '</option>';                                    
-    }
-}
 
-$disciplinas = getDisciplina($conn, $_SESSION['id_usuario']);
+
+$id_formJustificativa = $_GET['id_formJustificativa'];
+$curso = $conn -> query("SELECT tb_cursos.nome_curso FROM tb_cursos INNER JOIN tb_formsJustificativa ON tb_cursos.id_curso = tb_formsJustificativa.id_curso
+WHERE tb_formsjustificativa.id_formJustificativa = $id_formJustificativa") -> fetch(PDO::FETCH_ASSOC);
+$aulasNaoMinistradas = getAulasNaoMinistradas($conn, $id_formJustificativa);
+
+$disciplinas = $aulasNaoMinistradas;
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     //Primeira parte do formulario
-    $curso = $_POST['curso'];
     $turno = $_POST['turno'];
-    $motivo = $_POST['reposicao'];
-    $data_envio = date('Y-m-d');
-    setFormReposicao($conn,$turno, $motivo, $curso,$_SESSION['id_usuario'], $data_envio);
+    $motivo = $_POST['Motivo'];
+    setFormReposicao($conn,$turno, $motivo, $id_formJustificativa);
 
-    //Aulas não ministradas
-    $idFormulario = $conn -> lastInsertId();
-    $data = $_POST['data'];
-    $disciplina = $_POST['disciplina'];
-    $qtde = $_POST['qtde'];
-    setAulasNaoMinistradas($data, $conn, $idFormulario,$qtde,$disciplina);
     
     //Aulas de reposição
+    $id_formReposicao = $conn -> lastInsertId();
     $dataRepo = $_POST['dataRepo'];
     $horaInicio = $_POST['horaInicio'];
     $horaFinal = $_POST['horaFinal'];
     $disciplinaRepo = $_POST['disciplinaRepo'];
-    setAulasReposicao($conn, $dataRepo, $horaInicio, $horaFinal, $disciplinaRepo, $idFormulario);
+    setAulasReposicao($conn, $dataRepo, $horaInicio, $horaFinal, $disciplinaRepo, $id_formReposicao);
+
+    header('Location: status.php');
+    exit;
 }
 
 
@@ -133,12 +129,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         <div class="container-repo1">
         <div class="repo item-11">
             <legend>Curso:</legend>
-            <select name="curso" id="curso">
-                <option disabled selected value>Selecione o Curso</option>
-                <option value="GPI">GPI</option>
-                <option value="GTI">GTI</option>
-                <option value="GE">GE</option>  
-              </select>
+            <?= $curso['nome_curso'] ?>
+
         </div>
         <br>
         <div class="repo item-12">
@@ -155,9 +147,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             <legend>Motivo de Reposição:</legend>
             <select name="Motivo" id="Motivo">
                 <option disabled selected value>Selecione o Motivo</option>
-                <option value="GPI">Claro Docente</option>
-                <option value="GTI">Falta</option>
-                <option value="GE">Substituição</option>
+                <option value="Claro Docente">Claro Docente</option>
+                <option value="Falta">Falta</option>
+                <option value="Substituição">Substituição</option>
               </select>
         </div>
         <br>
@@ -172,22 +164,23 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 <th>Data</th>
                 <th>Nº de Aulas</th>
                 <th>Disciplina</th>
-                <th>Ação</th> <!-- Coluna para o botão de remover -->
             </tr>
         </thead>
-        <tbody>
+        <?php
+                $cont = 0;
+                foreach($aulasNaoMinistradas as $aula):
+                    $cont++;
+            ?>
             <tr>
-                <td>1</td>
-                <td><input type="date" name="data[]" class="form-control" required></td>
-                <td><input type="number" name="qtde[]" class="form-control" min="1" required></td>
-                <td class="form-control">
-                    <select name="disciplina[]">
-                        <option disabled selected value>Selecione a disciplina</option>
-                        <?= exibirDisciplinas($disciplinas) ?>
-                    </select>
+                <td><?= $cont?></td>
+                <td><input type="date" name="data" class="form-control" value="<?= $aula['data'] ?>" readonly></td>
+                <td><input type="number" name="qtde" class="form-control" min="1" value="<?= $aula['quantidade_aulas'] ?>" readonly></td>
+                <td >
+                   <input type="text" class="form-control" value="<?= $aula['nome_disciplina'] ?>" readonly>
                 </td>
-                <td><button type="button" class="btn-add" onclick="adicionarLinha('AulasNaoMinistradas')">+</button></td>
+               
             </tr>
+            <?php endforeach ?>
         </tbody>
     </table>
 </div>
@@ -210,7 +203,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         <tbody>
             <tr>
                 <td>1</td>
-                <td><input type="date" name="dataRepo[]" class="form-control" required></td>
+                <td><input type="date" name="dataRepo[]" class="form-control" min="<?= date('Y-m-d', strtotime('+1 day')) ?>"required></td>
                 <td><input type="time" name="horaInicio[]" class="form-control" required></td>
                 <td><input type="time" name="horaFinal[]" class="form-control" required></td>
                 <td>
@@ -254,7 +247,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         if (tipoTabela === 'AulasNaoMinistradas') {
             novaLinha.innerHTML = `
                 <td>${window[contadorId]}</td>
-                <td><input type="date" name="data[]" class="form-control" required></td>
+                <td><input type="date" name="data[]" class="form-control" min="<?= date('Y-m-d', strtotime('+1 day')) ?>" required></td>
                 <td><input type="number" name="qtde[]" class="form-control" min="1" required></td>
                 <td class="form-control">
                     <select name="disciplina[]">
