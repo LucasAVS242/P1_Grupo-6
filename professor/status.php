@@ -39,6 +39,27 @@
 		}
 	}
 
+  function exibirObservacao($formulario) {
+    $id_modal = "modalObservacao" . $formulario['id_formJustificativa'];
+    return "<div class='modal fade' id='$id_modal' tabindex='-1' aria-labelledby='{$id_modal}Label' aria-hidden='true'>
+  <div class='modal-dialog'>
+    <div class='modal-content'>
+      <div class='modal-header'>
+        <h4 class='modal-title w-100 text-center' id='{$id_modal}Label'>Observações do Coordenador</h4>
+        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+      </div>
+      <div class='modal-body text-center'>
+        <p>" . htmlspecialchars($formulario['observacoes_coordenador']) . "</p>
+      </div>
+      <div class='modal-footer'>
+        <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>";
+}
+
+
 	$formsJustificativa = getFormsJustificativa($conn, $_SESSION['id_usuario']);
 
 	// Ordenando pela data de envio
@@ -67,9 +88,9 @@
   <script src="https://kit.fontawesome.com/26c14cdb57.js" crossorigin="anonymous"></script>
 
   <style>
-    thead {
-      color: #fff;
-      background-color: #a90e0b;
+    thead td {
+      color: #fff !important;
+      background-color: #a90e0b !important;
     }
 
     textarea {
@@ -112,10 +133,10 @@
   </header>
 
 <main>
-  <h1><i class="fa-solid fa-user-gear mt-4"></i>&nbsp;Área do Professor</h1>
+  <h1><i class="fa-solid fa-user-gear mt-4"></i>&nbsp;Área do Professor</h1><br>
   <h2>Lista de requisições</h2>
 
-  <table style="text-align:center; width:100%;">
+  <table style="text-align:center; width:100%;" class="table table-bordered table-hover">
     <thead>
       <tr>
         <td style="width: 12%;">Nº da requisição</td>
@@ -139,33 +160,14 @@
           <td><?= date('d/m/Y', strtotime($formulario['data_envio'])) ?></td>
           <td><a href="<?=exibirFormulario($formulario)?>" target="_blank"><button class="botao" title="Visualizar documentos" onclick=""><i class="fa-solid fa-file-contract"></i></button></a></td>
           <?= exibirStatus($formulario) ?>
-          <td><button class="botao" title="Visualizar observação" data-bs-toggle="modal" data-bs-target="#modalObservacao"><i class="fa-solid fa-comment"></i></button></td>
+          <td><button class="botao" title="Visualizar observação" data-bs-toggle="modal" data-bs-target="#modalObservacao<?= $formulario['id_formJustificativa'] ?>">
+          <i class="fa-solid fa-comment"></i></button></td>
         </tr>
+        <!-- Modal individual para cada formulário -->
+        <?= exibirObservacao($formulario) ?>
 		<?php endforeach ?>
     </tbody>
   </table>
-
-<!-- Modal para visualizar uma observação -->
-<div class="modal fade" id="modalObservacao" tabindex="-1" aria-labelledby="modalObservacaoLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title w-100 text-center" id="modalObservacaoLabel">Observações do Coordenador</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body text-center">
-        <textarea name="observacao" id="observacao" cols="40" rows="10" readonly></textarea>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
 
 </main>
 
