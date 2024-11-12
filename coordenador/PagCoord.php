@@ -36,7 +36,7 @@ function getFormsJustificativa($conn)
 
 function exibirFormulario($formulario)
 {
-	return "exibirJustificativa.php?id_formJustificativa=$formulario[id_formJustificativa]";
+	return "../professor/exibirJustificativa.php?id_formJustificativa=$formulario[id_formJustificativa]";
 }
 
 function aprovarFormulario($formulario)
@@ -78,9 +78,9 @@ usort($formularios, function ($a, $b) {
 	<script src="https://kit.fontawesome.com/26c14cdb57.js" crossorigin="anonymous"></script>
 
 	<style>
-		thead {
-			color: #fff;
-			background-color: #a90e0b;
+		thead td {
+			color: #fff !important;
+			background-color: #a90e0b !important;
 		}
 	</style>
 </head>
@@ -114,10 +114,10 @@ usort($formularios, function ($a, $b) {
 	</header>
 
 	<main>
-		<h1 class="mt-4"><i class="fa-solid fa-user-gear"></i>&nbsp;Área do Coordenador</h1>
+		<h1 class="mt-4"><i class="fa-solid fa-user-gear"></i>&nbsp;Área do Coordenador</h1><br>
 		<h2>Lista de professores aguardando aprovação</h2>
 
-		<table style="text-align:center; width:100%;">
+		<table style="text-align:center; width:100%;" class="table table-bordered table-hover">
 			<thead>
 				<tr>
 					<td>Cód. Requisição</td>
@@ -127,7 +127,7 @@ usort($formularios, function ($a, $b) {
 					<td>Data de envio</td>
 					<td>Documentos</td>
 					<td>Aprovação</td>
-					<td>Observação</td>
+					<!-- <td>Observação</td> -->
 				</tr>
 			</thead>
 
@@ -149,8 +149,8 @@ usort($formularios, function ($a, $b) {
 						<td><button class="botao" style="background-color: green" title="Aprovar" data-bs-toggle="modal" data-bs-target="#modalAprovar"><i class="fa-solid fa-check"></i></button>
 							<button class="botao" style="background-color: red;" title="Rejeitar" data-bs-toggle="modal" data-bs-target="#modalRejeitar"><i class="fa-solid fa-x"></i></button>
 						</td>
-						<td><button class="botao" title="Adicionar observação" data-bs-toggle="modal" data-bs-target="#modalObservacao"><i
-									class="fa-solid fa-comment"></i></button></td>
+						<!-- <td><button class="botao" title="Adicionar observação" data-bs-toggle="modal" data-bs-target="#modalObservacao"><i
+									class="fa-solid fa-comment"></i></button></td> -->
 					</tr>
 				<?php endforeach ?>
 
@@ -163,10 +163,10 @@ usort($formularios, function ($a, $b) {
 				<div class="modal-content">
 					<div class="modal-header">
 						<h4 class="modal-title w-100 text-center" id="modalAprovarLabel">Você tem certeza que deseja <strong>aprovar</strong> essa requisição?</h1>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body text-center">
-						<button class="btn btn-primary" onclick="aprovarSim()">Sim</button>
+						<button class="btn btn-primary" data-bs-target="#staticBackdropObservacaoA" data-bs-toggle="modal">Sim</button>
 						<button class="btn btn-danger" data-bs-dismiss="modal">Não</button>
 					</div>
 					<div class="modal-footer">
@@ -181,10 +181,10 @@ usort($formularios, function ($a, $b) {
 				<div class="modal-content">
 					<div class="modal-header">
 						<h4 class="modal-title w-100 text-center" id="modalRejeitarLabel">Você tem certeza que deseja <strong>rejeitar</strong> essa requisição?</h1>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body text-center">
-						<button class="btn btn-primary" onclick="rejeitarSim()">Sim</button>
+						<button class="btn btn-primary" data-bs-target="#staticBackdropObservacaoR" data-bs-toggle="modal">Sim</button>
 						<button class="btn btn-danger" data-bs-dismiss="modal">Não</button>
 					</div>
 					<div class="modal-footer">
@@ -194,7 +194,7 @@ usort($formularios, function ($a, $b) {
 		</div>
 
 		<!-- Modal para adicionar uma observação -->
-		<div class="modal fade" id="modalObservacao" tabindex="-1" aria-labelledby="modalObservacaoLabel" aria-hidden="true">
+		<!-- <div class="modal fade" id="modalObservacao" tabindex="-1" aria-labelledby="modalObservacaoLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -210,6 +210,45 @@ usort($formularios, function ($a, $b) {
 					</div>
 				</div>
 			</div>
+		</div> -->
+
+
+		<!-- Modal observacao após aprovar a requisição -->
+		<div class="modal fade" id="staticBackdropObservacaoA" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropObservacaoALabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title w-100 text-center" id="staticBackdropObservacaoALabel">Adicionar observação</h4>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body text-center">
+						<textarea name="observacaoA" id="observacaoA" cols="40" rows="10"></textarea>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+						<button type="button" class="btn btn-primary" onclick="aprovarSim()">Enviar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal observacao após rejeitar a requisição -->
+		<div class="modal fade" id="staticBackdropObservacaoR" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropObservacaoRLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title w-100 text-center" id="staticBackdropObservacaoRLabel">Adicionar observação</h4>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body text-center">
+						<textarea name="observacaoR" id="observacaoR" cols="40" rows="10"></textarea>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+						<button type="button" class="btn btn-primary" onclick="rejeitarSim()">Enviar</button>
+					</div>
+				</div>
+			</div>
 		</div>
 
 	</main>
@@ -218,12 +257,14 @@ usort($formularios, function ($a, $b) {
 
 	<script>
 		function aprovarSim() {
-			window.location.href = "manipularFormulario.php?acao=aprovar&id_formulario=<?= $formulario['id_formJustificativa'] ?>";
+			let observacao = document.getElementById("observacaoA").value;
+			window.location.href = "manipularFormulario.php?acao=aprovar&observacao=" + observacao + "&id_formulario=<?= $formulario['id_formJustificativa'] ?>";
 			closeModal();
 		}
 
 		function rejeitarSim() {
-			window.location.href = "manipularFormulario.php?acao=reprovar&id_formulario=<?= $formulario['id_formJustificativa'] ?>"
+			let observacao = document.getElementById("observacaoR").value;
+			window.location.href = "manipularFormulario.php?acao=reprovar&observacao=" + observacao + "&id_formulario=<?= $formulario['id_formJustificativa'] ?>"
 			closeModal();
 		}
 	</script>
