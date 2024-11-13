@@ -136,6 +136,10 @@ usort($formularios, function ($a, $b) {
 				$cont = count($formularios) + 1;
 				foreach ($formularios as $formulario):
 					$cont--;
+					$modalAprovarId = "modalAprovar" . $formulario['id_formJustificativa'];
+					$modalRejeitarId = "modalRejeitar" . $formulario['id_formJustificativa'];
+					$modalObservacaoAId = "staticBackdropObservacaoA" . $formulario['id_formJustificativa'];
+					$modalObservacaoRId = "staticBackdropObservacaoR" . $formulario['id_formJustificativa'];
 				?>
 					<tr>
 						<td><?= $cont ?></td>
@@ -146,126 +150,104 @@ usort($formularios, function ($a, $b) {
 						<td><a href="<?= exibirFormulario($formulario) ?>" target="_blank"><button class="botao"
 									title="Visualizar documentos"><i class="fa-solid fa-file-contract"></i></button></a>
 						</td>
-						<td><button class="botao" style="background-color: green" title="Aprovar" data-bs-toggle="modal" data-bs-target="#modalAprovar"><i class="fa-solid fa-check"></i></button>
-							<button class="botao" style="background-color: red;" title="Rejeitar" data-bs-toggle="modal" data-bs-target="#modalRejeitar"><i class="fa-solid fa-x"></i></button>
+						<td>
+							<button class="botao" style="background-color: green" title="Aprovar" data-bs-toggle="modal" data-bs-target="#<?= $modalAprovarId ?>">
+								<i class="fa-solid fa-check"></i>
+							</button>
+							<button class="botao" style="background-color: red;" title="Rejeitar" data-bs-toggle="modal" data-bs-target="#<?= $modalRejeitarId ?>">
+								<i class="fa-solid fa-x"></i>
+							</button>
 						</td>
-						<!-- <td><button class="botao" title="Adicionar observação" data-bs-toggle="modal" data-bs-target="#modalObservacao"><i
-									class="fa-solid fa-comment"></i></button></td> -->
 					</tr>
+
+					<!-- Modal de confirmação de aprovação -->
+					<div class="modal fade" id="<?= $modalAprovarId ?>" tabindex="-1" aria-labelledby="modalAprovarLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title w-100 text-center" id="modalAprovarLabel">Você tem certeza que deseja <strong>aprovar</strong> essa requisição?</h1>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body text-center">
+									<button class="btn btn-primary" data-bs-target="#<?= $modalObservacaoAId ?>" data-bs-toggle="modal">Sim</button>
+									<button class="btn btn-danger" data-bs-dismiss="modal">Não</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Modal de confirmação de rejeição -->
+					<div class="modal fade" id="<?= $modalRejeitarId ?>" tabindex="-1" aria-labelledby="modalRejeitarLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title w-100 text-center" id="modalRejeitarLabel">Você tem certeza que deseja <strong>rejeitar</strong> essa requisição?</h1>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body text-center">
+									<button class="btn btn-primary" data-bs-target="#<?= $modalObservacaoRId ?>" data-bs-toggle="modal">Sim</button>
+									<button class="btn btn-danger" data-bs-dismiss="modal">Não</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Modal de observação após aprovação -->
+					<div class="modal fade" id="<?= $modalObservacaoAId ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropObservacaoALabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title w-100 text-center" id="staticBackdropObservacaoALabel">Adicionar observação</h4>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body text-center">
+									<textarea name="observacaoA" id="observacaoA<?= $formulario['id_formJustificativa'] ?>" cols="40" rows="10"></textarea>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+									<button class="btn btn-primary" onclick="aprovarSim(<?= $formulario['id_formJustificativa'] ?>)">Sim</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Modal de observação após rejeição -->
+					<div class="modal fade" id="<?= $modalObservacaoRId ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropObservacaoRLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title w-100 text-center" id="staticBackdropObservacaoRLabel">Adicionar observação</h4>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body text-center">
+									<textarea name="observacaoR" id="observacaoR<?= $formulario['id_formJustificativa'] ?>" cols="40" rows="10"></textarea>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+									<button class="btn btn-primary" onclick="rejeitarSim(<?= $formulario['id_formJustificativa'] ?>)">Sim</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
 				<?php endforeach ?>
-
 			</tbody>
+
 		</table>
-
-		<!-- Modal para confirmar aprovação da requisição -->
-		<div class="modal fade" id="modalAprovar" tabindex="-1" aria-labelledby="modalAprovarLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title w-100 text-center" id="modalAprovarLabel">Você tem certeza que deseja <strong>aprovar</strong> essa requisição?</h1>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body text-center">
-						<button class="btn btn-primary" data-bs-target="#staticBackdropObservacaoA" data-bs-toggle="modal">Sim</button>
-						<button class="btn btn-danger" data-bs-dismiss="modal">Não</button>
-					</div>
-					<div class="modal-footer">
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- Modal para confirmar rejeição da requisição -->
-		<div class="modal fade" id="modalRejeitar" tabindex="-1" aria-labelledby="modalRejeitarLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title w-100 text-center" id="modalRejeitarLabel">Você tem certeza que deseja <strong>rejeitar</strong> essa requisição?</h1>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body text-center">
-						<button class="btn btn-primary" data-bs-target="#staticBackdropObservacaoR" data-bs-toggle="modal">Sim</button>
-						<button class="btn btn-danger" data-bs-dismiss="modal">Não</button>
-					</div>
-					<div class="modal-footer">
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- Modal para adicionar uma observação -->
-		<!-- <div class="modal fade" id="modalObservacao" tabindex="-1" aria-labelledby="modalObservacaoLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title w-100 text-center" id="modalObservacaoLabel">Adicionar observação</h1>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body text-center">
-						<textarea name="observacao" id="observacao" cols="40" rows="10"></textarea>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-						<button type="button" class="btn btn-primary">Enviar</button>
-					</div>
-				</div>
-			</div>
-		</div> -->
-
-
-		<!-- Modal observacao após aprovar a requisição -->
-		<div class="modal fade" id="staticBackdropObservacaoA" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropObservacaoALabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title w-100 text-center" id="staticBackdropObservacaoALabel">Adicionar observação</h4>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body text-center">
-						<textarea name="observacaoA" id="observacaoA" cols="40" rows="10"></textarea>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-						<button type="button" class="btn btn-primary" onclick="aprovarSim()">Enviar</button>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- Modal observacao após rejeitar a requisição -->
-		<div class="modal fade" id="staticBackdropObservacaoR" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropObservacaoRLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title w-100 text-center" id="staticBackdropObservacaoRLabel">Adicionar observação</h4>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body text-center">
-						<textarea name="observacaoR" id="observacaoR" cols="40" rows="10"></textarea>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-						<button type="button" class="btn btn-primary" onclick="rejeitarSim()">Enviar</button>
-					</div>
-				</div>
-			</div>
-		</div>
 
 	</main>
 
 	<footer-component></footer-component>
 
 	<script>
-		function aprovarSim() {
-			let observacao = document.getElementById("observacaoA").value;
-			window.location.href = "manipularFormulario.php?acao=aprovar&observacao=" + observacao + "&id_formulario=<?= $formulario['id_formJustificativa'] ?>";
-			closeModal();
+		function aprovarSim(idFormulario) {
+			const observacao = document.getElementById("observacaoA" + idFormulario).value;
+			window.location.href = "manipularFormulario.php?acao=aprovar&observacao=" + encodeURIComponent(observacao) + "&id_formulario=" + idFormulario;
 		}
 
-		function rejeitarSim() {
-			let observacao = document.getElementById("observacaoR").value;
-			window.location.href = "manipularFormulario.php?acao=reprovar&observacao=" + observacao + "&id_formulario=<?= $formulario['id_formJustificativa'] ?>"
-			closeModal();
+		function rejeitarSim(idFormulario) {
+			const observacao = document.getElementById("observacaoR" + idFormulario).value;
+			window.location.href = "manipularFormulario.php?acao=reprovar&observacao=" + encodeURIComponent(observacao) + "&id_formulario=" + idFormulario;
 		}
 	</script>
 
