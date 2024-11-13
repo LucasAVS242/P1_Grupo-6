@@ -137,9 +137,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             <legend>Turno:</legend>  
             <select name="turno" id="turno">
                    <option disabled selected value>Selecione o Turno</option>
-                   <option value="manha">Manhã</option>
-                   <option value="tarde">Tarde</option>
-                   <option value="noite">Noite</option>
+                   <option value="Manhã">Manhã</option>
+                   <option value="Tarde">Tarde</option>
+                   <option value="Noite">Noite</option>
                  </select>
         </div>
         <br>
