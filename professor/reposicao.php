@@ -10,7 +10,7 @@ function getAulasNaoMinistradas($conn, $idFormulario){
     FROM tb_disciplinas
     INNER JOIN tb_aulasNaoMinistradas
         ON tb_aulasNaoMinistradas.id_disciplina = tb_disciplinas.id_disciplina
-    WHERE tb_aulasnaoministradas.id_formJustificativa = $idFormulario;
+    WHERE tb_aulasNaoMinistradas.id_formJustificativa = $idFormulario;
         ") -> fetchAll(PDO::FETCH_ASSOC);
     return $aulas;
 }
@@ -32,7 +32,7 @@ function setAulasReposicao($conn, $dataRepo, $horaInicio, $horaFinal, $disciplin
         if(!empty($dataRepo[$i]) && $dataRepo[$i] != '0000-00-00' 
         && !empty($horaInicio[$i]) && $horaInicio[$i] != '00:00:00' 
         && !empty($horaFinal[$i]) && $horaFinal[$i] != '00:00:00'){
-            $stmt = $conn -> prepare("INSERT INTO tb_aulasreposicao(data, horario_inicio, horario_final, id_disciplina, id_formReposicao) VALUES (?,?,?,?,?)");
+            $stmt = $conn -> prepare("INSERT INTO tb_aulasReposicao(data, horario_inicio, horario_final, id_disciplina, id_formReposicao) VALUES (?,?,?,?,?)");
             $stmt -> execute([$dataRepo[$i], $horaInicio[$i], $horaFinal[$i], $disciplinaRepo[$i], $idFormulario]);
         }
     }   
@@ -42,7 +42,7 @@ function setAulasReposicao($conn, $dataRepo, $horaInicio, $horaFinal, $disciplin
 
 $id_formJustificativa = $_GET['id_formJustificativa'];
 $curso = $conn -> query("SELECT tb_cursos.nome_curso FROM tb_cursos INNER JOIN tb_formsJustificativa ON tb_cursos.id_curso = tb_formsJustificativa.id_curso
-WHERE tb_formsjustificativa.id_formJustificativa = $id_formJustificativa") -> fetch(PDO::FETCH_ASSOC);
+WHERE tb_formsJustificativa.id_formJustificativa = $id_formJustificativa") -> fetch(PDO::FETCH_ASSOC);
 $aulasNaoMinistradas = getAulasNaoMinistradas($conn, $id_formJustificativa);
 
 $disciplinas = $aulasNaoMinistradas;
