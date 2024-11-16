@@ -10,7 +10,7 @@ function getDados($conn, $idFormulario){
         tb_formsJustificativa.nome_arquivo,
         tb_usuarios.nome,
         tb_usuarios.matricula,
-        tb_cursos.sigla
+        tb_cursos.nome_curso
     FROM tb_formsJustificativa
     INNER JOIN tb_usuarios
         ON tb_formsJustificativa.id_usuario = tb_usuarios.id_usuario
@@ -134,8 +134,8 @@ $aulas = getAulasNaoMinistradas($conn, $id_formJustificativa);
                             <?= $dados['matricula'] ?>
                             <br>
                             <p><strong>FUNÇÃO:</strong> Professor de Ensino Superior <strong>REGIME JURÍDICO:</strong> CLT</p>
-                            <strong><label>CURSO(S) ENVOLVIDO(S) NA AUSÊNCIA: </label></strong>
-                                <?= $dados['sigla'] ?>
+                            <strong><label>CURSO ENVOLVIDO NA AUSÊNCIA: </label></strong>
+                                <?= $dados['nome_curso'] ?>
                             <br><br>
 
                             <h5>Dados da(s) aulas não ministradas</h5>
@@ -174,12 +174,24 @@ $aulas = getAulasNaoMinistradas($conn, $id_formJustificativa);
                             </div>
                             </strong>
                             <br>  
-                                <a href="../uploads/<?= htmlspecialchars($dados['nome_arquivo'])?>" target="_blank" class="botao">Visualizar comprovante</a>
-                                <a href="exibirReposicao.php?id_formJustificativa=<?= $id_formJustificativa ?>" target="_blank" class="botao">Visualizar Formulario de Reposição</a>
+                                
                             <br>
 
                         </div>
+                        
                     </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <a href="../uploads/<?= htmlspecialchars($dados['nome_arquivo'])?>" target="_blank" class="botao" style="text-decoration: none">Visualizar comprovante</a>
+
+                    <a href="exibirReposicao.php?id_formJustificativa=<?= $id_formJustificativa ?>" class="botao" style="text-decoration: none">Visualizar Formulario de Reposição</a>
+
+                    <button id="gerarPDF" class="botao" style="padding: 7px;" type="button" onclick="printForm()">Gerar PDF do documento</button>
                 </div>
             </div>
         </div>

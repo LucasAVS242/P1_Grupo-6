@@ -187,7 +187,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <?= $_SESSION['matricula'] ?>
                             <br>
                             <p><strong>FUNÇÃO:</strong> Professor de Ensino Superior <strong>REGIME JURÍDICO:</strong> CLT</p>
-                            <strong><label>CURSO(S) ENVOLVIDO(S) NA AUSÊNCIA: </label></strong>
+                            <strong><label>CURSO ENVOLVIDO NA AUSÊNCIA: </label></strong>
                             <input class="form-check-input" type="checkbox" name="curso" id="cst-dsm" value="1" onclick="onlyOne(this)"> CST-DSM
                             <input class="form-check-input" type="checkbox" name="curso" id="cst-ge" value="2" onclick="onlyOne(this)"> CST-GE
                             <input class="form-check-input" type="checkbox" name="curso" id="cst-gpi" value="3" onclick="onlyOne(this)"> CST-GPI
@@ -293,7 +293,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <br>
 
 
-                            <button id="gerarPDF" class="botao" type="button" onclick="printForm()">Gerar PDF do documento</button>
                             <input class="botao" type="submit" value="Avançar">
 
                         </div>
@@ -338,19 +337,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (divToShow) divToShow.hidden = false;
         });
 
-        // Código para gerar PDF
-        function printForm() {
-            const form = document.getElementById('form');
-            const body = document.body;
-            const originalContent = body.innerHTML;
-
-            body.innerHTML = '';
-            body.appendChild(form);
-
-            window.print();
-
-            body.innerHTML = originalContent;
-        }
+        
 
         function onlyOne(checkbox) {
             var checkboxes = document.getElementsByName(checkbox.name)

@@ -129,7 +129,7 @@ $aulasReposicao = getAulasReposicao($conn, $id_formReposicao);
     <br>
     <h2 class="text-center text-decoration-underline mt-4">PLANO - REPOSIÇÃO/SUBSTITUIÇÃO DE AULAS</h2>
     <br>
-
+<div id="form">
         <div class="container-repo1">
         <div class="repo item-11">
             <legend>Curso:</legend>
@@ -205,6 +205,16 @@ $aulasReposicao = getAulasReposicao($conn, $id_formReposicao);
             </tbody>
     </table>
 </div>
+</div>
+
+<div class="container mt-5" style="margin-left: 10%;">
+    <div class="col-md-10">
+
+        <a href="exibirJustificativa.php?id_formJustificativa=<?= $id_formJustificativa ?>" class="botao" style="text-decoration: none">Visualizar Formulario de Justificativa</a>
+
+        <button id="gerarPDF" class="botao" style="padding: 7px;" type="button" onclick="printForm()">Gerar PDF do documento</button>
+    </div>    
+</div>
 
 <footer>
     
@@ -237,6 +247,22 @@ $aulasReposicao = getAulasReposicao($conn, $id_formReposicao);
     </div>
     
     </footer>
+    <script>
+
+        // Código para gerar PDF
+        function printForm() {
+            const form = document.getElementById('form');
+            const body = document.body;
+            const originalContent = body.innerHTML;
+
+            body.innerHTML = '';
+            body.appendChild(form);
+
+            window.print();
+
+            body.innerHTML = originalContent;
+        }
+    </script>
 </body>
 
 </html>
