@@ -207,7 +207,7 @@ $aulas = getAulasNaoMinistradas($conn, $id_formJustificativa);
 
         <?php else: ?>
             <h3>Área do Coordenador</h3>
-        	<a href="PagCoord.php"><p>Lista de Requisições</p></a>
+        	<a href="../coordenador/PagCoord.php"><p>Lista de Requisições</p></a>
 
         <?php endif ?>
       </div>

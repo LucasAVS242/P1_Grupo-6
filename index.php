@@ -119,15 +119,15 @@ function exibirBtnLogin($sessao)
         <?php if(isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] == "PROFESSOR") :?>
         <h3>Área do Professor</h3>
         
-            <a href="status.php"><p>Status</p></a>
-            <a href="justificativa.php"><p>Justificativa de Faltas</p></a>
+            <a href="professor/status.php"><p>Status</p></a>
+            <a href="professor/justificativa.php"><p>Justificativa de Faltas</p></a>
 
         <?php endif ?>
 
         <?php if(isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] == "COORDENADOR") :?>
 
             <h3>Área do Coordenador</h3>
-        	<a href="PagCoord.php"><p>Lista de Requisições</p></a>
+        	<a href="coordenador/PagCoord.php"><p>Lista de Requisições</p></a>
 
         <?php endif ?>
       </div>

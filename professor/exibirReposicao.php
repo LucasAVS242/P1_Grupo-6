@@ -54,6 +54,17 @@ function getAulasReposicao($conn, $idFormulario){
 
 $id_formJustificativa = $_GET['id_formJustificativa'];
 $dados = getDados($conn, $id_formJustificativa);
+if($dados == null && $_SESSION['tipo_usuario'] == "COORDENADOR"){
+    echo "<script>
+    alert('Este formulário não possui um plano de reposição preenchido!');
+    window.location.href = '../coordenador/PagCoord.php';
+    </script>";
+} elseif($dados == null && $_SESSION['tipo_usuario'] == "PROFESSOR"){
+    echo "<script>
+    alert('Este formulário não possui um plano de reposição preenchido!');
+    window.location.href = 'reposicao.php?id_formJustificativa=$id_formJustificativa';
+    </script>";
+}
 $aulasNaoMinistradas = getAulasNaoMinistradas($conn, $id_formJustificativa);
 
 $id_formReposicao = $dados['id_formReposicao'];
@@ -216,7 +227,7 @@ $aulasReposicao = getAulasReposicao($conn, $id_formReposicao);
 
         <?php else: ?>
             <h3>Área do Coordenador</h3>
-        	<a href="PagCoord.php"><p>Lista de Requisições</p></a>
+        	<a href="../coordenador/PagCoord.php"><p>Lista de Requisições</p></a>
 
         <?php endif ?>
       </div>
