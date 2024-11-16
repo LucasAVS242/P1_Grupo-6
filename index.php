@@ -28,7 +28,7 @@ function exibirBtnLogin($sessao)
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
   <link rel="stylesheet" type="text/css" href="Style/main.css" />
-  <script src="Components/footer.js" type="text/javascript" defer></script>
+  <!--<script src="Components/footer.js" type="text/javascript" defer></script>-->
 
   <style>
     img {
@@ -103,7 +103,40 @@ function exibirBtnLogin($sessao)
     </div>
   </main>
 
-  <footer-component></footer-component>
+  <footer>
+    
+    <div class="container-footer">
+
+      <div class="item item-1"><a href="index.html"><img src="images/logo_fatec_br.png"></a></div>
+
+      <div class="item item-3">
+      </div>
+
+      <div class="item item-4">
+      </div>
+
+      <div class="item item-5">
+        <?php if(isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] == "PROFESSOR") :?>
+        <h3>Área do Professor</h3>
+        
+            <a href="status.php"><p>Status</p></a>
+            <a href="justificativa.php"><p>Justificativa de Faltas</p></a>
+
+        <?php endif ?>
+
+        <?php if(isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] == "COORDENADOR") :?>
+
+            <h3>Área do Coordenador</h3>
+        	<a href="PagCoord.php"><p>Lista de Requisições</p></a>
+
+        <?php endif ?>
+      </div>
+
+      <div class="item item-6"></div>
+
+    </div>
+
+    </footer>
 
 
 </body>

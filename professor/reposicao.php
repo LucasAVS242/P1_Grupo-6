@@ -83,7 +83,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../Style/main.css">
     
-    <script src="../Components/footer.js" type="text/javascript" defer></script>
+    <!--<script src="../Components/footer.js" type="text/javascript" defer></script>-->
     <script src="../Components/validacao.js" type="text/javascript" defer></script>
 
 
@@ -314,7 +314,29 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 
 
-    <footer-component></footer-component>
+    <footer>
+    
+    <div class="container-footer">
+
+      <div class="item item-1"><a href="../index.html"><img src="../images/logo_fatec_br.png"></a></div>
+
+      <div class="item item-3">
+      </div>
+
+      <div class="item item-4">
+      </div>
+
+      <div class="item item-5">
+        <h3>Área do Professor</h3>
+        
+          <a href="status.php"><p>Status</p></a>
+          <a href="justificativa.php"><p>Justificativa de Faltas</p></a>
+        
+      </div>
+
+      <div class="item item-6"></div>
+
+    </div>
 </body>
 
 </html>

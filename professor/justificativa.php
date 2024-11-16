@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-    <script src="../Components/footer.js" type="text/javascript" defer></script>
+    <!--<script src="../Components/footer.js" type="text/javascript" defer></script>-->
     <script src="../Components/validacao.js" type="text/javascript" defer></script>
     <link rel="stylesheet" type="text/css" href="../Style/main.css">
 
@@ -304,7 +304,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     </main>
 
-    <footer-component></footer-component>
+    <footer>
+    
+    <div class="container-footer">
+
+      <div class="item item-1"><a href="../index.html"><img src="../images/logo_fatec_br.png"></a></div>
+
+      <div class="item item-3">
+      </div>
+
+      <div class="item item-4">
+      </div>
+
+      <div class="item item-5">
+        <h3>Área do Professor</h3>
+        
+          <a href="status.php"><p>Status</p></a>
+          <a href="justificativa.php"><p>Justificativa de Faltas</p></a>
+        
+      </div>
+
+      <div class="item item-6"></div>
+
+    </div>
+
+  </footer>
 
     <script>
         // Mostra as opções baseado no motivo da falta

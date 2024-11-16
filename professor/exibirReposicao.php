@@ -72,7 +72,7 @@ $aulasReposicao = getAulasReposicao($conn, $id_formReposicao);
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../Style/main.css">
     
-    <script src="../Components/footer.js" type="text/javascript" defer></script>
+    <!--<script src="../Components/footer.js" type="text/javascript" defer></script>-->
     <script src="../Components/validacao.js" type="text/javascript" defer></script>
 
 
@@ -95,12 +95,18 @@ $aulasReposicao = getAulasReposicao($conn, $id_formReposicao);
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="../index.php">Início</a>
                     </li>
+                <?php if($_SESSION['tipo_usuario'] == "PROFESSOR"): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="justificativa.php">Justificativa de Faltas</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="status.php">Status</a>
                     </li>
+                <?php else: ?>
+                    <li class="nav-item">
+						<a class="nav-link" href="coordenador/PagCoord.php">Lista de requisições</a>
+					</li>
+                    <?php endif; ?>
                 </ul>
                 <div class='d-lg-flex col-lg-3 justify-content-lg-end'>
                     <a href='../auth/logout.php'><button class='btn btn-primary' style='background-color: #005C6D; border: none;'>Sair</button></a>
@@ -189,7 +195,37 @@ $aulasReposicao = getAulasReposicao($conn, $id_formReposicao);
     </table>
 </div>
 
-    <footer-component></footer-component>
+<footer>
+    
+    <div class="container-footer">
+
+      <div class="item item-1"><a href="../index.html"><img src="../images/logo_fatec_br.png"></a></div>
+
+      <div class="item item-3">
+      </div>
+
+      <div class="item item-4">
+      </div>
+
+      <div class="item item-5">
+        <?php if($_SESSION['tipo_usuario'] == "PROFESSOR") :?>
+        <h3>Área do Professor</h3>
+        
+            <a href="status.php"><p>Status</p></a>
+            <a href="justificativa.php"><p>Justificativa de Faltas</p></a>
+
+        <?php else: ?>
+            <h3>Área do Coordenador</h3>
+        	<a href="PagCoord.php"><p>Lista de Requisições</p></a>
+
+        <?php endif ?>
+      </div>
+
+      <div class="item item-6"></div>
+
+    </div>
+    
+    </footer>
 </body>
 
 </html>
