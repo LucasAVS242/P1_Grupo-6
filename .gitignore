@@ -1,2 +1,7 @@
+# Arquivos ignorados
 conexao.php
 uploads/*
+
+# Arquivos não ignorados
+!.gitignore
+!.gitkeep
