@@ -31,10 +31,34 @@
         a {
             color: #4C7EFF;
         }
+
+        .popup {
+  display: none;  /* Inicialmente escondido */
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffff;
+  color: #B20000;
+  font-weight: bolder;
+  border: 1px solid #d2d2d2;
+  padding: 10px 10px 0 10px;
+  border-radius: 5px;
+  text-align: center;
+  z-index: 1000;
+}
+
     </style>
 </head>
 
 <body>
+    <div id="popup-erro" class="popup">
+        <p id="erro-mensagem">Email e/ou senha inválidos!</p>
+        
+        
+    </div>
+
+
     <link rel="stylesheet" type="text/css"
         href="https://saopaulo.sp.gov.br/barra-govsp/css/top-padrao-govsp-v2.min.css?vs=3.0">
     <section class="govsp-topo">
@@ -137,6 +161,7 @@
     </section>
 
     <main>
+        
         <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="col-md-4">
@@ -200,6 +225,37 @@
 
         </div>
     </section>
+
+
+    <script>
+        // Função para obter parâmetros da URL
+        function getURLParameter(name) {
+            name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)'),
+                results = regex.exec(location.href);
+            return results == null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // Função para mostrar o popup de erro
+        function showPopup() {
+            var popup = document.getElementById('popup-erro');
+            popup.style.display = 'block';  // Exibe o popup
+        }
+
+        // Função para fechar o popup
+        function closePopup() {
+            var popup = document.getElementById('popup-erro');
+            popup.style.display = 'none';  // Esconde o popup
+        }
+
+        // Verifica se há um parâmetro "erro" na URL
+        var erro = getURLParameter('erro');
+        if (erro == '1') {
+            // Se houver erro, exibe o popup
+            showPopup();
+        }
+    </script>
+    
 </body>
 
 </html>

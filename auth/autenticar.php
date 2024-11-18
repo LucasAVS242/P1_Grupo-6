@@ -26,7 +26,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         exit;
     } else {
         $_SESSION['erro_login'] = 'Email ou senha inválidas';
-        header('Location: login.html');
+        header('Location: login.html?erro=1');
+        
+        
         exit;
     }
 }
