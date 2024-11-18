@@ -31,11 +31,11 @@
 
 	function exibirStatus($formulario){
 		if ($formulario['status'] == 'APROVADO'){
-			return "<td style='color: #fff; background-color: rgb(3, 139, 3);'><b><i class='fa-solid fa-circle-check'> </i>  $formulario[status]</b></td>";
+			return "<td style='color: #fff; background-color: #3ACF1F;'><b><i class='fa-solid fa-circle-check'> </i>  $formulario[status]</b></td>";
 		} else if ($formulario['status'] == 'REPROVADO'){
-			return "<td style='color: #fff; background-color: rgb(177, 7, 7);'><b><i class='fa-solid fa-circle-xmark'> </i>  $formulario[status]</b></td>";
+			return "<td style='color: #fff; background-color: #D32719;'><b><i class='fa-solid fa-circle-xmark'> </i>  $formulario[status]</b></td>";
 		} else {
-			return "<td style='color: #fff; background-color: rgb(209, 198, 47);'><b><i class='fa-solid fa-circle-exclamation'> </i>  $formulario[status]</b></td>";
+			return "<td style='color: #fff; background-color: #B78718;'><b><i class='fa-solid fa-circle-exclamation'> </i>  $formulario[status]</b></td>";
 		}
 	}
 

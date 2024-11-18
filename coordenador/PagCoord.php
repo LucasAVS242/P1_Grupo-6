@@ -165,10 +165,13 @@ usort($formularios, function ($a, $b) {
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h4 class="modal-title w-100 text-center" id="modalAprovarLabel">Você tem certeza que deseja <strong>aprovar</strong> essa requisição?</h1>
+									<h4 class="modal-title w-100 text-center" id="modalAprovarLabel">Aprovar requisição</h1>
 										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
 								<div class="modal-body text-center">
+									<h5>Você tem certeza que deseja <strong>aprovar</strong> essa requisição?</h5>
+								</div>
+								<div class="modal-footer">
 									<button class="btn btn-primary" data-bs-target="#<?= $modalObservacaoAId ?>" data-bs-toggle="modal">Sim</button>
 									<button class="btn btn-danger" data-bs-dismiss="modal">Não</button>
 								</div>
@@ -181,10 +184,13 @@ usort($formularios, function ($a, $b) {
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h4 class="modal-title w-100 text-center" id="modalRejeitarLabel">Você tem certeza que deseja <strong>rejeitar</strong> essa requisição?</h1>
+									<h4 class="modal-title w-100 text-center" id="modalRejeitarLabel">Reprovar requisição</h1>
 										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
 								<div class="modal-body text-center">
+									<h5>Você tem certeza que deseja <strong>reprovar</strong> essa requisição?</h5>
+								</div>
+								<div class="modal-footer">
 									<button class="btn btn-primary" data-bs-target="#<?= $modalObservacaoRId ?>" data-bs-toggle="modal">Sim</button>
 									<button class="btn btn-danger" data-bs-dismiss="modal">Não</button>
 								</div>
@@ -205,7 +211,7 @@ usort($formularios, function ($a, $b) {
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-									<button class="btn btn-primary" onclick="aprovarSim(<?= $formulario['id_formJustificativa'] ?>)">Sim</button>
+									<button class="btn btn-primary" onclick="aprovarSim(<?= $formulario['id_formJustificativa'] ?>)">Enviar</button>
 								</div>
 							</div>
 						</div>
@@ -224,7 +230,7 @@ usort($formularios, function ($a, $b) {
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-									<button class="btn btn-primary" onclick="rejeitarSim(<?= $formulario['id_formJustificativa'] ?>)">Sim</button>
+									<button class="btn btn-primary" onclick="rejeitarSim(<?= $formulario['id_formJustificativa'] ?>)">Enviar</button>
 								</div>
 							</div>
 						</div>

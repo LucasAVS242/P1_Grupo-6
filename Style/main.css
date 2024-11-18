@@ -95,7 +95,19 @@ main{
 }
 
 button {
-  border: none;
+  border: none !important;
+}
+
+.btn-primary {
+  background-color: #00C1CF;
+}
+
+.btn-primary:hover {
+  background-color: #00D8E8;
+}
+
+.btn-danger {
+  background-color: #D32719;
 }
 
 
@@ -112,6 +124,18 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+
+/* Esrilos para o modal */
+.modal-header {
+  background-color: #B20000;
+  color: #fff;
+}
+
+.modal .btn {
+  min-width: 20%;
+}
+
 
 footer {
  
