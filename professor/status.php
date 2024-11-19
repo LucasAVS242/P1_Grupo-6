@@ -96,6 +96,15 @@
     textarea {
       resize: none;
     }
+
+    button:disabled {
+      cursor: help !important;
+      background-color: gray;
+    }
+
+    button:disabled:hover {
+      background-color: #666666;
+    }
   </style>
   
 </head>
@@ -160,8 +169,17 @@
           <td><?= date('d/m/Y', strtotime($formulario['data_envio'])) ?></td>
           <td><a href="<?=exibirFormulario($formulario)?>" target="_blank"><button class="botao" title="Visualizar documentos" onclick=""><i class="fa-solid fa-file-contract"></i></button></a></td>
           <?= exibirStatus($formulario) ?>
-          <td><button class="botao" title="Visualizar observação" data-bs-toggle="modal" data-bs-target="#modalObservacao<?= $formulario['id_formJustificativa'] ?>">
-          <i class="fa-solid fa-comment"></i></button></td>
+          <td>
+            <?php if (!empty($formulario['observacoes_coordenador'])): ?>
+              <button class="botao" title="Visualizar observação" data-bs-toggle="modal" data-bs-target="#modalObservacao<?= $formulario['id_formJustificativa'] ?>">
+                <i class="fa-solid fa-comment"></i>
+              </button>
+              <?php else :?>
+                <button class="botao" title="Nenhuma observação no momento" disabled>
+                  <i class="fa-solid fa-comment-dots"></i>
+                </button>
+            <?php endif; ?>
+          </td>
         </tr>
         <!-- Modal individual para cada formulário -->
         <?= exibirObservacao($formulario) ?>

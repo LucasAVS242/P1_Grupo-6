@@ -37,7 +37,7 @@ function fazerUpload($arquivo)
 
 function setFormJustificativa($conn, $curso, $data_envio, $motivo, $nomeArquivo)
 {
-    $stmt = $conn->prepare("INSERT INTO tb_formsJustificativa (id_usuario, id_curso, data_envio, motivo, nome_arquivo, status, observacoes_coordenador) VALUES (?, ?, ?, ?, ?, 'PENDENTE', ' ')");
+    $stmt = $conn->prepare("INSERT INTO tb_formsJustificativa (id_usuario, id_curso, data_envio, motivo, nome_arquivo, status, observacoes_coordenador) VALUES (?, ?, ?, ?, ?, 'PENDENTE', NULL)");
     $stmt->execute([$_SESSION['id_usuario'], $curso, $data_envio, $motivo, $nomeArquivo]);
 }
 
