@@ -203,7 +203,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         <tbody>
             <tr>
                 <td>1</td>
-                <td><input type="date" name="dataRepo[]" class="form-control" min="<?= date('Y-m-d', strtotime('+1 day')) ?>"required></td>
+                <td><input type="date" name="dataRepo[]" class="form-control" min="<?= date('Y-m-d', strtotime('+1 day')) ?>" max="2024-12-24" required></td>
                 <td><input type="time" name="horaInicio[]" class="form-control" required></td>
                 <td><input type="time" name="horaFinal[]" class="form-control" required></td>
                 <td>
@@ -260,7 +260,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         } else {
             novaLinha.innerHTML = `
                 <td>${window[contadorId]}</td>
-                <td><input type="date" name="dataRepo[]" class="form-control" required></td>
+                <td><input type="date" name="dataRepo[]" class="form-control" min="<?= date('Y-m-d', strtotime('+1 day')) ?>" max="2024-12-24" required></td>
                 <td><input type="time" name="horaInicio[]" class="form-control" required></td>
                 <td><input type="time" name="horaFinal[]" class="form-control" required></td>
                 <td>

@@ -210,7 +210,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <tbody id="conteinerLinhas">
                                     <tr>
                                         <td>#</td>
-                                        <td><input type="date" class="form-control" name="data[]" max="<?= date('Y-m-d')?>" required></td>
+                                        <td><input type="date" class="form-control" name="data[]" min="2024-06-01" max="<?= date('Y-m-d')?>" required></td>
                                         <td><input type="number" class="form-control" min="1" name='qtde[]' required></td>
                                         <td>
                                             <select name='disciplina[]' class="form-control">
@@ -356,7 +356,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             const novaLinha = document.createElement("tr");
             novaLinha.innerHTML = `
                 <td></td>
-                <td><input type="date" class="form-control" name="data[]" max="<?= date('Y-m-d')?>" required></td>
+                <td><input type="date" class="form-control" name="data[]" min="2024-06-01" max="<?= date('Y-m-d')?>" required></td>
                 <td><input type="number" class="form-control" min="1" name="qtde[]" required></td>
                 <td>
                     <select name="disciplina[]" class="form-control">
