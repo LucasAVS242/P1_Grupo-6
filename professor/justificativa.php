@@ -188,11 +188,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <br>
                             <p><strong>FUNÇÃO:</strong> Professor de Ensino Superior <strong>REGIME JURÍDICO:</strong> CLT</p>
                             <strong><label>CURSO ENVOLVIDO NA AUSÊNCIA: </label></strong>
-                            <input class="form-check-input" type="checkbox" name="curso" id="cst-dsm" value="1" onclick="onlyOne(this)"> CST-DSM
-                            <input class="form-check-input" type="checkbox" name="curso" id="cst-ge" value="2" onclick="onlyOne(this)"> CST-GE
-                            <input class="form-check-input" type="checkbox" name="curso" id="cst-gpi" value="3" onclick="onlyOne(this)"> CST-GPI
-                            <input class="form-check-input" type="checkbox" name="curso" id="cst-gti" value="4" onclick="onlyOne(this)"> CST-GTI
-                            <input class="form-check-input" type="checkbox" name="curso" id="hae" value="HAE"> HAE </strong>
+                            <select name="curso">
+                                <option value="1">Desenvolvimento de Software Multiplataforma</option>
+                                <option value="2">Gestão Empresarial</option>
+                                <option value="3">Gestão de Produção Industrial</option>
+                                <option value="4">Gestão da Tecnologia da Informação</option>
+                            </select>
+                            <!--
+                            <input class="form-check-input" type="checkbox" name="curso" id="cst-dsm" value="1" onclick="onlyOne(this)" required> CST-DSM
+                            <input class="form-check-input" type="checkbox" name="curso" id="cst-ge" value="2" onclick="onlyOne(this)" required> CST-GE
+                            <input class="form-check-input" type="checkbox" name="curso" id="cst-gpi" value="3" onclick="onlyOne(this)" required> CST-GPI
+                            <input class="form-check-input" type="checkbox" name="curso" id="cst-gti" value="4" onclick="onlyOne(this)" required> CST-GTI
+    -->
                             <span id="mensagemErro" style="color: red; padding-left: 1%;"></span>
 
                             <br><br>
