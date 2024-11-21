@@ -137,9 +137,10 @@ $aulas = getAulasNaoMinistradas($conn, $id_formJustificativa);
                             <strong><label>CURSO ENVOLVIDO NA AUSÊNCIA: </label></strong>
                                 <?= $dados['nome_curso'] ?>
                             <br><br>
-
+                            
+                            <div class="container-aulaN" style="box-sizing: border-box; border: none; margin: 0px;">
                             <h5>Dados da(s) aulas não ministradas</h5>
-                            <table class="table">
+                            <table class="">
                                 <thead>
                                     <tr>
                                         <th>Ordem</th>
@@ -157,19 +158,22 @@ $aulas = getAulasNaoMinistradas($conn, $id_formJustificativa);
                                     ?>
                                     <tr>
                                         <td><?= $cont ?></td>
-                                        <td><?= date('d/m/Y', strtotime($aula['data'])) ?></td>
-                                        <td><?= $aula['quantidade_aulas'] ?></td>
-                                        <td><?= $aula['nome_disciplina'] ?> </td>
+                                        <td><input type="date" class="form-control" value="<?= $aula['data'] ?>" disabled></td>
+                                        <td><input type="number" class="form-control" value="<?= $aula['quantidade_aulas'] ?>" disabled></td>
+                                        <td><input type="text" class="form-control" value="<?= $aula['nome_disciplina'] ?>" disabled> </td>
                                     </tr>
                                         <?php endforeach ?>
                                 </tbody>
                                         
                             </table>
+                            </div>
                             </p>
 
 
                             <h3 class="text-decoration-underline">Motivo da falta</h3>
-                            <?= $dados['motivo']?>
+                            <select class="form-control" disabled>
+                                <option><?= $dados['motivo']?></option>
+                            </select>
                             
                             </div>
                             </strong>

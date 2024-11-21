@@ -188,7 +188,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <br>
                             <p><strong>FUNÇÃO:</strong> Professor de Ensino Superior <strong>REGIME JURÍDICO:</strong> CLT</p>
                             <strong><label>CURSO ENVOLVIDO NA AUSÊNCIA: </label></strong>
-                            <select name="curso">
+                            <select name="curso" class="form-control" required>
+                                <option value="" disabled selected>Selecione um curso</option>
                                 <option value="1">Desenvolvimento de Software Multiplataforma</option>
                                 <option value="2">Gestão Empresarial</option>
                                 <option value="3">Gestão de Produção Industrial</option>
@@ -220,7 +221,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <td><input type="date" class="form-control" name="data[]" min="2024-06-01" max="<?= date('Y-m-d')?>" required></td>
                                         <td><input type="number" class="form-control" min="1" name='qtde[]' required></td>
                                         <td>
-                                            <select name='disciplina[]' class="form-control">
+                                            <select name='disciplina[]' class="form-control" required>
+                                            <option value="" disabled selected>Selecione uma disciplina</option>
                                                 <?= exibirDisciplinas($disciplinas) ?>
                                             </select>
                                         </td>
@@ -366,7 +368,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <td><input type="date" class="form-control" name="data[]" min="2024-06-01" max="<?= date('Y-m-d')?>" required></td>
                 <td><input type="number" class="form-control" min="1" name="qtde[]" required></td>
                 <td>
-                    <select name="disciplina[]" class="form-control">
+                    <select name="disciplina[]" class="form-control" required>
+                        <option value="" disabled selected>Selecione uma opção</option>
                         <?= exibirDisciplinas($disciplinas) ?>
                     </select>
                 </td>

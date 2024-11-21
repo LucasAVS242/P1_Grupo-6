@@ -135,7 +135,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         <br>
         <div class="repo item-12">
             <legend>Turno:</legend>  
-            <select name="turno" id="turno">
+            <select name="turno" id="turno" required>
                    <option disabled selected value>Selecione o Turno</option>
                    <option value="Manhã">Manhã</option>
                    <option value="Tarde">Tarde</option>
@@ -145,7 +145,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         <br>
         <div class="repo item-13">
             <legend>Motivo de Reposição:</legend>
-            <select name="Motivo" id="Motivo">
+            <select name="Motivo" id="Motivo" required>
                 <option disabled selected value>Selecione o Motivo</option>
                 <option value="Claro Docente">Claro Docente</option>
                 <option value="Falta">Falta</option>
