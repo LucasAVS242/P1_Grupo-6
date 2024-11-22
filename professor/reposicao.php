@@ -129,7 +129,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         <div class="container-repo1">
         <div class="repo item-11">
             <legend>Curso:</legend>
-            <?= $curso['nome_curso'] ?>
+            &nbsp;<?= $curso['nome_curso'] ?>
 
         </div>
         <br>

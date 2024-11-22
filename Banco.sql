@@ -34,15 +34,30 @@ CREATE TABLE tb_usuarioDisciplina(
     FOREIGN KEY (id_disciplina) REFERENCES tb_disciplinas(id_disciplina)
 );
 
+CREATE TABLE tb_tipos_falta(
+    id_tipo_falta INT AUTO_INCREMENT PRIMARY KEY,
+    tipo VARCHAR(50)
+);
+
+CREATE TABLE tb_motivos(
+    id_motivo INT AUTO_INCREMENT PRIMARY KEY,
+    motivo VARCHAR(200),
+    id_tipo_falta INT,
+    FOREIGN KEY(id_tipo_falta) REFERENCES tb_tipos_falta(id_tipo_falta)
+);
+
 CREATE TABLE tb_formsJustificativa(
     id_formJustificativa INT AUTO_INCREMENT PRIMARY KEY,
     data_envio DATE,
-    motivo VARCHAR(255),
     nome_arquivo VARCHAR(100),
     status VARCHAR(30),
     observacoes_coordenador VARCHAR(255),
+    id_tipo_falta INT,
+    id_motivo INT,
     id_usuario INT,
     id_curso INT,
+    FOREIGN KEY (id_tipo_falta) REFERENCES tb_tipos_falta(id_tipo_falta),
+    FOREIGN KEY (id_motivo) REFERENCES tb_motivos(id_motivo),
     FOREIGN KEY (id_usuario) REFERENCES tb_usuarios(id_usuario),
     FOREIGN KEY (id_curso) REFERENCES tb_cursos(id_curso)
 );
@@ -76,6 +91,35 @@ CREATE TABLE tb_aulasReposicao(
     FOREIGN KEY (id_disciplina) REFERENCES tb_disciplinas(id_disciplina),
     FOREIGN KEY (id_formReposicao) REFERENCES tb_formsReposicao(id_formReposicao)
 );
+
+
+
+INSERT INTO tb_tipos_falta(tipo) VALUES
+("Licença e falta médica"),
+("Falta prevista na legislação trabalhista");
+
+INSERT INTO tb_motivos (motivo, id_tipo_falta) VALUES
+("Falta Médica (Atestado médico de 1 dia)", 1),
+("Comparecimento ao Médico", 1),
+("Licença-Saúde (Atestado médico igual ou superior a 2 dias)", 1),
+("Licença-Maternidade (Atestado médico até 15 dias)", 1);
+
+INSERT INTO tb_motivos(motivo, id_tipo_falta) VALUES 
+("Falecimento de cônjuge, pai, mãe, filho. (9 dias consecutivos)", 2),
+("Falecimento ascendente (exceto pai e mãe), descendente (exceto filho), irmão ou pessoa declarada na CTPS, que viva sob sua dependência econômica. (2 dias consecutivos)", 2),
+("Casamento. (9 dias consecutivos)", 2),
+("Nascimento de filho, no decorrer da primeira semana. (5 dias)", 2),
+("Acompanhar esposa ou companheira no período de gravidez, em consultas médicas e exames complementares. (Até 2 dias)", 2),
+("Acompanhar filho de até 6 anos em consulta médica. (1 dia por ano)", 2),
+("Doação voluntária de sangue. (1 dia em cada 12 meses de trabalho)", 2),
+("Alistamento como eleitor. (Até 2 dias consecutivos ou não)", 2),
+("Convocação para depoimento judicial", 2),
+("Comparecimento como jurado no Tribunal do Júri", 2),
+("Convocação para serviço eleitoral", 2),
+("Dispensa dos dias devido à nomeação para compor as mesas receptoras ou juntas eleitorais nas eleições ou requisitado para auxiliar seus trabalhos (Lei nº 9.504/97)", 2),
+("Realização de Prova de Vestibular para ingresso em estabelecimento de ensino superior", 2),
+("Comparecimento necessário como parte na Justiça do Trabalho (Enunciado TST nº 155). (Horas necessárias)", 2),
+("Atrasos decorrentes de acidente", 2);
 
 -- Inserindo dados
 -- Cursos

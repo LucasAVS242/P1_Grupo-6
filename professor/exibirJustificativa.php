@@ -6,16 +6,21 @@ $id_formReposicao = $conn -> query("SELECT id_formReposicao FROM tb_formsReposic
 
 function getDados($conn, $idFormulario){
     $dados = $conn -> query("SELECT 
-        tb_formsJustificativa.motivo,
         tb_formsJustificativa.nome_arquivo,
         tb_usuarios.nome,
         tb_usuarios.matricula,
-        tb_cursos.nome_curso
+        tb_cursos.nome_curso,
+        tb_tipos_falta.tipo,
+        tb_motivos.motivo
     FROM tb_formsJustificativa
     INNER JOIN tb_usuarios
         ON tb_formsJustificativa.id_usuario = tb_usuarios.id_usuario
     INNER JOIN tb_cursos
         ON tb_formsJustificativa.id_curso = tb_cursos.id_curso
+    INNER JOIN tb_tipos_falta
+        ON tb_formsJustificativa.id_tipo_falta = tb_tipos_falta.id_tipo_falta
+    INNER JOIN tb_motivos
+        ON tb_formsJustificativa.id_motivo = tb_motivos.id_motivo
     WHERE tb_formsJustificativa.id_formJustificativa = $idFormulario ") -> fetch(PDO::FETCH_ASSOC);
     return $dados;
 }
@@ -172,8 +177,22 @@ $aulas = getAulasNaoMinistradas($conn, $id_formJustificativa);
 
                             <h3 class="text-decoration-underline">Motivo da falta</h3>
                             <select class="form-control" disabled>
-                                <option><?= $dados['motivo']?></option>
+                                <option><?= $dados['tipo']?></option>
                             </select>
+
+                            <br><br>
+                            <div class="motivoDiv"></div>
+                                <?php if ($dados['tipo'] == "Licença e falta médica"):  ?>
+                                    <h4>Licença e falta médica</h4>
+                                <?php else: ?>
+                                    <h4>Falta prevista na legislação trabalhista</h4>
+                                <?php endif ?>
+
+                                <select class="form-control" disabled>
+                                        <option><?= $dados['motivo'] ?></option>
+                                </select>
+                            </div>
+                           
                             
                             </div>
                             </strong>
