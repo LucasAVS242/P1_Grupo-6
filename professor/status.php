@@ -153,6 +153,7 @@
         <td>Data de envio</td>
         <td>Visualizar Documento</td>
         <td>Status</td>
+        <td>Editar</td>
         <td>Observação</td>
       </tr>
     </thead>
@@ -169,6 +170,15 @@
           <td><?= date('d/m/Y', strtotime($formulario['data_envio'])) ?></td>
           <td><a href="<?=exibirFormulario($formulario)?>" target="_blank"><button class="botao" title="Visualizar documentos" onclick=""><i class="fa-solid fa-file-contract"></i></button></a></td>
           <?= exibirStatus($formulario) ?>
+          <td>
+              <?php if($formulario['status'] == "REPROVADO"): ?>
+                <a href="editFormJustificativa.php?id_formulario=<?= $formulario['id_formJustificativa'] ?>"><button class="botao"><i class="fa-solid fa-pen-to-square"></i></button></a>
+              <?php else: ?>
+                <button class="botao" disabled><i class="fa-solid fa-pen-to-square"></i></button></a>
+                
+                </button>
+              <?php endif ?>
+          </td>
           <td>
             <?php if (!empty($formulario['observacoes_coordenador'])): ?>
               <button class="botao" title="Visualizar observação" data-bs-toggle="modal" data-bs-target="#modalObservacao<?= $formulario['id_formJustificativa'] ?>">
