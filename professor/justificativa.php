@@ -1,5 +1,6 @@
 <?php
 require '../conexao.php';
+date_default_timezone_set('America/Sao_Paulo');
 session_start();
 if (!isset($_SESSION['id_usuario'])) {
     header('Location: ../index.html');

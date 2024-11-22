@@ -1,5 +1,6 @@
 <?php
 require '../conexao.php';
+date_default_timezone_set('America/Sao_Paulo');
 session_start();
 //mudando o codigo para ficar mais limpo
 function getAulasNaoMinistradas($conn, $idFormulario){
