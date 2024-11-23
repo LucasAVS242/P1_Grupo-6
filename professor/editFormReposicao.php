@@ -44,7 +44,8 @@ function getAulasReposicao($conn, $idFormulario){
         tb_aulasReposicao.data,
         tb_aulasReposicao.horario_inicio,
         tb_aulasReposicao.horario_final,
-        tb_disciplinas.nome_disciplina
+        tb_disciplinas.nome_disciplina,
+        tb_disciplinas.id_disciplina
     FROM tb_aulasReposicao
     INNER JOIN tb_disciplinas 
         ON tb_aulasReposicao.id_disciplina = tb_disciplinas.id_disciplina
@@ -254,9 +255,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         <td>
             <select name="disciplinaRepo[]" class="form-control">
                 <option disabled selected value>Selecione a disciplina</option>
-                <?php foreach($disciplinas as $disciplina): ?>
-                    <option value="<?= $disciplina['id_disciplina'] ?>"><?= $disciplina['nome_disciplina'] ?></option>
-                <?php endforeach ?>
+                <?php foreach ($disciplinas as $disciplina): ?>
+                <option value="<?= $disciplina['id_disciplina'] ?>"
+                     <?= $aula['id_disciplina'] == $disciplina['id_disciplina'] ? 'selected' : '' ?>>
+                    <?= $disciplina['nome_disciplina'] ?>
+                </option>
+                <?php endforeach; ?>
             </select>
         </td>
         <td>

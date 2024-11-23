@@ -6,22 +6,26 @@ if (!isset($_SESSION['id_usuario'])) {
     header('Location: ../index.html');
 }
 
-function getCursos($conn){
-    $cursos = $conn -> query("SELECT id_curso, nome_curso FROM tb_cursos") -> fetchAll(PDO::FETCH_ASSOC);
+function getCursos($conn)
+{
+    $cursos = $conn->query("SELECT id_curso, nome_curso FROM tb_cursos")->fetchAll(PDO::FETCH_ASSOC);
     return $cursos;
 }
-function getTipoFalta($conn){
-    $tipo_falta = $conn -> query("SELECT tipo, id_tipo_falta FROM tb_tipos_falta") -> fetchAll(PDO::FETCH_ASSOC);
+function getTipoFalta($conn)
+{
+    $tipo_falta = $conn->query("SELECT tipo, id_tipo_falta FROM tb_tipos_falta")->fetchAll(PDO::FETCH_ASSOC);
     return $tipo_falta;
 }
 
-function getMotivoMed($conn){
- $faltas_medica = $conn -> query("SELECT motivo, id_motivo FROM tb_motivos WHERE id_tipo_falta = 1") -> fetchAll(PDO::FETCH_ASSOC);
- return $faltas_medica;
- }
+function getMotivoMed($conn)
+{
+    $faltas_medica = $conn->query("SELECT motivo, id_motivo FROM tb_motivos WHERE id_tipo_falta = 1")->fetchAll(PDO::FETCH_ASSOC);
+    return $faltas_medica;
+}
 
-function getMotivoLegis($conn){
-    $faltas_legislacao = $conn -> query("SELECT motivo, id_motivo FROM tb_motivos WHERE id_tipo_falta = 2") -> fetchAll(PDO::FETCH_ASSOC);
+function getMotivoLegis($conn)
+{
+    $faltas_legislacao = $conn->query("SELECT motivo, id_motivo FROM tb_motivos WHERE id_tipo_falta = 2")->fetchAll(PDO::FETCH_ASSOC);
     return $faltas_legislacao;
 }
 
@@ -59,18 +63,19 @@ function fazerUpload($arquivo)
 function setFormJustificativaArquivo($conn, $curso, $data_envio, $tipo_falta, $motivo, $nomeArquivo, $id_formulario)
 {
     $stmt = $conn->prepare("UPDATE tb_formsJustificativa SET id_curso = ?, data_envio = ?, id_tipo_falta = ?, id_motivo = ?, nome_arquivo = ?, status = 'PENDENTE' WHERE id_formJustificativa = ? ");
-    $stmt->execute([ $curso, $data_envio, $tipo_falta ,$motivo, $nomeArquivo, $id_formulario]);
+    $stmt->execute([$curso, $data_envio, $tipo_falta, $motivo, $nomeArquivo, $id_formulario]);
 }
 
 function setFormJustificativa($conn, $curso, $data_envio, $tipo_falta, $motivo, $id_formulario)
 {
     $stmt = $conn->prepare("UPDATE tb_formsJustificativa SET id_curso = ?, data_envio = ?, id_tipo_falta = ?, id_motivo = ?, status = 'PENDENTE' WHERE id_formJustificativa = ? ");
-    $stmt->execute([ $curso, $data_envio, $tipo_falta ,$motivo, $id_formulario]);
+    $stmt->execute([$curso, $data_envio, $tipo_falta, $motivo, $id_formulario]);
 }
 
-function removerAulasNaoMinistradas($conn, $id_formulario){
-    $stmt = $conn -> prepare("DELETE  FROM tb_aulasNaoMinistradas WHERE id_formJustificativa = ?");
-    $stmt -> execute([$id_formulario]);
+function removerAulasNaoMinistradas($conn, $id_formulario)
+{
+    $stmt = $conn->prepare("DELETE  FROM tb_aulasNaoMinistradas WHERE id_formJustificativa = ?");
+    $stmt->execute([$id_formulario]);
 }
 function setAulasNaoMinistradas($data, $conn, $idFormulario, $qtde, $disciplina)
 {
@@ -83,8 +88,9 @@ function setAulasNaoMinistradas($data, $conn, $idFormulario, $qtde, $disciplina)
 }
 
 // Recebendo os dados para exibir no formulario
-function getDados($conn, $idFormulario){
-    $dados = $conn -> query("SELECT 
+function getDados($conn, $idFormulario)
+{
+    $dados = $conn->query("SELECT 
         tb_formsJustificativa.nome_arquivo,
         tb_cursos.id_curso,
         tb_tipos_falta.id_tipo_falta,
@@ -96,50 +102,59 @@ function getDados($conn, $idFormulario){
         ON tb_formsJustificativa.id_tipo_falta = tb_tipos_falta.id_tipo_falta
     INNER JOIN tb_motivos
         ON tb_formsJustificativa.id_motivo = tb_motivos.id_motivo
-    WHERE tb_formsJustificativa.id_formJustificativa = $idFormulario ") -> fetch(PDO::FETCH_ASSOC);
+    WHERE tb_formsJustificativa.id_formJustificativa = $idFormulario ")->fetch(PDO::FETCH_ASSOC);
     return $dados;
 }
 
-function selectCurso($dados, $curso){
-    if($dados['id_curso'] == $curso['id_curso'])
+function selectCurso($dados, $curso)
+{
+    if ($dados['id_curso'] == $curso['id_curso'])
         echo "selected";
 }
 
-function selectMotivo($dados, $tipo_falta){
-    if($dados['id_tipo_falta'] == $tipo_falta['id_tipo_falta']){
-        echo "selected";
-    }
-}
-
-function selectMotivoMed($dados, $falta_medica){
-    if($dados['id_motivo'] == $falta_medica['id_motivo']){
+function selectMotivo($dados, $tipo_falta)
+{
+    if ($dados['id_tipo_falta'] == $tipo_falta['id_tipo_falta']) {
         echo "selected";
     }
 }
 
-function selectMotivoLeg($dados, $falta_legislacao){
-    if($dados['id_motivo'] == $falta_legislacao['id_motivo']){
+function selectMotivoMed($dados, $falta_medica)
+{
+    if ($dados['id_motivo'] == $falta_medica['id_motivo']) {
         echo "selected";
     }
 }
 
-function getAulasNaoMinistradas($conn, $idFormulario){
-    $aulas = $conn -> query("SELECT
+function selectMotivoLeg($dados, $falta_legislacao)
+{
+    if ($dados['id_motivo'] == $falta_legislacao['id_motivo']) {
+        echo "selected";
+    }
+}
+
+
+function getAulasNaoMinistradas($conn, $idFormulario)
+{
+    $stmt = $conn->prepare("
+    SELECT 
         tb_aulasNaoMinistradas.data,
         tb_aulasNaoMinistradas.quantidade_aulas,
         tb_disciplinas.id_disciplina
     FROM tb_aulasNaoMinistradas
     INNER JOIN tb_disciplinas
         ON tb_aulasNaoMinistradas.id_disciplina = tb_disciplinas.id_disciplina
-    WHERE tb_aulasNaoMinistradas.id_formJustificativa = $idFormulario    
-    ") -> fetchAll(PDO::FETCH_ASSOC);
+    WHERE tb_aulasNaoMinistradas.id_formJustificativa = :idFormulario
+    ");
+    $stmt->bindParam(':idFormulario', $idFormulario, PDO::PARAM_INT);
+    $stmt->execute();
+    $aulas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $aulas;
 }
 
 $id_formulario = $_GET['id_formulario'];
 $dados = getDados($conn, $id_formulario);
 $aulas = getAulasNaoMinistradas($conn, $id_formulario);
-
 
 $tipos_falta = getTipoFalta($conn);
 $faltas_legislacao = getMotivoLegis($conn);
@@ -152,7 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $tipo = $_POST['tipo_falta'];
 
-    if($tipo == 1){
+    if ($tipo == 1) {
         $motivo = $_POST['selectFaltaMedica'];
     } else {
         $motivo = $_POST['selectFaltaLT'];
@@ -161,11 +176,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $arquivo = $_FILES['comprovante'];
     $data_envio = date('Y-m-d');
     $curso = $_POST['curso'];
-    if(!empty($arquivo['name'])){
+    if (!empty($arquivo['name'])) {
         $nomeArquivo = fazerUpload($arquivo);
-        setFormJustificativaArquivo($conn, $curso, $data_envio, $tipo ,$motivo,  $nomeArquivo, $id_formulario);
+        setFormJustificativaArquivo($conn, $curso, $data_envio, $tipo, $motivo,  $nomeArquivo, $id_formulario);
     } else {
-        setFormJustificativa($conn, $curso, $data_envio, $tipo ,$motivo, $id_formulario);
+        setFormJustificativa($conn, $curso, $data_envio, $tipo, $motivo, $id_formulario);
     }
     removerAulasNaoMinistradas($conn, $id_formulario);
     $data = $_POST['data'];
@@ -291,11 +306,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <strong><label>CURSO ENVOLVIDO NA AUSÊNCIA: </label></strong>
                             <select name="curso" class="form-control" required>
                                 <option value="" disabled selected>Selecione um curso</option>
-                                <?php foreach($cursos as $curso): ?>
-                                    <option value="<?= $curso['id_curso'] ?>"  <?php selectCurso($dados, $curso) ?>><?= $curso['nome_curso'] ?></option>
+                                <?php foreach ($cursos as $curso): ?>
+                                    <option value="<?= $curso['id_curso'] ?>" <?php selectCurso($dados, $curso) ?>><?= $curso['nome_curso'] ?></option>
                                 <?php endforeach ?>
                             </select>
-                            
+
                             <span id="mensagemErro" style="color: red; padding-left: 1%;"></span>
 
                             <br><br>
@@ -311,26 +326,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     </tr>
                                 </thead>
                                 <tbody id="conteinerLinhas">
-                                    <?php if(isset($aulas)): ?>
-                                        <?php foreach($aulas as $aula): ?>
+                                    <?php if (isset($aulas)): ?>
+                                        <?php foreach ($aulas as $aula): ?>
                                             <tr>
                                                 <td>#</td>
-                                                <td><input type="date" class="form-control" name="data[]" value="<?= $aula['data'] ?>" min="2024-06-01" max="<?= date('Y-m-d')?>" required></td>
+                                                <td><input type="date" class="form-control" name="data[]" value="<?= $aula['data'] ?>" min="2024-06-01" max="<?= date('Y-m-d') ?>" required></td>
                                                 <td><input type="number" class="form-control" value="<?= $aula['quantidade_aulas'] ?>" min="1" name='qtde[]' required></td>
                                                 <td>
-
-                                                    <select name='disciplina[]' class="form-control" required>
-                                                    <option value="" disabled>Selecione uma disciplina</option>
-                                                    <?php foreach ($disciplinas as $disciplina): ?> 
-                                                        <option value="<?= $disciplina['id_disciplina'] ?>"  
-                                                        ><?= $disciplina['nome_disciplina'] ?></option>;
-                                                    <?php endforeach ?>
+                                                    <select name="disciplina[]" class="form-control" required>
+                                                        <option value="" disabled>Selecione uma disciplina</option>
+                                                        <?php foreach ($disciplinas as $disciplina): ?>
+                                                            <option
+                                                                value="<?= $disciplina['id_disciplina'] ?>"
+                                                                <?= $aula['id_disciplina'] == $disciplina['id_disciplina'] ? 'selected' : '' ?>>
+                                                                <?= $disciplina['nome_disciplina'] ?>
+                                                            </option>
+                                                        <?php endforeach; ?>
                                                     </select>
                                                 </td>
                                             </tr>
                                         <?php endforeach ?>
                                     <?php endif ?>
-                                    
+
                                 </tbody>
                             </table>
                             <button type="button" class="botao" onclick="adicionarLinha()">Adicionar disciplina</button>
@@ -343,8 +360,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                             <select style="margin-bottom: 5%;" class="form-select" name="tipo_falta" id="motivo" onchange="exibDiv()" required>
                                 <option value="" selected>Selecione um motivo</option>
-                                <?php foreach($tipos_falta as $tipo_falta): ?>
-                                    <option value="<?= $tipo_falta['id_tipo_falta'] ?>" <?= selectMotivo($dados, $tipo_falta) ?> ><?= $tipo_falta['tipo'] ?></option>
+                                <?php foreach ($tipos_falta as $tipo_falta): ?>
+                                    <option value="<?= $tipo_falta['id_tipo_falta'] ?>" <?= selectMotivo($dados, $tipo_falta) ?>><?= $tipo_falta['tipo'] ?></option>
                                 <?php endforeach ?>
                             </select>
 
@@ -354,9 +371,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <h4>Licença e falta médica</h4>
                                 <select class="form-select" name="selectFaltaMedica" id="selectFaltaMedica">
                                     <option value="" disabled selected>Selecione uma opção</option>
-                                    <?php foreach($faltas_medica as $falta_medica): ?>
-                                        <option value="<?= $falta_medica['id_motivo'] ?>" <?= selectMotivoMed($dados, $falta_medica)?> ><?= $falta_medica['motivo'] ?></option>
-                                    <?php endforeach?>
+                                    <?php foreach ($faltas_medica as $falta_medica): ?>
+                                        <option value="<?= $falta_medica['id_motivo'] ?>" <?= selectMotivoMed($dados, $falta_medica) ?>><?= $falta_medica['motivo'] ?></option>
+                                    <?php endforeach ?>
                                 </select>
                             </div>
 
@@ -364,10 +381,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <h4>Falta prevista na legislação trabalhista</h4>
                                 <select class="form-select" name="selectFaltaLT" id="selectFaltaLT">
                                     <option value="" disabled selected>Selecione uma opção</option>
-                                    <?php foreach($faltas_legislacao as $falta_legislacao):?>
-                                        <option value="<?= $falta_legislacao['id_motivo'] ?>" <?= selectMotivoLeg($dados, $falta_legislacao) ?> ><?= $falta_legislacao['motivo'] ?></option>
+                                    <?php foreach ($faltas_legislacao as $falta_legislacao): ?>
+                                        <option value="<?= $falta_legislacao['id_motivo'] ?>" <?= selectMotivoLeg($dados, $falta_legislacao) ?>><?= $falta_legislacao['motivo'] ?></option>
                                     <?php endforeach ?>
-                                    
+
                                 </select>
                             </div>
 
@@ -377,7 +394,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                             <section>
                                 <p>Campo para envio de comprovante. Deixe em branco para não alterar</p>
-                                <input class="botao" type="file" name="comprovante" id="arquivo" accept=".pdf" >
+                                <input class="botao" type="file" name="comprovante" id="arquivo" accept=".pdf">
                             </section>
 
                             <br>
@@ -394,30 +411,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </main>
 
     <footer>
-    
-    <div class="container-footer">
 
-      <div class="item item-1"><a href="../index.html"><img src="../images/logo_fatec_br.png"></a></div>
+        <div class="container-footer">
 
-      <div class="item item-3">
-      </div>
+            <div class="item item-1"><a href="../index.html"><img src="../images/logo_fatec_br.png"></a></div>
 
-      <div class="item item-4">
-      </div>
+            <div class="item item-3">
+            </div>
 
-      <div class="item item-5">
-        <h3>Área do Professor</h3>
-        
-          <a href="status.php"><p>Status</p></a>
-          <a href="justificativa.php"><p>Justificativa de Faltas</p></a>
-        
-      </div>
+            <div class="item item-4">
+            </div>
 
-      <div class="item item-6"></div>
+            <div class="item item-5">
+                <h3>Área do Professor</h3>
 
-    </div>
+                <a href="status.php">
+                    <p>Status</p>
+                </a>
+                <a href="justificativa.php">
+                    <p>Justificativa de Faltas</p>
+                </a>
 
-  </footer>
+            </div>
+
+            <div class="item item-6"></div>
+
+        </div>
+
+    </footer>
 
     <script>
         // Este código parou de funcionar quando comecei a puxar os dados no banco então fiz o código de baixo
@@ -433,15 +454,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exibDiv();
         });
 
-        function exibDiv(){ 
+        function exibDiv() {
             const selectMotivo = document.getElementById('motivo');
             const divFaltaMed = document.getElementById('faltaMedica');
             const divFaltaLeg = document.getElementById('faltaLT');
 
-            if(selectMotivo.value == 1){
+            if (selectMotivo.value == 1) {
                 divFaltaMed.hidden = false;
                 divFaltaLeg.hidden = true;
-            } else if(selectMotivo.value == 2){
+            } else if (selectMotivo.value == 2) {
                 divFaltaMed.hidden = true;
                 divFaltaLeg.hidden = false
             } else {
@@ -449,7 +470,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 divFaltaLeg.hidden = true;
             }
         }
-        
+
 
         function onlyOne(checkbox) {
             var checkboxes = document.getElementsByName(checkbox.name)
@@ -468,7 +489,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             const novaLinha = document.createElement("tr");
             novaLinha.innerHTML = `
                 <td></td>
-                <td><input type="date" class="form-control" name="data[]" min="2024-06-01" max="<?= date('Y-m-d')?>" required></td>
+                <td><input type="date" class="form-control" name="data[]" min="2024-06-01" max="<?= date('Y-m-d') ?>" required></td>
                 <td><input type="number" class="form-control" min="1" name="qtde[]" required></td>
                 <td>
                     <select name="disciplina[]" class="form-control" required>
