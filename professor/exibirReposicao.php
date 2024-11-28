@@ -115,7 +115,7 @@ $aulasReposicao = getAulasReposicao($conn, $id_formReposicao);
                     </li>
                 <?php else: ?>
                     <li class="nav-item">
-						<a class="nav-link" href="coordenador/PagCoord.php">Lista de requisições</a>
+						<a class="nav-link" href="../coordenador/PagCoord.php">Lista de requisições</a>
 					</li>
                     <?php endif; ?>
                 </ul>
