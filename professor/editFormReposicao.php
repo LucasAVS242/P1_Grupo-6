@@ -293,7 +293,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 <td><input type="time" name="horaInicio[]" class="form-control" required></td>
                 <td><input type="time" name="horaFinal[]" class="form-control" required></td>
                 <td>
-                    <select name="disciplinaRepo[]" class="form-control">
+                    <select name="disciplinaRepo[]" class="form-control" required>
                         <option disabled selected value>Selecione a disciplina</option>
                         <?= exibirDisciplinas($disciplinas) ?>
                     </select>
